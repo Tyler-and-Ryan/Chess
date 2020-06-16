@@ -1,6 +1,6 @@
 
 public class Pawn extends Object {
-	Pawn(){
+	Pawn(boolean val){
 		
 	}
 }
