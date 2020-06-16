@@ -3,9 +3,10 @@ public class GameBoard {
 	private Object[][] board;
 	private int boardSize;
 	
-	//Constructor
-	public GameBoard(int size){
-		boardSize = size;
+	//Constructor 
+	//TODO: (add implementation later to have variable board size)
+	public GameBoard(){
+		boardSize = 8;
 		CreateBoard();
 	}
 	
@@ -26,7 +27,6 @@ public class GameBoard {
 				}
 			}
 		}
-		return;
 	}
 	
 	//Gets the object at a specific row and column
@@ -36,8 +36,24 @@ public class GameBoard {
 	}
 	
 	//Returns a string that contains the visualization of the gameboard
-	public String ToString() {
-		return "not implemented";
+	public String toString() {
+		return "  __   __   __   __   __   __   __   __  \n" +
+				"8|__| |__| |__| |__| |__| |__| |__| |__| \n" +
+				"  __   __   __   __   __   __   __   __  \n" +
+				"7|__| |__| |__| |__| |__| |__| |__| |__| \n" +
+				"  __   __   __   __   __   __   __   __  \n" +
+				"6|__| |__| |__| |__| |__| |__| |__| |__| \n" +
+				"  __   __   __   __   __   __   __   __  \n" +
+				"5|__| |__| |__| |__| |__| |__| |__| |__| \n" +
+				"  __   __   __   __   __   __   __   __  \n" +
+				"4|__| |__| |__| |__| |__| |__| |__| |__| \n" +
+				"  __   __   __   __   __   __   __   __  \n" +
+				"3|__| |__| |__| |__| |__| |__| |__| |__| \n" +
+				"  __   __   __   __   __   __   __   __  \n" +
+				"2|__| |__| |__| |__| |__| |__| |__| |__| \n" +
+				"  __   __   __   __   __   __   __   __  \n" +
+				"1|__| |__| |__| |__| |__| |__| |__| |__| \n" +
+				"  A    B    C    D    E    F    G    H     ";
 	}
 	
 	//Clears the board of game pieces
