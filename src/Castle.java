@@ -10,7 +10,7 @@ public class Castle extends Object{
 	public Castle(boolean player) {
 		this.player = player;
 		moveCounter = 0;
-		pieceName = "C";
+		pieceName = "Castle";
 	}
 	
 	//overrides java toString and returns the 'Pawn'

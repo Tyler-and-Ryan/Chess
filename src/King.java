@@ -10,7 +10,7 @@ public class King extends Object{
 	public King(boolean player) {
 		this.player = player;
 		moveCounter = 0;
-		pieceName = "K";
+		pieceName = "King";
 	}
 	
 	//overrides java toString and returns the 'Pawn'

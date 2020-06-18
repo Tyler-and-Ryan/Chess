@@ -10,7 +10,7 @@ public class Horse extends Object{
 	public Horse(boolean player) {
 		this.player = player;
 		moveCounter = 0;
-		pieceName = "H";
+		pieceName = "Horse";
 	}
 	
 	//overrides java toString and returns the 'Pawn'
