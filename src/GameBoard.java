@@ -1,3 +1,4 @@
+import java.lang.StringBuilder;
 
 public class GameBoard {
 	private Object[][] board;
@@ -37,23 +38,40 @@ public class GameBoard {
 	
 	//Returns a string that contains the visualization of the gameboard
 	public String toString() {
-		return "  __   __   __   __   __   __   __   __  \n" +
-				"8|__| |__| |__| |__| |__| |__| |__| |__| \n" +
-				"  __   __   __   __   __   __   __   __  \n" +
-				"7|__| |__| |__| |__| |__| |__| |__| |__| \n" +
-				"  __   __   __   __   __   __   __   __  \n" +
-				"6|__| |__| |__| |__| |__| |__| |__| |__| \n" +
-				"  __   __   __   __   __   __   __   __  \n" +
-				"5|__| |__| |__| |__| |__| |__| |__| |__| \n" +
-				"  __   __   __   __   __   __   __   __  \n" +
-				"4|__| |__| |__| |__| |__| |__| |__| |__| \n" +
-				"  __   __   __   __   __   __   __   __  \n" +
-				"3|__| |__| |__| |__| |__| |__| |__| |__| \n" +
-				"  __   __   __   __   __   __   __   __  \n" +
-				"2|__| |__| |__| |__| |__| |__| |__| |__| \n" +
-				"  __   __   __   __   __   __   __   __  \n" +
-				"1|__| |__| |__| |__| |__| |__| |__| |__| \n" +
-				"  A    B    C    D    E    F    G    H     ";
+		StringBuilder returnVal = new StringBuilder("  _   _   _   _   _   _   _   _  \n");
+		for(int i = board.length-1; i >= 0; i--) {
+			returnVal.append(i+1);
+			for(int j = 0; j < board.length; j++) {
+				if(board[i][j] == null) {
+					returnVal.append("| | ");
+				} else {
+					returnVal.append("|" + board[i][j].toString() + "| ");
+				}
+			}
+			returnVal.append("\n");
+			if(i != 0) {
+				returnVal.append("  -   -   -   -   -   -   -   -  \n");
+			}
+		}
+		returnVal.append("  A   B   C   D   E   F   G   H    ");
+		return returnVal.toString();
+				/*"  _   _   _   _   _   _   _   _  \n" +
+				"8|"+ board[7][0].toString() + "| |"+ board[7][1].toString() + "| |"+ board[7][2].toString() + "| |"+ board[7][3].toString() + "| |"+ board[7][4].toString() + "| |"+ board[7][5].toString() + "| |"+ board[7][6].toString() + "| |"+ board[7][7].toString() + "| \n" +
+				"  _   _   _   _   _   _   _   _  \n" +
+				"7|_| |_| |_| |_| |_| |_| |_| |_| \n" +
+				"  _   _   _   _   _   _   _   _  \n" +
+				"6|_| |_| |_| |_| |_| |_| |_| |_| \n" +
+				"  _   _   _   _   _   _   _   _  \n" +
+				"5|_| |_| |_| |_| |_| |_| |_| |_| \n" +
+				"  _   _   _   _   _   _   _   _  \n" +
+				"4|_| |_| |_| |_| |_| |_| |_| |_| \n" +
+				"  _   _   _   _   _   _   _   _  \n" +
+				"3|_| |_| |_| |_| |_| |_| |_| |_| \n" +
+				"  _   _   _   _   _   _   _   _  \n" +
+				"2|_| |_| |_| |_| |_| |_| |_| |_| \n" +
+				"  _   _   _   _   _   _   _   _  \n" +
+				"1|_| |_| |_| |_| |_| |_| |_| |_| \n" +
+				"  A   B   C   D   E   F   G   H    ";*/
 	}
 	
 	//Clears the board of game pieces
