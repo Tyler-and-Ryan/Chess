@@ -120,11 +120,17 @@ public class GameBoard {
 		return false;
 	}
 	
-	//returns true if move was successful and false if it couldn't move the piece
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
 	//Also checks that the player is only moving their pieces
-	public boolean MovePiece(int row, int col, int moveToRow, int moveToCol, boolean player) {
-		return false;
+	public void MovePiece(int row, int col, int moveToRow, int moveToCol, boolean player) {
+		if (board[row][col].toString().equals("Pawn")) {
+			if(IsLegalPawn(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
+				RemovePiece(moveToRow, moveToCol);
+			} else {
+				System.out.println("This is not a legal move");
+				return;
+			}
+		}
 	}
 	
 	//returns true if move was successful and false if it couldn't move the piece

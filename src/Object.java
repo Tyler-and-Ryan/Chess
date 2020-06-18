@@ -22,4 +22,5 @@ public class Object {
 	public boolean getPlayer() {
 		return false;
 	}
+	
 }
