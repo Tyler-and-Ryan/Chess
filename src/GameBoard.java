@@ -17,15 +17,48 @@ public class GameBoard {
 		
 		for(int i = 0; i < boardSize; i++) {
 			for(int j = 0; j < boardSize; j++) {
-				if(i == 0 || i == 1) {
-					Pawn temp = new Pawn(true);
-					board[i][j] = temp;
-				} else if (i == boardSize-1 || i == boardSize-2){ 
-					Pawn temp = new Pawn(false);
-				 	board[i][j] = temp;
-				} else {
-					board[i][j] = null;
+				Object temp = null;
+				if(i == 1) {
+					temp = new Pawn(true);
+				} else if (i == boardSize-2){ 
+					temp = new Pawn(false);
+				} else if (j == 0 || j == boardSize-1){
+					if(i == 0) {
+						temp = new Castle(true);
+					}
+					if(i == boardSize-1) {
+						temp = new Castle(false);
+					}
+				} else if (j == 1 || j == boardSize-2){
+					if(i == 0) {
+						temp = new Horse(true);
+					}
+					if(i == boardSize-1) {
+						temp = new Horse(false);
+					}
+				} else if (j == 2 || j == boardSize-3){
+					if(i == 0) {
+						temp = new Bishop(true);
+					}
+					if(i == boardSize-1) {
+						temp = new Bishop(false);
+					}
+				} else if (j == 3){
+					if(i == 0) {
+						temp = new Queen(true);
+					}
+					if(i == boardSize-1) {
+						temp = new Queen(false);
+					}
+				} else if (j == 4){
+					if(i == 0) {
+						temp = new King(true);
+					}
+					if(i == boardSize-1) {
+						temp = new King(false);
+					}
 				}
+				board[i][j] = temp;
 			}
 		}
 	}
@@ -55,23 +88,6 @@ public class GameBoard {
 		}
 		returnVal.append("  A   B   C   D   E   F   G   H    ");
 		return returnVal.toString();
-				/*"  _   _   _   _   _   _   _   _  \n" +
-				"8|"+ board[7][0].toString() + "| |"+ board[7][1].toString() + "| |"+ board[7][2].toString() + "| |"+ board[7][3].toString() + "| |"+ board[7][4].toString() + "| |"+ board[7][5].toString() + "| |"+ board[7][6].toString() + "| |"+ board[7][7].toString() + "| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"7|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"6|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"5|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"4|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"3|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"2|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"1|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  A   B   C   D   E   F   G   H    ";*/
 	}
 	
 	//Clears the board of game pieces
