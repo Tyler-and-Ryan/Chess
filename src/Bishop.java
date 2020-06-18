@@ -10,7 +10,7 @@ public class Bishop extends Object{
 	public Bishop(boolean player) {
 		this.player = player;
 		moveCounter = 0;
-		pieceName = "B";
+		pieceName = "Bishop";
 	}
 	
 	//overrides java toString and returns the 'Pawn'

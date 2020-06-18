@@ -13,4 +13,8 @@ public class Object {
 	public boolean isGamePiece() {
 		return false;
 	}
+	
+	public int moveCount() {
+		return -1;
+	}
 }

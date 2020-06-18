@@ -2,6 +2,8 @@ import java.lang.StringBuilder;
 
 public class GameBoard {
 	private Object[][] board;
+	private Object[] playerOnePieces;
+	private Object[] playerTwoPieces;
 	private int boardSize;
 	
 	//Constructor 
@@ -13,7 +15,13 @@ public class GameBoard {
 	
 	//Creates the gameboard and sets pawns in the first two rows and the last two rows
 	private void CreateBoard() {
+		//Instantiates private members
 		board = new Object[boardSize][boardSize];
+		playerOnePieces = new Object[boardSize*2];
+		playerTwoPieces = new Object[boardSize*2];
+		
+		int playerOneCounter = 0; 
+		int playerTwoCounter = 0;
 		for(int i = 0; i < boardSize; i++) {
 			for(int j = 0; j < boardSize; j++) {
 				Object temp = null;
@@ -58,6 +66,14 @@ public class GameBoard {
 					}
 				}
 				board[i][j] = temp;
+				if(i == 0 || i == 1) {
+					playerOnePieces[playerOneCounter] = temp;
+					playerOneCounter++;
+				}
+				if(i == boardSize-1 || i == boardSize-2) {
+					playerTwoPieces[playerTwoCounter] = temp;
+					playerTwoCounter++;
+				}
 			}
 		}
 	}
@@ -77,7 +93,7 @@ public class GameBoard {
 				if(board[i][j] == null) {
 					returnVal.append("| | ");
 				} else {
-					returnVal.append("|" + board[i][j].toString() + "| ");
+					returnVal.append("|" + board[i][j].toString().charAt(0) + "| ");
 				}
 			}
 			returnVal.append("\n");
@@ -118,7 +134,19 @@ public class GameBoard {
 	}
 	
 	//returns a string with the game stats for each player so far
-	public String GameStats() {
-		return "";
+	public void GameStats() {
+		System.out.println("\n============PLAYER ONE STATS============");
+		for(int i = 0; i < boardSize*2; i++) {
+			if(playerOnePieces[i] != null) {
+				System.out.println(playerOnePieces[i].toString() + " has moved " + playerOnePieces[i].moveCount());
+			}
+		}
+		System.out.println("============PLAYER TWO STATS============");
+		for(int i = (boardSize*2)-1; i >= 0; i--) {
+			if(playerTwoPieces[i] != null) {
+				System.out.println(playerTwoPieces[i].toString() + " has moved " + playerTwoPieces[i].moveCount());
+			}
+		}
+		return;
 	}
 }
