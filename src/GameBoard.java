@@ -115,7 +115,17 @@ public class GameBoard {
 	//returns true if move was successful and false if it couldn't move the piece
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
 	private boolean IsLegalPawn(int row, int col, int moveToRow, int moveToColumn) {
-		return false;
+		if ((col != moveToColumn) && (board[moveToRow][moveToColumn] == null)) {                                    //pawn tries to move sideways
+			return false;
+		} else if (((row == 2) || (row == 7)) && (Math.abs(moveToRow - row) == 2) 
+				  && (board[row][col] == null) && (moveToColumn == col)) {                                          //pawn tries to move two spaces forward
+			return true;
+		} else if ((Math.abs(moveToRow - row) == 1) && (moveToColumn == col)) {                                     //pawn tries to move one space forward
+			return true;
+		} else if ((board[row][col].getPlayer() == true) && ((row - moveToRow) == 1) 
+				  && (Math.abs(moveToColumn - col) == 1) && (board[moveToRow][moveToColumn] != null)) {             //pawn tries to capture piece by moving diagonal
+			return true;
+		}
 	}
 	
 	//returns a string with the game stats for each player so far
