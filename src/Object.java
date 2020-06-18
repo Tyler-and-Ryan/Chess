@@ -22,4 +22,14 @@ public class Object {
 	public boolean getPlayer() {
 		return false;
 	}
+	
+	//returns the row the piece is in
+	public int GetRow(){
+		return -1;
+	}
+		
+	//returns the column the piece is in
+	public int GetCol() {
+		return -1;
+	}
 }

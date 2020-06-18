@@ -3,14 +3,18 @@ public class King extends Object{
 	boolean player;
 	int moveCounter;
 	String pieceName;
+	int row;
+	int col;
 	
 	//King constructor that tracks:
 	//Which player the King is controlled by (true = P1, false = P2)
 	//How many times the King has moved (moveCounter) 
-	public King(boolean player) {
+	public King(boolean player, int row, int col) {
 		this.player = player;
 		moveCounter = 0;
 		pieceName = "King";
+		this.row = row;
+		this.col = col;
 	}
 	
 	//overrides java toString and returns the 'Pawn'
@@ -34,5 +38,19 @@ public class King extends Object{
 	
 	public boolean isGamePiece() {
 		return true;
+	}
+	//returns the row the piece is in
+	public int GetRow(){
+		return row;
+	}
+		
+	//returns the column the piece is in
+	public int GetCol() {
+		return col;
+	}
+	
+	public void ChangeLocation(int row, int col) {
+		this.row = row;
+		this.col = col;
 	}
 }

@@ -3,14 +3,18 @@ public class Queen extends Object{
 	boolean player;
 	int moveCounter;
 	String pieceName;
+	int row;
+	int col;
 	
 	//Queen constructor that tracks:
 	//Which player the Queen is controlled by (true = P1, false = P2)
 	//How many times the Queen has moved (moveCounter) 
-	public Queen(boolean player) {
+	public Queen(boolean player, int row, int col) {
 		this.player = player;
 		moveCounter = 0;
 		pieceName = "Queen";
+		this.row = row;
+		this.col = col;
 	}
 	
 	//overrides java toString and returns the 'Pawn'
@@ -34,5 +38,19 @@ public class Queen extends Object{
 	
 	public boolean isGamePiece() {
 		return true;
+	}
+	//returns the row the piece is in
+	public int GetRow(){
+		return row;
+	}
+	
+	//returns the column the piece is in
+	public int GetCol() {
+		return col;
+	}
+	
+	public void ChangeLocation(int row, int col) {
+		this.row = row;
+		this.col = col;
 	}
 }

@@ -26,43 +26,43 @@ public class GameBoard {
 			for(int j = 0; j < boardSize; j++) {
 				Object temp = null;
 				if(i == 1) {
-					temp = new Pawn(true);
+					temp = new Pawn(true, i, j);
 				} else if (i == boardSize-2){ 
-					temp = new Pawn(false);
+					temp = new Pawn(false, i, j);
 				} else if (j == 0 || j == boardSize-1){
 					if(i == 0) {
-						temp = new Castle(true);
+						temp = new Castle(true, i, j);
 					}
 					if(i == boardSize-1) {
-						temp = new Castle(false);
+						temp = new Castle(false, i, j);
 					}
 				} else if (j == 1 || j == boardSize-2){
 					if(i == 0) {
-						temp = new Horse(true);
+						temp = new Horse(true, i, j);
 					}
 					if(i == boardSize-1) {
-						temp = new Horse(false);
+						temp = new Horse(false, i, j);
 					}
 				} else if (j == 2 || j == boardSize-3){
 					if(i == 0) {
-						temp = new Bishop(true);
+						temp = new Bishop(true, i, j);
 					}
 					if(i == boardSize-1) {
-						temp = new Bishop(false);
+						temp = new Bishop(false, i, j);
 					}
 				} else if (j == 3){
 					if(i == 0) {
-						temp = new Queen(true);
+						temp = new Queen(true, i, j);
 					}
 					if(i == boardSize-1) {
-						temp = new Queen(false);
+						temp = new Queen(false, i, j);
 					}
 				} else if (j == 4){
 					if(i == 0) {
-						temp = new King(true);
+						temp = new King(true, i, j);
 					}
 					if(i == boardSize-1) {
-						temp = new King(false);
+						temp = new King(false, i, j);
 					}
 				}
 				board[i][j] = temp;
@@ -157,13 +157,13 @@ public class GameBoard {
 		System.out.println("\n============PLAYER ONE STATS============");
 		for(int i = 0; i < boardSize*2; i++) {
 			if(playerOnePieces[i] != null) {
-				System.out.println(playerOnePieces[i].toString() + " has moved " + playerOnePieces[i].moveCount());
+				System.out.println(playerOnePieces[i].toString() + " has moved " + playerOnePieces[i].moveCount() + " at " + playerOnePieces[i].GetRow() + "," + playerOnePieces[i].GetCol());
 			}
 		}
 		System.out.println("============PLAYER TWO STATS============");
 		for(int i = (boardSize*2)-1; i >= 0; i--) {
 			if(playerTwoPieces[i] != null) {
-				System.out.println(playerTwoPieces[i].toString() + " has moved " + playerTwoPieces[i].moveCount());
+				System.out.println(playerTwoPieces[i].toString() + " has moved " + playerTwoPieces[i].moveCount()+ " at " + playerTwoPieces[i].GetRow() + "," + playerTwoPieces[i].GetCol());
 			}
 		}
 		return;
