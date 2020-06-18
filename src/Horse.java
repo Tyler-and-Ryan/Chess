@@ -31,4 +31,8 @@ public class Horse extends Object{
 	public void moved() {
 		moveCounter++;
 	}
+	
+	public boolean isGamePiece() {
+		return true;
+	}
 }

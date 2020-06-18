@@ -31,4 +31,8 @@ public class King extends Object{
 	public void moved() {
 		moveCounter++;
 	}
+	
+	public boolean isGamePiece() {
+		return true;
+	}
 }
