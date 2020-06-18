@@ -121,10 +121,19 @@ public class GameBoard {
 			return true;
 		} else if ((Math.abs(moveToRow - row) == 1) && (moveToColumn == col)) {                                     //pawn tries to move one space forward
 			return true;
-		} else if ((board[row][col].getPlayer() == true) && ((row - moveToRow) == 1) 
-				  && (Math.abs(moveToColumn - col) == 1) && (board[moveToRow][moveToColumn] != null)) {             //pawn tries to capture piece by moving diagonal
-			return true;
+		} else if (board[row][col].isGamePiece()) {
+			if ((board[row][col].getPlayer() == true) && ((row - moveToRow) == 1) 
+			   && (Math.abs(moveToColumn - col) == 1)) {                                                            //P1 pawn tries to capture piece by moving diagonal
+				return true;
+			}
+		} else if (board[row][col].isGamePiece()) {
+			if ((board[row][col].getPlayer() == false) && ((moveToRow - row) == 1) 
+			   && (Math.abs(moveToColumn - col) == 1)) {                                                            //P2 pawn tries to capture piece by moving diagonal
+				return true;
+			}
 		}
+		//fail safe to appease eclipse
+		return false;
 	}
 	
 	//returns a string with the game stats for each player so far
