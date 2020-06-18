@@ -1,16 +1,16 @@
 
-public class Pawn extends Object {
+public class King extends Object{
 	boolean player;
 	int moveCounter;
 	String pieceName;
 	
-	//Pawn constructor that tracks:
-	//Which player the pawn is controlled by (true = P1, false = P2)
-	//How many times the pawn has moved (moveCounter) 
-	public Pawn(boolean player) {
+	//King constructor that tracks:
+	//Which player the King is controlled by (true = P1, false = P2)
+	//How many times the King has moved (moveCounter) 
+	public King(boolean player) {
 		this.player = player;
 		moveCounter = 0;
-		pieceName = "P";
+		pieceName = "K";
 	}
 	
 	//overrides java toString and returns the 'Pawn'
