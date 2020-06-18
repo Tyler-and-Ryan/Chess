@@ -117,6 +117,8 @@ public class GameBoard {
 	
 	//returns true if it was able to remove the piece and false if it couldn't
 	public boolean RemovePiece(int row, int col) {
+		//TODO: set object where piece relies to null
+		//find out which player the piece is -> search the corresponding players piece array and remove it from the array too
 		return false;
 	}
 	
@@ -126,17 +128,28 @@ public class GameBoard {
 		if (board[row][col].toString().equals("Pawn")) {
 			if(IsLegalPawn(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
 				RemovePiece(moveToRow, moveToCol);
+				board[row][col].ChangeLocation(moveToRow, moveToCol);
+				board[row][col].moved();
+				toString();
+			} else if(IsLegalPawn(row, col, moveToRow, moveToCol)) {
+				board[row][col].ChangeLocation(moveToRow, moveToCol);
+				board[row][col].moved();
+				toString();
 			} else {
-				System.out.println("This is not a legal move");
+				System.out.println("ILLEGAL MOVE - BRO UR BAD");
 				return;
 			}
+		} else {
+			System.out.println("Couldnt identify type of piece");
 		}
 	}
 	
 	//returns true if move was successful and false if it couldn't move the piece
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
+	//This method is dependent on P1 being bottom of the board and P2 being the top of the board
+	//This is also dependent on [0,0] being the top left of the board
 	private boolean IsLegalPawn(int row, int col, int moveToRow, int moveToCol) {
-		if ((col != moveToCol) && (board[moveToRow][moveToCol] == null)) {                                    //pawn tries to move sideways
+		if ((col != moveToCol) && (board[moveToRow][moveToCol] == null)) {                                       //pawn tries to move sideways
 			return false;
 		} else if (((row == 2) || (row == 7)) && (Math.abs(moveToRow - row) == 2) 
 				  && (board[row][col] == null) && (moveToCol == col)) {                                          //pawn tries to move two spaces forward

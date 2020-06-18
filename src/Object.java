@@ -25,6 +25,19 @@ public class Object {
 
 	//appeasing eclipse
 	public boolean isGamePiece() {
+		System.out.println("trying to work with blank object instead of piece");
 		return false;
+	}
+	
+	//appeasing eclipse
+	public void ChangeLocation(int row, int col) {
+		System.out.println("trying to work with blank object instead of piece");
+		return;
+	}
+	
+	//appeasing eclipse
+	public void moved() {
+		System.out.println("trying to work with blank object instead of piece");
+		return;
 	}
 }
