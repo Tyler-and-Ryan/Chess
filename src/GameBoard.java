@@ -14,7 +14,6 @@ public class GameBoard {
 	//Creates the gameboard and sets pawns in the first two rows and the last two rows
 	private void CreateBoard() {
 		board = new Object[boardSize][boardSize];
-		
 		for(int i = 0; i < boardSize; i++) {
 			for(int j = 0; j < boardSize; j++) {
 				Object temp = null;
