@@ -55,23 +55,6 @@ public class GameBoard {
 		}
 		returnVal.append("  A   B   C   D   E   F   G   H    ");
 		return returnVal.toString();
-				/*"  _   _   _   _   _   _   _   _  \n" +
-				"8|"+ board[7][0].toString() + "| |"+ board[7][1].toString() + "| |"+ board[7][2].toString() + "| |"+ board[7][3].toString() + "| |"+ board[7][4].toString() + "| |"+ board[7][5].toString() + "| |"+ board[7][6].toString() + "| |"+ board[7][7].toString() + "| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"7|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"6|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"5|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"4|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"3|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"2|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  _   _   _   _   _   _   _   _  \n" +
-				"1|_| |_| |_| |_| |_| |_| |_| |_| \n" +
-				"  A   B   C   D   E   F   G   H    ";*/
 	}
 	
 	//Clears the board of game pieces
