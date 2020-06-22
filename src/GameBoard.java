@@ -115,11 +115,32 @@ public class GameBoard {
 		return;
 	}
 	
-	//returns true if it was able to remove the piece and false if it couldn't
+	//removed a piece from the board by taking in the location through int row & int col
+	//returns true if remove was successful and false if it wasn't
 	public boolean RemovePiece(int row, int col) {
-		//TODO: set object where piece relies to null
-		//find out which player the piece is -> search the corresponding players piece array and remove it from the array too
-		return false;
+		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
+			return false;
+		}
+		//removed the piece from the correct game piece array
+		if(board[row][col].getPlayer()) {
+			for(int i = 0; i < playerOnePieces.length; i++) {
+				if(board[row][col].GetRow() == playerOnePieces[i].GetRow() && board[row][col].GetCol() == playerOnePieces[i].GetCol()) {
+					playerOnePieces[i] = null;
+					break;
+				}
+			}
+		} else {
+			for(int i = 0; i < playerOnePieces.length; i++) {
+				if(board[row][col].GetRow() == playerTwoPieces[i].GetRow() && board[row][col].GetCol() == playerTwoPieces[i].GetCol()) {
+					playerTwoPieces[i] = null;
+					break;
+				}
+			}
+		}
+		
+		//removes piece from board
+		board[row][col] = null;
+		return true;
 	}
 	
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
