@@ -8,6 +8,9 @@ public class main {
 		GameBoard game1 = new GameBoard();
 		System.out.println(game1.toString());
 		game1.GameStats();
+		game1.MovePiece(1, 0, 2, 0, false);
+		System.out.println(game1.toString());
+		game1.GameStats();
 		
 	}
 

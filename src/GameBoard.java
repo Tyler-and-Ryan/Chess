@@ -167,7 +167,7 @@ public class GameBoard {
 	
 	//returns true if move was successful and false if it couldn't move the piece
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
-	//This method is dependent on P1 being bottom of the board and P2 being the top of the board
+	//This method is dependent on P1 (true) being bottom of the board and P2 (false) being the top of the board
 	//This is also dependent on [0,0] being the top left of the board
 	private boolean IsLegalPawn(int row, int col, int moveToRow, int moveToCol) {
 		if ((col != moveToCol) && (board[moveToRow][moveToCol] == null)) {                                       //pawn tries to move sideways
