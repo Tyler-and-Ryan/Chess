@@ -86,7 +86,8 @@ public class GameBoard {
 	
 	//Returns a string that contains the visualization of the gameboard
 	public String toString() {
-		StringBuilder returnVal = new StringBuilder("  _   _   _   _   _   _   _   _  \n");
+		StringBuilder returnVal = new StringBuilder("	   [PLAYER TWO]\n");
+		returnVal.append(" _   _   _   _   _   _   _   _  \n");
 		for(int i = board.length-1; i >= 0; i--) {
 			returnVal.append(i+1);
 			for(int j = 0; j < board.length; j++) {
@@ -101,7 +102,8 @@ public class GameBoard {
 				returnVal.append("  -   -   -   -   -   -   -   -  \n");
 			}
 		}
-		returnVal.append("  A   B   C   D   E   F   G   H    ");
+		returnVal.append("  A   B   C   D   E   F   G   H    \n");
+		returnVal.append("	   [PLAYER ONE]\n");
 		return returnVal.toString();
 	}
 	
@@ -199,6 +201,17 @@ public class GameBoard {
 			}
 		}
 		//fail safe to appease eclipse
+		return false;
+	}
+	
+	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
+		
+		if(row == moveToRow || col == moveToCol) {
+			//if()
+		} else {
+			return false;
+		}
+	
 		return false;
 	}
 	
