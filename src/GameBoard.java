@@ -118,10 +118,16 @@ public class GameBoard {
 	//removed a piece from the board by taking in the location through int row & int col
 	//returns true if remove was successful and false if it wasn't
 	public boolean RemovePiece(int row, int col) {
-		/*
+		//checks if the piece being removed is out of bounds
 		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
 			return false;
 		}
+		
+		//checks if there is no piece at the location
+		if(board[row][col] == null) {
+			return false;
+		}
+		
 		//removed the piece from the correct game piece array
 		if(board[row][col].getPlayer()) {
 			for(int i = 0; i < playerOnePieces.length; i++) {
@@ -141,7 +147,6 @@ public class GameBoard {
 		
 		//removes piece from board
 		board[row][col] = null;
-		*/
 		return true;
 	}
 	
@@ -149,25 +154,18 @@ public class GameBoard {
 	//Also checks that the player is only moving their pieces
 	public void MovePiece(int row, int col, int moveToRow, int moveToCol, boolean player) {
 		if (board[row][col].toString().equals("Pawn")) {
-			
 			//Case for taking over a piece
 			if(IsLegalPawn(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
 				RemovePiece(moveToRow, moveToCol);
-				board[row][col].ChangeLocation(moveToRow, moveToCol);
-				board[row][col].moved();
-				toString();
-				board[moveToRow][moveToCol] = board[row][col];
-				board[row][col] = null;
-			} else if(IsLegalPawn(row, col, moveToRow, moveToCol)) {
-				board[row][col].ChangeLocation(moveToRow, moveToCol);
-				board[row][col].moved();
-				toString();
-				board[moveToRow][moveToCol] = board[row][col];
-				board[row][col] = null;
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
 				return;
 			}
+			board[row][col].ChangeLocation(moveToRow, moveToCol);
+			board[row][col].moved();
+			toString();
+			board[moveToRow][moveToCol] = board[row][col];
+			board[row][col] = null;
 		} else {
 			System.out.println("Couldnt identify type of piece");
 		}
@@ -179,14 +177,14 @@ public class GameBoard {
 	//This is also dependent on [0,0] being the top left of the board
 	private boolean IsLegalPawn(int row, int col, int moveToRow, int moveToCol) {
 		
-		if ((col != moveToCol) && (board[moveToRow][moveToCol] == null)) {                                       //pawn tries to move sideways
+		if ((col != moveToCol) && (board[moveToRow][moveToCol] == null)) {                                       //pawn tries to move sideways 
 			return false;
 		} else if (((row == 2) || (row == 7)) && (Math.abs(moveToRow - row) == 2) 
-				  && (board[row][col] == null) && (moveToCol == col)) {                                          //pawn tries to move two spaces forward
+				  && (board[moveToRow][moveToCol] == null) && (moveToCol == col)) {                              //pawn tries to move two spaces forward 
 			return true;
-		} else if ((Math.abs(moveToRow - row) == 1) && (moveToCol == col)) {                                     //pawn tries to move one space forward
+		} else if ((Math.abs(moveToRow - row) == 1) && (moveToCol == col)) {                                     //pawn tries to move one space forward 
 			return true;
-		} else if (board[row][col].isGamePiece()) {
+		} else if (board[moveToRow][moveToCol].isGamePiece()) {
 			if ((board[row][col].getPlayer() == true) && ((row - moveToRow) == 1) 
 			   && (Math.abs(moveToCol - col) == 1)) {                                                            //P1 pawn tries to capture piece by moving diagonal
 				return true;
