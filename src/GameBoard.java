@@ -120,16 +120,9 @@ public class GameBoard {
 	//removed a piece from the board by taking in the location through int row & int col
 	//returns true if remove was successful and false if it wasn't
 	public boolean RemovePiece(int row, int col) {
-		//checks if the piece being removed is out of bounds
-		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
-			return false;
-		}
-		
-		//checks if there is no piece at the location
 		if(board[row][col] == null) {
 			return false;
 		}
-		
 		//removed the piece from the correct game piece array
 		if(board[row][col].getPlayer()) {
 			for(int i = 0; i < playerOnePieces.length; i++) {
@@ -154,18 +147,39 @@ public class GameBoard {
 	
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
 	//Also checks that the player is only moving their pieces
-	public void MovePiece(int row, int col, int moveToRow, int moveToCol, boolean player) {
+	public boolean MovePiece(int row, int col, int moveToRow, int moveToCol, boolean player) {
+		//checks if the piece being removed is out of bounds
+		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
+				return false;
+		}	
+		if(moveToRow < 0 || moveToCol < 0 || moveToRow >= boardSize || moveToCol >= boardSize) {
+			return false;
+		}	
+		
+		//checks if there is no piece at the location
+		if(board[row][col] == null) {					
+			return false;
+		}
+				
 		if (board[row][col].toString().equals("Pawn")) {
 			//Case for taking over a piece
 			if(IsLegalPawn(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
-				return;
+				return false;
+			}
+		} else if (board[row][col].toString().equals("Castle")) {
+			//Case for taking over a piece
+			if(IsLegalCastle(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
+				RemovePiece(moveToRow, moveToCol);
+			} else {
+				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				return false;
 			}
 		} else {
 			System.out.println("Couldnt identify type of piece");
-			return;
+			return false;
 		}
 		
 		//moves the piece
@@ -174,6 +188,7 @@ public class GameBoard {
 		toString();
 		board[moveToRow][moveToCol] = board[row][col];
 		board[row][col] = null;
+		return true;
 	}
 	
 	//returns true if move was successful and false if it couldn't move the piece
@@ -207,12 +222,47 @@ public class GameBoard {
 	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
 		
 		if(row == moveToRow || col == moveToCol) {
-			//if()
+			boolean pieceInBetween = false;
+			if(col == moveToCol) {
+				int start;
+				int distance; 
+				if(row < moveToRow) {
+					start = row;
+					distance = Math.abs(moveToRow-row);
+				} else if  (moveToRow < row) {
+					start = moveToRow;
+					distance = Math.abs(row-moveToRow);
+				} else {
+					return false;
+				}
+				for(int i = start+1; i <= start+distance; i++) {
+					if(board[i][col] != null) {
+						return false;
+					}
+				}
+				return true;
+			} else {
+				int start;
+				int distance; 
+				if(col < moveToCol) {
+					start = col;
+					distance = Math.abs(moveToCol-col);
+				} else if  (moveToCol < col) {
+					start = moveToCol;
+					distance = Math.abs(col-moveToCol);
+				} else {
+					return false;
+				}
+				for(int i = start+1; i <= start+distance; i++) {
+					if(board[row][i] != null) {
+						return false;
+					}
+				}
+				return true;
+			}
 		} else {
 			return false;
 		}
-	
-		return false;
 	}
 	
 	//returns a string with the game stats for each player so far
