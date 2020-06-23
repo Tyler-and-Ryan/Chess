@@ -81,7 +81,7 @@ public class GameBoard {
 	//Gets the object at a specific row and column
 	//returns null if there is no piece there or it is out of bounds
 	public Object GetPiece(int row, int col) {
-		return null;
+		return board[row][col];
 	}
 	
 	//Returns a string that contains the visualization of the gameboard
@@ -118,6 +118,7 @@ public class GameBoard {
 	//removed a piece from the board by taking in the location through int row & int col
 	//returns true if remove was successful and false if it wasn't
 	public boolean RemovePiece(int row, int col) {
+		/*
 		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
 			return false;
 		}
@@ -140,6 +141,7 @@ public class GameBoard {
 		
 		//removes piece from board
 		board[row][col] = null;
+		*/
 		return true;
 	}
 	
@@ -147,15 +149,21 @@ public class GameBoard {
 	//Also checks that the player is only moving their pieces
 	public void MovePiece(int row, int col, int moveToRow, int moveToCol, boolean player) {
 		if (board[row][col].toString().equals("Pawn")) {
+			
+			//Case for taking over a piece
 			if(IsLegalPawn(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
 				RemovePiece(moveToRow, moveToCol);
 				board[row][col].ChangeLocation(moveToRow, moveToCol);
 				board[row][col].moved();
 				toString();
+				board[moveToRow][moveToCol] = board[row][col];
+				board[row][col] = null;
 			} else if(IsLegalPawn(row, col, moveToRow, moveToCol)) {
 				board[row][col].ChangeLocation(moveToRow, moveToCol);
 				board[row][col].moved();
 				toString();
+				board[moveToRow][moveToCol] = board[row][col];
+				board[row][col] = null;
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
 				return;
@@ -170,6 +178,7 @@ public class GameBoard {
 	//This method is dependent on P1 (true) being bottom of the board and P2 (false) being the top of the board
 	//This is also dependent on [0,0] being the top left of the board
 	private boolean IsLegalPawn(int row, int col, int moveToRow, int moveToCol) {
+		
 		if ((col != moveToCol) && (board[moveToRow][moveToCol] == null)) {                                       //pawn tries to move sideways
 			return false;
 		} else if (((row == 2) || (row == 7)) && (Math.abs(moveToRow - row) == 2) 
