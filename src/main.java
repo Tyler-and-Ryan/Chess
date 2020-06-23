@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.lang.Integer;
 
 // Main client
 public class main {
@@ -11,14 +10,8 @@ public class main {
 		System.out.println(game1.toString());
 		//game1.GameStats();
 		System.out.println("====================================");
-		//game1.MovePiece(1, 0, 2, 0, false);
-		game1.RemovePiece(1, 0);
+		game1.MovePiece(1, 0, 2, 0, false);
 		System.out.println(game1.toString());
-		game1.MovePiece(0, 0, 6, 0, true);
-		System.out.println(game1.toString());
-		game1.MovePiece(6, 0, 6, 1, true);
-		System.out.println(game1.toString());
-		game1.ClearBoard();
 		//game1.GameStats();
 		
 		Scanner userInput = new Scanner(System.in);
@@ -37,7 +30,7 @@ public class main {
 
 		//interprets the user input containing a letter representing a column and a number representing a row and converts it to row/col ints
 		public void attemptMove(String currentPieceLoc, String moveToLoc) {
-			//int row = valueOf(currentPieceLoc.substring(1,2)) - 1;
+			int row;
 			int col;
 			int moveToRow;
 			int moveToCol;
@@ -62,6 +55,5 @@ public class main {
 				System.out.println("Unrecognized input, try again");
 				return;
 			}
-			
 		}
 }

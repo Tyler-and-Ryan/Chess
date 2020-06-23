@@ -87,7 +87,7 @@ public class GameBoard {
 	//Returns a string that contains the visualization of the gameboard
 	public String toString() {
 		StringBuilder returnVal = new StringBuilder("	   [PLAYER TWO]\n");
-		returnVal.append("  _   _   _   _   _   _   _   _  \n");
+		returnVal.append(" _   _   _   _   _   _   _   _  \n");
 		for(int i = board.length-1; i >= 0; i--) {
 			returnVal.append(i+1);
 			for(int j = 0; j < board.length; j++) {
@@ -126,20 +126,16 @@ public class GameBoard {
 		//removed the piece from the correct game piece array
 		if(board[row][col].getPlayer()) {
 			for(int i = 0; i < playerOnePieces.length; i++) {
-				if(playerOnePieces[i] != null) {
-					if(board[row][col].GetRow() == playerOnePieces[i].GetRow() && board[row][col].GetCol() == playerOnePieces[i].GetCol()) {
-						playerOnePieces[i] = null;
-						break;
-					}
+				if(board[row][col].GetRow() == playerOnePieces[i].GetRow() && board[row][col].GetCol() == playerOnePieces[i].GetCol()) {
+					playerOnePieces[i] = null;
+					break;
 				}
 			}
 		} else {
 			for(int i = 0; i < playerOnePieces.length; i++) {
-				if(playerTwoPieces[i] != null) {
-					if(board[row][col].GetRow() == playerTwoPieces[i].GetRow() && board[row][col].GetCol() == playerTwoPieces[i].GetCol()) {
-						playerTwoPieces[i] = null;
-						break;
-					}
+				if(board[row][col].GetRow() == playerTwoPieces[i].GetRow() && board[row][col].GetCol() == playerTwoPieces[i].GetCol()) {
+					playerTwoPieces[i] = null;
+					break;
 				}
 			}
 		}
@@ -152,12 +148,9 @@ public class GameBoard {
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
 	//Also checks that the player is only moving their pieces
 	public boolean MovePiece(int row, int col, int moveToRow, int moveToCol, boolean player) {
-		//Decrements row by one to match the board toString
-
-		
 		//checks if the piece being removed is out of bounds
 		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
-			return false;
+				return false;
 		}	
 		if(moveToRow < 0 || moveToCol < 0 || moveToRow >= boardSize || moveToCol >= boardSize) {
 			return false;
@@ -177,16 +170,6 @@ public class GameBoard {
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Castle")) {
-			//Case for taking over a piece
-			if(IsLegalCastle(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
-				System.out.println(moveToRow + " " + moveToCol);
-				System.out.println(board[moveToRow][moveToCol].toString());
-				RemovePiece(moveToRow, moveToCol);
-			} else {
-				System.out.println("ILLEGAL MOVE - BRO UR BAD");
-				return false;
-			}
-		} else if (board[row][col].toString().equals("King")) {
 			//Case for taking over a piece
 			if(IsLegalCastle(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
 				RemovePiece(moveToRow, moveToCol);
@@ -232,11 +215,10 @@ public class GameBoard {
 				return true;
 			}
 		}
-
+		//fail safe to appease eclipse
 		return false;
 	}
 	
-	//This checks if the location to move the castle piece is legal
 	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
 		
 		if(row == moveToRow || col == moveToCol) {
@@ -253,9 +235,8 @@ public class GameBoard {
 				} else {
 					return false;
 				}
-				
 				for(int i = start+1; i <= start+distance; i++) {
-					if(board[i][col] != null && i < moveToRow) {
+					if(board[i][col] != null) {
 						return false;
 					}
 				}
@@ -273,7 +254,7 @@ public class GameBoard {
 					return false;
 				}
 				for(int i = start+1; i <= start+distance; i++) {
-					if(board[row][i] != null && i < moveToCol) {
+					if(board[row][i] != null) {
 						return false;
 					}
 				}
@@ -284,34 +265,18 @@ public class GameBoard {
 		}
 	}
 	
-	private boolean IsLegalKing(int row, int col, int moveToRow, int moveToCol) {
-		int distance;
-		if(row < moveToRow) {
-			distance = Math.abs(moveToRow-row);
-		} else if  (moveToRow < row) {
-			distance = Math.abs(row-moveToRow);
-		} else {
-			return false;
-		}
-		
-		if(distance > 1) {
-			return false;
-		}
-		return true;
-	}
-	
 	//returns a string with the game stats for each player so far
 	public void GameStats() {
 		System.out.println("\n============PLAYER ONE STATS============");
 		for(int i = 0; i < boardSize*2; i++) {
 			if(playerOnePieces[i] != null) {
-				System.out.println(playerOnePieces[i].toString() + " has moved " + playerOnePieces[i].moveCount() + " time(s) and is currently at " + playerOnePieces[i].GetRow() + "," + playerOnePieces[i].GetCol());
+				System.out.println(playerOnePieces[i].toString() + " has moved " + playerOnePieces[i].moveCount() + " at " + playerOnePieces[i].GetRow() + "," + playerOnePieces[i].GetCol());
 			}
 		}
 		System.out.println("============PLAYER TWO STATS============");
 		for(int i = (boardSize*2)-1; i >= 0; i--) {
 			if(playerTwoPieces[i] != null) {
-				System.out.println(playerTwoPieces[i].toString() + " has moved " + playerTwoPieces[i].moveCount()+ " time(s) and is currently at " + playerTwoPieces[i].GetRow() + "," + playerTwoPieces[i].GetCol());
+				System.out.println(playerTwoPieces[i].toString() + " has moved " + playerTwoPieces[i].moveCount()+ " at " + playerTwoPieces[i].GetRow() + "," + playerTwoPieces[i].GetCol());
 			}
 		}
 		return;
