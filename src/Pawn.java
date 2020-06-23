@@ -3,6 +3,7 @@ public class Pawn extends Object {
 	boolean player;
 	int moveCounter;
 	String pieceName;
+	boolean active;
 	int row;
 	int col;
 	
@@ -15,6 +16,7 @@ public class Pawn extends Object {
 		pieceName = "Pawn";
 		this.row = row;
 		this.col = col;
+		active = true;
 	}
 	
 	//overrides java toString and returns the 'Pawn'
@@ -53,5 +55,13 @@ public class Pawn extends Object {
 	public void ChangeLocation(int row, int col) {
 		this.row = row;
 		this.col = col;
+	}
+	
+	public boolean GetStatus() {
+		return active;
+	}
+	
+	public void ChangeStatus(boolean status) {
+		active = status;
 	}
 }

@@ -3,6 +3,7 @@ public class Bishop extends Object{
 	boolean player;
 	int moveCounter;
 	String pieceName;
+	boolean active;
 	int row;
 	int col;
 	
@@ -13,6 +14,7 @@ public class Bishop extends Object{
 		this.player = player;
 		moveCounter = 0;
 		pieceName = "Bishop";
+		active = true;
 		this.row = row;
 		this.col = col;
 	}
@@ -53,5 +55,13 @@ public class Bishop extends Object{
 	public void ChangeLocation(int row, int col) {
 		this.row = row;
 		this.col = col;
+	}
+	
+	public boolean GetStatus() {
+		return active;
+	}
+	
+	public void ChangeStatus(boolean status) {
+		active = status;
 	}
 }

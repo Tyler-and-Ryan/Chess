@@ -1,8 +1,5 @@
 
 public class Object {
-	
-	
-	
 
 	public int moveCount() {
 		return -1;
@@ -38,6 +35,15 @@ public class Object {
 	//appeasing eclipse
 	public void moved() {
 		System.out.println("trying to work with blank object instead of piece");
+		return;
+	}
+	
+	public boolean GetStatus() {
+		return false;
+	}
+	
+	public void ChangeStatus(boolean status) {
+		System.out.println("Error");
 		return;
 	}
 }

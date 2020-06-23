@@ -126,20 +126,16 @@ public class GameBoard {
 		//removed the piece from the correct game piece array
 		if(board[row][col].getPlayer()) {
 			for(int i = 0; i < playerOnePieces.length; i++) {
-				if(playerOnePieces[i] != null) {
-					if(board[row][col].GetRow() == playerOnePieces[i].GetRow() && board[row][col].GetCol() == playerOnePieces[i].GetCol()) {
-						playerOnePieces[i] = null;
-						break;
-					}
+				if(board[row][col].GetRow() == playerOnePieces[i].GetRow() && board[row][col].GetCol() == playerOnePieces[i].GetCol()) {
+					board[row][col].ChangeStatus(false);
+					break;
 				}
 			}
 		} else {
 			for(int i = 0; i < playerOnePieces.length; i++) {
-				if(playerTwoPieces[i] != null) {
-					if(board[row][col].GetRow() == playerTwoPieces[i].GetRow() && board[row][col].GetCol() == playerTwoPieces[i].GetCol()) {
-						playerTwoPieces[i] = null;
-						break;
-					}
+				if(board[row][col].GetRow() == playerTwoPieces[i].GetRow() && board[row][col].GetCol() == playerTwoPieces[i].GetCol()) {
+					board[row][col].ChangeStatus(false);
+					break;
 				}
 			}
 		}
@@ -197,6 +193,22 @@ public class GameBoard {
 		} else if (board[row][col].toString().equals("Horse")) {
 			//Case for taking over a piece
 			if(IsLegalHorse(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
+				RemovePiece(moveToRow, moveToCol);
+			} else {
+				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				return false;
+			}
+		} else if (board[row][col].toString().equals("Queen")) {
+			//Case for taking over a piece
+			if(IsLegalQueen(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
+				RemovePiece(moveToRow, moveToCol);
+			} else {
+				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				return false;
+			}
+		} else if (board[row][col].toString().equals("Bishop")) {
+			//Case for taking over a piece
+			if(IsLegalBishop(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
@@ -418,15 +430,23 @@ public class GameBoard {
 	public void GameStats() {
 		System.out.println("\n============PLAYER ONE STATS============");
 		for(int i = 0; i < boardSize*2; i++) {
-			if(playerOnePieces[i] != null) {
-				System.out.println(playerOnePieces[i].toString() + " has moved " + playerOnePieces[i].moveCount() + " time(s) and is currently at " + playerOnePieces[i].GetRow() + "," + playerOnePieces[i].GetCol());
+			System.out.print(playerOnePieces[i].toString() + " has moved " + playerOnePieces[i].moveCount() + " time(s) and is currently  ");
+			if(playerOnePieces[i].GetStatus() == false) {
+				System.out.print("not on the board and was last located at ");
+			} else {					
+				System.out.print(" on the board and is located at ");
 			}
+			System.out.println("(" + playerOnePieces[i].GetRow() + "," + playerOnePieces[i].GetCol() + ")");
 		}
 		System.out.println("============PLAYER TWO STATS============");
 		for(int i = (boardSize*2)-1; i >= 0; i--) {
-			if(playerTwoPieces[i] != null) {
-				System.out.println(playerTwoPieces[i].toString() + " has moved " + playerTwoPieces[i].moveCount()+ " time(s) and is currently at " + playerTwoPieces[i].GetRow() + "," + playerTwoPieces[i].GetCol());
+			System.out.print(playerTwoPieces[i].toString() + " has moved " + playerTwoPieces[i].moveCount() + " time(s) and is currently  ");
+			if(playerTwoPieces[i].GetStatus() == false) {
+				System.out.print("not on the board and was last located at ");
+			} else {					
+				System.out.print(" on the board and is located at ");
 			}
+			System.out.println("(" + playerTwoPieces[i].GetRow() + "," + playerTwoPieces[i].GetCol() + ")");
 		}
 		return;
 	}
