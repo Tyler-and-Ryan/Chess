@@ -194,6 +194,14 @@ public class GameBoard {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
 				return false;
 			}
+		} else if (board[row][col].toString().equals("Horse")) {
+			//Case for taking over a piece
+			if(IsLegalHorse(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
+				RemovePiece(moveToRow, moveToCol);
+			} else {
+				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				return false;
+			}
 		} else {
 			System.out.println("Couldnt identify type of piece");
 			return false;
@@ -284,6 +292,7 @@ public class GameBoard {
 		}
 	}
 	
+	//Checks if the king can move to the intended spot
 	private boolean IsLegalKing(int row, int col, int moveToRow, int moveToCol) {
 		int distance;
 		if(row < moveToRow) {
@@ -298,6 +307,111 @@ public class GameBoard {
 			return false;
 		}
 		return true;
+	}
+	
+	//Checks if the Bishop can move to the intended spot
+	private boolean IsLegalBishop(int row, int col, int moveToRow, int moveToCol) {
+		
+		if(moveToRow > row && moveToCol > col){
+			int i = row+1;
+			int j = col+1;
+			while(i != moveToRow && i < boardSize && j < boardSize && j != moveToCol && i >= 0 && j >= 0) {
+				if(board[i][j] != null) {
+					return false;
+				}
+				i++;
+				j++;
+			}
+		}
+		if(moveToRow > row && moveToCol < col){
+			int i = row+1;
+			int j = col-1;
+			while(i != moveToRow && i < boardSize && j < boardSize && j != moveToCol && i >= 0 && j >= 0) {
+				if(board[i][j] != null) {
+					return false;
+				}
+				i++;
+				j--;
+			}
+			
+		}
+		if(moveToRow < row && moveToCol > col){
+			int i = row-1;
+			int j = col+1;
+			while(i != moveToRow && i < boardSize && j < boardSize && j != moveToCol && i >= 0 && j >= 0) {
+				if(board[i][j] != null) {
+					return false;
+				}
+				i--;
+				j++;
+			}
+		}
+		if(moveToRow < row && moveToCol < col){
+			int i = row-1;
+			int j = col-1;
+			while(i != moveToRow && i < boardSize && j < boardSize && j != moveToCol && i >= 0 && j >= 0) {
+				if(board[i][j] != null) {
+					return false;
+				}
+				i--;
+				j--;
+			}
+		}
+		return true;
+	}
+	
+	//Checks if the queen can move to the intended spot
+	private boolean IsLegalQueen(int row, int col, int moveToRow, int moveToCol) {
+		if(IsLegalCastle(row,col,moveToRow,moveToCol) == true || IsLegalBishop(row,col,moveToRow,moveToCol)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//Checks if the king can move to the intended spot
+	private boolean IsLegalHorse(int row, int col, int moveToRow, int moveToCol) {
+		boolean returnVal = false;
+		
+		//makes sure the location is valid
+		if(moveToRow > row && moveToCol > col){
+			if(row+1 < boardSize && col+2 < boardSize) {
+				if(row+1 == moveToRow && col+2 == moveToCol) {
+					returnVal = true;
+				}
+			}
+		}
+		if(moveToRow > row && moveToCol < col){
+			if(row+1 < boardSize && col-2 < boardSize) {
+				if(row+1 == moveToRow && col-2 == moveToCol) {
+					returnVal = true;
+				}
+			}
+		}
+		if(moveToRow < row && moveToCol > col){
+			if(row-1 < boardSize && col+2 < boardSize) {
+				if(row-1 == moveToRow && col+2 == moveToCol) {
+					returnVal = true;
+				}
+			}
+		}
+		if(moveToRow < row && moveToCol < col){
+			if(row-1 < boardSize && col-2 < boardSize) {
+				if(row-1 == moveToRow && col-2 == moveToCol) {
+					returnVal = true;
+				}
+			}
+		}
+		
+		//returns false if player wants to move the horse on to their own piece
+		if(returnVal == true) {
+			boolean currentPlayer = board[row][col].getPlayer();
+			if(board[moveToRow][moveToCol].getPlayer() == currentPlayer) {
+				returnVal = false;
+			}
+		}
+		
+		return returnVal;
 	}
 	
 	//returns a string with the game stats for each player so far
