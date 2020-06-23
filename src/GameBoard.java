@@ -161,14 +161,17 @@ public class GameBoard {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
 				return;
 			}
-			board[row][col].ChangeLocation(moveToRow, moveToCol);
-			board[row][col].moved();
-			toString();
-			board[moveToRow][moveToCol] = board[row][col];
-			board[row][col] = null;
 		} else {
 			System.out.println("Couldnt identify type of piece");
+			return;
 		}
+		
+		//moves the piece
+		board[row][col].ChangeLocation(moveToRow, moveToCol);
+		board[row][col].moved();
+		toString();
+		board[moveToRow][moveToCol] = board[row][col];
+		board[row][col] = null;
 	}
 	
 	//returns true if move was successful and false if it couldn't move the piece
