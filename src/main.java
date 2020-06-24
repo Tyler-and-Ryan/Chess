@@ -1,10 +1,23 @@
 import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 // Main client
 public class main {
 
 	public static void main(String[] args) {
-
+		
+		//creates board
+		Display display = new Display();
+		
+		if(true) {
+			Scanner closeCanvas = new Scanner(System.in);
+			if(closeCanvas.next().equals("quit")) {
+				display.CloseBoard();
+				System.out.println("closing canvas");
+			}
+		}
+		
 		//Nani
 		GameBoard game1 = new GameBoard();
 		System.out.println(game1.toString());
@@ -27,7 +40,8 @@ public class main {
 			
 		}
 	}
-
+	
+	
 	//interprets the user input containing a letter representing a column and a number representing a row and converts it to row/col ints
 	public void attemptMove(String currentPieceLoc, String moveToLoc) {
 		int row;
