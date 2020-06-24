@@ -8,11 +8,8 @@ public class Display {
 		board.setSize(500,500);
 		board.setVisible(true);
 		Button quit = new Button("Quit");
-		quit.addActionListener(new ActionListener() {
-			public void closeCanvas() {
-				CloseBoard();
-			}
-		});
+		//ActionListener val = new ActionListener();
+		//quit.addActionListener();
 		quit.setSize(100,100);
 		board.add(quit);
 	}
