@@ -24,6 +24,7 @@ public class Display {
 				board.setVisible(false);
 			}
 		});
+		
 		board.setVisible(true);
 		
 		
