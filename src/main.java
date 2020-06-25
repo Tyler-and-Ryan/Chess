@@ -12,6 +12,17 @@ static boolean fail = true;
 	
 	public static void main(String[] args) {
 		
+		//creates board
+		Display display = new Display();
+				
+		if(true) {
+			Scanner closeCanvas = new Scanner(System.in);
+			if(closeCanvas.next().equals("quit")) {
+				display.CloseBoard();
+				System.out.println("closing canvas");
+			}
+		}
+		
 		Scanner userInput = new Scanner(System.in);
 		String currentPieceLoc;
 		String moveToLoc;
