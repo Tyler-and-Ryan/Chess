@@ -175,8 +175,6 @@ public class GameBoard {
 		} else if (board[row][col].toString().equals("Castle")) {
 			//Case for taking over a piece
 			if(IsLegalCastle(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
-				System.out.println(moveToRow + " " + moveToCol);
-				System.out.println(board[moveToRow][moveToCol].toString());
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
@@ -184,7 +182,7 @@ public class GameBoard {
 			}
 		} else if (board[row][col].toString().equals("King")) {
 			//Case for taking over a piece
-			if(IsLegalCastle(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
+			if(IsLegalKing(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
@@ -242,8 +240,9 @@ public class GameBoard {
 		} else if ((Math.abs(moveToRow - row) == 1) && (moveToCol == col)) {                                     //pawn tries to move one space forward 
 			return true;
 		} else if (board[moveToRow][moveToCol].isGamePiece()) {
-			if ((board[row][col].getPlayer() == true) && (Math.abs((row - moveToRow)) == 1)                      //TODO: Logic needs to be updated so that (Math.abs(row-moveToRow) == 1 && moveToCol-col == 1)  || (row - moveToRow == 1 && Math.abs(moveToCol - col) == 1) in order to prevent a pawn from moving diagonal backwards to take a piece
-			   && (Math.abs((moveToCol - col)) == 1)) {                                                          //P1 pawn tries to capture piece by moving diagonal
+			if ((board[row][col].getPlayer() == true) && (Math.abs((row - moveToRow)) == 1) && 
+			   ((Math.abs(row-moveToRow) == 1 && moveToCol-col == 1)  
+			   || (row - moveToRow == 1 && Math.abs(moveToCol - col) == 1))) {                                   //P1 pawn tries to capture piece by moving diagonal
 				return true;
 			}
 		} else if (board[row][col].isGamePiece()) {
