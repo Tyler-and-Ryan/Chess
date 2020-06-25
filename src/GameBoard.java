@@ -236,14 +236,14 @@ public class GameBoard {
 		
 		if ((col != moveToCol) && (board[moveToRow][moveToCol] == null)) {                                       //pawn tries to move sideways 
 			return false;
-		} else if (((row == 2) || (row == 7)) && (Math.abs(moveToRow - row) == 2) 
+		} else if (((row == 1) || (row == 6)) && (Math.abs(moveToRow - row) == 2) 
 				  && (board[moveToRow][moveToCol] == null) && (moveToCol == col)) {                              //pawn tries to move two spaces forward 
 			return true;
 		} else if ((Math.abs(moveToRow - row) == 1) && (moveToCol == col)) {                                     //pawn tries to move one space forward 
 			return true;
 		} else if (board[moveToRow][moveToCol].isGamePiece()) {
-			if ((board[row][col].getPlayer() == true) && ((row - moveToRow) == 1) 
-			   && (Math.abs(moveToCol - col) == 1)) {                                                            //P1 pawn tries to capture piece by moving diagonal
+			if ((board[row][col].getPlayer() == true) && (Math.abs((row - moveToRow)) == 1)                      //TODO: Logic needs to be updated so that (Math.abs(row-moveToRow) == 1 && moveToCol-col == 1)  || (row - moveToRow == 1 && Math.abs(moveToCol - col) == 1) in order to prevent a pawn from moving diagonal backwards to take a piece
+			   && (Math.abs((moveToCol - col)) == 1)) {                                                          //P1 pawn tries to capture piece by moving diagonal
 				return true;
 			}
 		} else if (board[row][col].isGamePiece()) {

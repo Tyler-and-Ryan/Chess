@@ -8,40 +8,46 @@ public class main {
  //variables 
 static GameBoard game1 = new GameBoard();
 static boolean player = true;
-static boolean fail = true;
+static boolean success = true;
 	
 	public static void main(String[] args) {
 		
 		//creates board
-		Display display = new Display();
+		//Display display = new Display();
 		
 		Scanner userInput = new Scanner(System.in);
 		String currentPieceLoc;
 		String moveToLoc;
 		
 		System.out.println(game1.toString());
-		System.out.println("P1 gets the first turn. Are you ready to begin the game?");
-		while (!userInput.next().equals("quit")) {
+		System.out.println("P1 gets the first turn. If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
+		while (!userInput.nextLine().equals("quit")) {
 			System.out.println("Which square contains the piece you would like to move next?");
-			currentPieceLoc = userInput.next();
+			currentPieceLoc = userInput.nextLine();
 			System.out.println("Which square would you like your selected piece to move to?");
-			moveToLoc = userInput.next();
-			fail = attemptMove(currentPieceLoc, moveToLoc);
-			if (fail) {
-				//you entered something wrong
-			} else {
+			moveToLoc = userInput.nextLine();
+			success = attemptMove(currentPieceLoc, moveToLoc);
+			if (success) {
 				player = !player;
 				System.out.println(game1.toString());
-				System.out.println("If you would like to quit, then type \"quit\"");
+				if (player == true) {
+					System.out.println("It is now Player 1's turn.");
+				} else {
+					System.out.println("It is now Player 2's turn.");
+				}
+				System.out.println("If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
+			} else {
+				//something went wrong
 			}
 		}
+		game1.GameStats();
 	}
 
 	//interprets the user input containing a letter representing a column and a number representing a row and converts it to row/col ints
 	public static boolean attemptMove(String currentPieceLoc, String moveToLoc) {
-		int row = Integer.parseInt(currentPieceLoc.substring(1,2));
+		int row = Integer.parseInt(currentPieceLoc.substring(1,2)) - 1;
 		int col = -1;
-		int moveToRow = Integer.parseInt(moveToLoc.substring(1,2));
+		int moveToRow = Integer.parseInt(moveToLoc.substring(1,2)) - 1;
 		int moveToCol = -1;
 		
 		if(currentPieceLoc.substring(0,1).equals("A")) {
@@ -83,7 +89,7 @@ static boolean fail = true;
 		} else {
 			System.out.println("Unrecognized input, try again");
 		}
-		
+		System.out.println("Row: " + row + " Col: " + col + " moveToRow: " + moveToRow + " moveToCol: " + moveToCol);
 		return game1.MovePiece(row, col, moveToRow, moveToCol, player);
 	}
 }
