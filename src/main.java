@@ -13,7 +13,7 @@ static boolean success = true;
 	public static void main(String[] args) {
 		
 		//creates board
-		//Display display = new Display();
+		Display display = new Display();
 		
 		Scanner userInput = new Scanner(System.in);
 		String currentPieceLoc;

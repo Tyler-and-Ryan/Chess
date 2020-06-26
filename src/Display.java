@@ -1,11 +1,13 @@
 import java.awt.*;
+import javax.swing.*;
 import java.awt.event.*;
 
 public class Display {
-	Frame canvas;
+	JFrame canvas;
 	
+	//Constructor
 	public Display() {
-		canvas = new Frame();
+		canvas = new JFrame();
 		canvas.setSize(800,800);
 		canvas.setVisible(true);
 		
@@ -13,17 +15,17 @@ public class Display {
 		MenuBar();
 		
 		//Sets up game board
-		Panel gameboard = new Panel();
-		gameboard.setSize(400,400);
-		gameboard.setBounds(10, 10, 300, 300);
-		Label playerOneName = new Label("Player One");
-		Label playerTwoName = new Label("Player Two");
-		gameboard.add(playerTwoName);
-		gameboard.add(playerOneName);
-		Color background = new Color(808080);
-		gameboard.setBackground(background);
-		canvas.add(gameboard);
+		JFrame header = new JFrame();
 		
+		JLabel playerOneName = new JLabel("Player One");
+		JTextField playerTwoName = new JTextField("Player Two");
+		
+		Color background = new Color(000000);
+		
+		playerOneName.setBounds(100, 100, 300, 300);
+		canvas.add(playerOneName);
+		
+		canvas.setLayout(null);
 		canvas.setVisible(true);
 		
 		
@@ -31,12 +33,13 @@ public class Display {
 
 	//Handles creation and actions for the menu bar
 	public void MenuBar() {
-		MenuBar panel = new MenuBar();
-		Menu menu = new Menu("Options");
-		MenuItem quit = new MenuItem("quit");
+		JMenuBar panel = new JMenuBar();
+		JMenu menu = new JMenu("Options");
+		JMenuItem quit = new JMenuItem("quit");
 		menu.add(quit);
 		panel.add(menu);
-		canvas.setMenuBar(panel);
+	
+		canvas.setJMenuBar(panel);
 		
 		//Adds quit option functionality
 		quit.addActionListener(new ActionListener() {
