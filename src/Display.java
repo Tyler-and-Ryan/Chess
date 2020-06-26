@@ -4,26 +4,84 @@ import java.awt.event.*;
 
 public class Display {
 	JFrame canvas;
+	int width, height;
+	GameBoard game;
 	
-	//Constructor
-	public Display() {
+	//Creates the game display
+	public Display(int width, int height, GameBoard game) {
 		canvas = new JFrame();
-		canvas.setSize(800,800);
+		canvas.setTitle("Chess (Version 0.5)");
+		this.width = width;
+		this.height = height;
+		this.game = game;
+		canvas.setSize(width,height);
 		canvas.setVisible(true);
 		
 		//Menu bar
 		MenuBar();
 		
 		//Sets up game board
-		JFrame header = new JFrame();
+		
+		Container gameboard = new Container();
+		gameboard.setSize(600,600);
+		Color background = new Color(77,230,230);
+		
+		for(int i = 8; i >= 0; i--) {
+			for(int j = 0; j <= 8; j++) {
+				JLabel temp = null;
+				
+				//Adds appropriate box content to the label which will later be inserted into the grid
+				if(j == 0 && i != 0) {
+					temp = new JLabel("Row " + i);
+				} else if (i != 0) {
+					
+					//Game Content Squares
+					if(game.GetPiece(i-1, j-1) != null) {
+						temp = new JLabel(game.GetPiece(i-1,j-1).toString());
+					} else {
+						temp = new JLabel("Empty");
+					}
+				}
+				if(i == 0) {
+					if(j == 0) {
+						temp = new JLabel("");
+					} else if(j == 1) {
+						temp = new JLabel("Column A");
+					} else if (j == 2) {
+						temp = new JLabel("Column B");
+					} else if (j == 3) {
+						temp = new JLabel("Column C");
+					} else if (j == 4) {
+						temp = new JLabel("Column D");
+					} else if (j == 5) {
+						temp = new JLabel("Column E");
+					} else if (j == 6) {
+						temp = new JLabel("Column F");
+					} else if (j == 7) {
+						temp = new JLabel("Column G");
+					} else if (j == 8) {
+						temp = new JLabel("Column H");
+					}
+				}
+				
+				//Adds box content to board
+				temp.setBackground(background);
+				gameboard.add(temp);
+			}
+
+		}
+		
+		gameboard.setLayout(new GridLayout(9,9));
+		canvas.add(gameboard);
+		gameboard.setBounds(100, 50, 600, 600);
+		
+		JLabel playerTwoName = new JLabel("Player Two");
+		canvas.add(playerTwoName);
+		playerTwoName.setBounds(350, 0, 100, 20);
 		
 		JLabel playerOneName = new JLabel("Player One");
-		JTextField playerTwoName = new JTextField("Player Two");
-		
-		Color background = new Color(000000);
-		
-		playerOneName.setBounds(100, 100, 300, 300);
 		canvas.add(playerOneName);
+		playerOneName.setBounds(350, 700, 100, 20);
 		
 		canvas.setLayout(null);
 		canvas.setVisible(true);
