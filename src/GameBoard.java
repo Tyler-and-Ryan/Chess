@@ -170,6 +170,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				System.out.println("Do you want another attempt at your turn?");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Castle")) {
@@ -178,6 +179,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				System.out.println("Do you want another attempt at your turn?");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("King")) {
@@ -186,6 +188,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				System.out.println("Do you want another attempt at your turn?");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Horse")) {
@@ -194,6 +197,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				System.out.println("Do you want another attempt at your turn?");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Queen")) {
@@ -202,6 +206,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				System.out.println("Do you want another attempt at your turn?");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Bishop")) {
@@ -210,6 +215,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				System.out.println("Do you want another attempt at your turn?");
 				return false;
 			}
 		} else {
@@ -307,14 +313,19 @@ public class GameBoard {
 	private boolean IsLegalKing(int row, int col, int moveToRow, int moveToCol) {
 		int distance;
 		if(row < moveToRow) {
-			distance = Math.abs(moveToRow-row);
+			distance = Math.abs(moveToRow - row);
 		} else if  (moveToRow < row) {
-			distance = Math.abs(row-moveToRow);
+			distance = Math.abs(row - moveToRow);
+		} else if (col < moveToCol) {
+			distance = Math.abs(moveToCol - col);
+		} else if (moveToCol < col) {
+			distance = Math.abs(col - moveToCol);
 		} else {
 			return false;
 		}
 		
-		if(distance > 1) {
+		
+		if((distance > 1) || (distance == 0)) {
 			return false;
 		}
 		return true;
@@ -382,47 +393,29 @@ public class GameBoard {
 	
 	//Checks if the king can move to the intended spot
 	private boolean IsLegalHorse(int row, int col, int moveToRow, int moveToCol) {
-		boolean returnVal = false;
+		int vertCounter = 0;
+		int horizCounter = 0;
 		
-		//makes sure the location is valid
-		if(moveToRow > row && moveToCol > col){
-			if(row+1 < boardSize && col+2 < boardSize) {
-				if(row+1 == moveToRow && col+2 == moveToCol) {
-					returnVal = true;
-				}
-			}
-		}
-		if(moveToRow > row && moveToCol < col){
-			if(row+1 < boardSize && col-2 < boardSize) {
-				if(row+1 == moveToRow && col-2 == moveToCol) {
-					returnVal = true;
-				}
-			}
-		}
-		if(moveToRow < row && moveToCol > col){
-			if(row-1 < boardSize && col+2 < boardSize) {
-				if(row-1 == moveToRow && col+2 == moveToCol) {
-					returnVal = true;
-				}
-			}
-		}
-		if(moveToRow < row && moveToCol < col){
-			if(row-1 < boardSize && col-2 < boardSize) {
-				if(row-1 == moveToRow && col-2 == moveToCol) {
-					returnVal = true;
-				}
-			}
+		if (Math.abs(moveToRow - row) == 2) {                                                       //Horse moves by 2 rows
+			horizCounter = 2;
 		}
 		
-		//returns false if player wants to move the horse on to their own piece
-		if(returnVal == true) {
-			boolean currentPlayer = board[row][col].getPlayer();
-			if(board[moveToRow][moveToCol].getPlayer() == currentPlayer) {
-				returnVal = false;
-			}
+		if (Math.abs(moveToRow - row) == 1) {                                                       //Horse moves by 1 row
+			horizCounter = 1;
 		}
 		
-		return returnVal;
+		if (Math.abs(moveToCol - col) == 2) {                                                       //Horse moves by 2 columns
+			vertCounter = 2;
+		}
+		
+		if (Math.abs(moveToCol - col) == 1) {                                                       //Horse moves by 1 column
+			vertCounter = 1;
+		}
+		
+		if ((vertCounter == 1 && horizCounter == 2) || (vertCounter == 2 && horizCounter == 1)) {
+			return true;
+		}
+		return false;
 	}
 	
 	//returns a string with the game stats for each player so far
