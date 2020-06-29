@@ -78,6 +78,14 @@ public class GameBoard {
 		}
 	}
 	
+	public Object[] getPlayerOnePieces() {
+		return playerOnePieces;
+	}
+	
+	public Object[] getPlayerTwoPieces() {
+		return playerTwoPieces;
+	}
+	
 	//Gets the object at a specific row and column
 	//returns null if there is no piece there or it is out of bounds
 	public Object GetPiece(int row, int col) {
@@ -154,26 +162,28 @@ public class GameBoard {
 		//checks if the piece being removed is out of bounds
 		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
 			System.out.println("ILLEGAL MOVE - BRO UR BAD");
-			System.out.println("Do you want another attempt at your turn?");
+			System.out.println("Try a different move");
 			return false;
 		}	
 		if(moveToRow < 0 || moveToCol < 0 || moveToRow >= boardSize || moveToCol >= boardSize) {
 			System.out.println("ILLEGAL MOVE - BRO UR BAD");
-			System.out.println("Do you want another attempt at your turn?");
+			System.out.println("Try a different move");
 			return false;
 		}	
 		
 		//disables friendly fire
-		if (board[moveToRow][moveToCol].getPlayer() == board[row][col].getPlayer()) {
-			System.out.println("ILLEGAL MOVE - BRO UR BAD");
-			System.out.println("Do you want another attempt at your turn?");
+		if (board[moveToRow][moveToCol] != null) {
+			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
+				System.out.println("ILLEGAL MOVE - BRO UR BAD");
+				System.out.println("Try a different move");
+			}
 			return false;
 		}
 		
 		//checks if there is no piece at the location
 		if(board[row][col] == null) {					
 			System.out.println("ILLEGAL MOVE - BRO UR BAD");
-			System.out.println("Do you want another attempt at your turn?");
+			System.out.println("Try a different move");
 			return false;
 		}
 				
@@ -183,7 +193,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
-				System.out.println("Do you want another attempt at your turn?");
+				System.out.println("Try a different move");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Castle")) {
@@ -192,7 +202,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
-				System.out.println("Do you want another attempt at your turn?");
+				System.out.println("Try a different move");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("King")) {
@@ -201,7 +211,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
-				System.out.println("Do you want another attempt at your turn?");
+				System.out.println("Try a different move");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Horse")) {
@@ -210,7 +220,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
-				System.out.println("Do you want another attempt at your turn?");
+				System.out.println("Try a different move");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Queen")) {
@@ -219,7 +229,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
-				System.out.println("Do you want another attempt at your turn?");
+				System.out.println("Try a different move");
 				return false;
 			}
 		} else if (board[row][col].toString().equals("Bishop")) {
@@ -228,7 +238,7 @@ public class GameBoard {
 				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
-				System.out.println("Do you want another attempt at your turn?");
+				System.out.println("Try a different move");
 				return false;
 			}
 		} else {
