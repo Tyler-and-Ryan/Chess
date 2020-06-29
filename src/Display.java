@@ -24,53 +24,7 @@ public class Display {
 		gameboard = new Container();
 		gameboard.setSize(700,700);
 		
-		for(int i = 8; i >= 0; i--) {
-			for(int j = 0; j <= 8; j++) {
-				JLabel temp = null;
-				
-				//Adds appropriate box content to the label which will later be inserted into the grid
-				if(j == 0 && i != 0) {
-					temp = new JLabel("Row " + i);
-				} else if (i != 0) {
-					
-					//Game Content Squares
-					if(game.GetPiece(i-1, j-1) != null) {
-						temp = new JLabel(game.GetPiece(i-1,j-1).toString());
-					} else {
-						temp = new JLabel("Empty");
-					}
-				}
-				if(i == 0) {
-					if(j == 0) {
-						temp = new JLabel("");
-					} else if(j == 1) {
-						temp = new JLabel("Column A");
-					} else if (j == 2) {
-						temp = new JLabel("Column B");
-					} else if (j == 3) {
-						temp = new JLabel("Column C");
-					} else if (j == 4) {
-						temp = new JLabel("Column D");
-					} else if (j == 5) {
-						temp = new JLabel("Column E");
-					} else if (j == 6) {
-						temp = new JLabel("Column F");
-					} else if (j == 7) {
-						temp = new JLabel("Column G");
-					} else if (j == 8) {
-						temp = new JLabel("Column H");
-					}
-				}
-				
-				//Adds box content to board
-				gameboard.add(temp);
-			}
-
-		}
-		
-		gameboard.setLayout(new GridLayout(9,9));
-		canvas.add(gameboard);
-		gameboard.setBounds(100, 50, 600, 600);
+		RefreshBoard();
 		
 		JLabel playerTwoName = new JLabel("Player Two");
 		canvas.add(playerTwoName);
@@ -91,7 +45,7 @@ public class Display {
 		this.game = game;
 	}
 	
-	//Refreshes the gameboard
+	//Refreshes/redraws a new gameboard
 	public void RefreshBoard() {
 		Container refresh = new Container();
 		
