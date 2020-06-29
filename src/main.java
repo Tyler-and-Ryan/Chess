@@ -9,6 +9,7 @@ public class main {
 static GameBoard game1 = new GameBoard();
 static boolean player = true;
 static boolean success = true;
+static boolean check = false;
 	
 	public static void main(String[] args) {
 		
