@@ -120,14 +120,11 @@ public class Display {
 					temp.setBackground(background);
 					
 					temp.addMouseListener(new MouseListener() {
-						public void mousePressed(MouseEvent val) {
-						}
+						public void mousePressed(MouseEvent val) {}
 						@Override
-						public void mouseEntered(MouseEvent val) {
-						}
+						public void mouseEntered(MouseEvent val) {}
 						@Override
-						public void mouseExited(MouseEvent val) {
-						}
+						public void mouseExited(MouseEvent val) {}
 						@Override
 						public void mouseClicked(MouseEvent val) {
 							int x = val.getXOnScreen();
@@ -139,15 +136,17 @@ public class Display {
 										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
+											//saves the location if it is a first click on a square
 											squares[i][j].setBackground(new Color(74,82,104));
 											originalRow = i;
 											originalCol = j;
 										} else if (i == originalRow && j == originalCol){
+											//resets background on a double click on a square
 											squares[i][j].setBackground(new Color(74,102,104));
 											originalRow = -1;
 											originalCol = -1;
 										} else {
-											//moves square
+											//moves square if the move is a valid game move
 											if(squares[originalRow][originalCol] != squares[i][j]) {
 												boolean currentPlayer = game.GetPiece(originalRow, originalCol).getPlayer();
 												
@@ -178,8 +177,7 @@ public class Display {
 						}
 						
 						@Override
-						public void mouseReleased(MouseEvent val) {
-						}
+						public void mouseReleased(MouseEvent val) {}
 					});
 					squares[i-1][j-1] = temp;
 					
