@@ -347,7 +347,6 @@ public class GameBoard {
 			return false;
 		}
 		
-		
 		if((distance > 1) || (distance == 0)) {
 			return false;
 		}
