@@ -22,16 +22,15 @@ static boolean quit = false;
 		String moveToLoc;
 		
 		System.out.println(game1.toString());
-<<<<<<< HEAD
+
 		
 		
 		//System.out.println("P1 gets the first turn. If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
 		while (!userInput.nextLine().equals("quit")) {
 			/*
-=======
 		System.out.println("Player One gets the first turn. If you would like to abort the game, then type 'quit'.");
 		while (quit != true) {
->>>>>>> fbd51153d1078685f6715dc75a7866d1fa1f0362
+
 			System.out.println("Which square contains the piece you would like to move next?");
 			currentPieceLoc = userInput.nextLine();
 			if (currentPieceLoc.toLowerCase().equals("quit")) {
@@ -51,7 +50,6 @@ static boolean quit = false;
 				} else {
 					System.out.println("It is now Player 2's turn.");
 				}
-<<<<<<< HEAD
 				System.out.println("If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
 			} else {
 				//something went wrong
@@ -63,12 +61,11 @@ static boolean quit = false;
 		//display.RefreshBoard();
 		
 		//game1.GameStats();
-=======
-			} 
-		}
-		game1.GameStats();
+
+			//} 
+		//}
+		//game1.GameStats();
 		return;
->>>>>>> fbd51153d1078685f6715dc75a7866d1fa1f0362
 	}
 
 	//interprets the user input containing a letter representing a column and a number representing a row and converts it to row/col ints
@@ -120,14 +117,15 @@ static boolean quit = false;
 		System.out.println("Row: " + row + " Col: " + col + " moveToRow: " + moveToRow + " moveToCol: " + moveToCol);
 		return game1.MovePiece(row, col, moveToRow, moveToCol, player);
 	}
-	
-	public static void completeGame() {
-		System.out.println("Congrats nerd, you won 🤓");
-		if (player) {
-			System.out.println("Player one has conquered player two");
-		} else {
-			System.out.println("Player two has conquered player one");
-		}
-		quit = true;
-	}
 }
+	
+	//public static void completeGame() {
+		//System.out.println("Congrats nerd, you won 🤓");
+		//if (player) {
+			//System.out.println("Player one has conquered player two");
+		//} else {
+			//System.out.println("Player two has conquered player one");
+		//}
+		//quit = true;
+	//}
+
