@@ -5,6 +5,7 @@ public class GameBoard {
 	private Object[] playerOnePieces;
 	private Object[] playerTwoPieces;
 	private int boardSize;
+	private boolean quit = false;
 	
 	//Constructor 
 	//TODO: (add implementation later to have variable board size)
@@ -463,5 +464,38 @@ public class GameBoard {
 			System.out.println("(" + playerTwoPieces[i].GetRow() + "," + playerTwoPieces[i].GetCol() + ")");
 		}
 		return;
+	}
+	
+	//checks if the player passed through is in check, returns true if they are and false if they aren't
+	public boolean refreshCheck(boolean player) {
+		int kingRowLoc;
+		int kingColLoc;
+		Object[] playerPieces;
+		Object[] opponentPieces;
+		if (player) {
+			playerPieces = playerOnePieces;
+			opponentPieces = playerTwoPieces;
+		} else {
+			playerPieces = playerTwoPieces;
+			opponentPieces = playerOnePieces;
+		}
+		for (int i = 0; i < playerPieces.length; i++) {
+			if (playerPieces[i].toString().equals("King")) {
+				kingRowLoc = playerPieces[i].GetRow();
+				kingColLoc = playerPieces[i].GetCol();
+			}
+		}
+		return false;
+	}
+	
+	
+	//quick text to give a congratulations message to whoever wins
+	public void completeGame(boolean player) {
+		System.out.println("Congrats nerd, you won 🤓");
+		if (player) {
+			System.out.println("Player one has conquered player two");
+		} else {
+			System.out.println("Player two has conquered player one");
+		}
 	}
 }
