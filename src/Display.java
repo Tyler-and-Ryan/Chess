@@ -14,7 +14,7 @@ public class Display {
 	//Creates the game display
 	public Display(int width, int height, GameBoard game) {
 		canvas = new JFrame();
-		canvas.setTitle("Chess (Version 0.5)");
+		canvas.setTitle("Chess (Version 0.6)");
 		this.width = width;
 		this.height = height;
 		this.game = game;
@@ -136,23 +136,27 @@ public class Display {
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
 									if(squares[i][j] == gameboard.getComponentAt(x-100, y-100)) {
-										squares[i][j].setBackground(new Color(74,82,104));
 										
 										//Saves the selected square and checks if a move is needed
-										if(originalRow == -1) {
+										if(originalRow == -1 && game.GetPiece(i, j) != null) {
+											squares[i][j].setBackground(new Color(74,82,104));
 											originalRow = i;
 											originalCol = j;
+										} else if (i == originalRow && j == originalCol){
+											squares[i][j].setBackground(new Color(74,102,104));
+											originalRow = -1;
+											originalCol = -1;
 										} else {
 											//moves square
 											if(squares[originalRow][originalCol] != squares[i][j]) {
-												System.out.println("i: " + originalRow + " j: " + originalCol);
-												boolean currentPlayer = game.GetPiece(originalRow-1, originalCol-1).getPlayer();
+												boolean currentPlayer = game.GetPiece(originalRow, originalCol).getPlayer();
+												
+												//If move is valid
 												if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
-													
 													squares[i][j].setText(squares[originalRow][originalCol].getText());
 													squares[originalRow][originalCol].setText("");
 													
-													if(game.GetPiece(originalRow-1, originalCol-1).getPlayer() == true) {
+													if(currentPlayer == true) {
 														squares[i][j].setForeground(new Color(102, 255, 51));
 													} else {
 														squares[i][j].setForeground(new Color(255, 51, 51));
@@ -163,7 +167,7 @@ public class Display {
 													squares[i][j].setBackground(new Color(74,102,104));
 													originalRow = -1;
 													originalCol = -1;
-												}
+												} 
 												
 											}
 										}
