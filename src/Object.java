@@ -33,6 +33,11 @@ public class Object {
 	}
 	
 	//appeasing eclipse
+	public String toString() {
+		return "BRUH UR BAD";
+	}
+	
+	//appeasing eclipse
 	public void moved() {
 		System.out.println("trying to work with blank object instead of piece");
 		return;

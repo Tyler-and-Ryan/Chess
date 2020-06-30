@@ -10,7 +10,6 @@ static GameBoard game1 = new GameBoard();
 static boolean player = true;
 static boolean success = true;
 static boolean check = false;
-static boolean quit = false;
 	
 	public static void main(String[] args) {
 		
@@ -116,13 +115,5 @@ static boolean quit = false;
 	}
 }
 	
-	//public static void completeGame() {
-		//System.out.println("Congrats nerd, you won 🤓");
-		//if (player) {
-			//System.out.println("Player one has conquered player two");
-		//} else {
-			//System.out.println("Player two has conquered player one");
-		//}
-		//quit = true;
-	//}
+
 
