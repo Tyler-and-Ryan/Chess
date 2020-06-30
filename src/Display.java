@@ -5,8 +5,11 @@ import java.awt.event.*;
 public class Display {
 	JFrame canvas;
 	Container gameboard;
-	int width, height;
+	JButton[][] squares;
+	int originalRow, originalCol;
 	GameBoard game;
+	int width, height;
+	
 	
 	//Creates the game display
 	public Display(int width, int height, GameBoard game) {
@@ -15,15 +18,20 @@ public class Display {
 		this.width = width;
 		this.height = height;
 		this.game = game;
+		originalRow = -1;
+		originalCol = -1;
+
 		canvas.setSize(width,height);
 		
 		//Menu bar
 		MenuBar();
 		
+		//Initalizes squares double array
+		squares = new JButton[8][8];
+		
 		//Sets up game board
 		Color background = new Color(74,102,104);
 		gameboard = new Container();
-		//gameboard.setSize(800,800);
 		RefreshBoard();
 		
 		//Adds player names to the board
@@ -31,9 +39,13 @@ public class Display {
 		canvas.add(playerTwoName);
 		playerTwoName.setBounds((width/2)-50, 0, 100, 20);
 		
+		Container nameBox = new Container();
 		JLabel playerOneName = new JLabel("Player One");
-		canvas.add(playerOneName);
-		playerOneName.setBounds((width/2)-50, (height-250), 100, 20);
+		canvas.add(nameBox);
+		nameBox.setBounds((width/2)-50, (height-250), 100, 20);
+		nameBox.add(playerOneName);
+		playerOneName.setSize(100, 20);
+		
 		
 		//Makes the gameboard visible once set up is complete
 		canvas.setLayout(null);
@@ -50,7 +62,7 @@ public class Display {
 	//Refreshes/redraws a new gameboard
 	public void RefreshBoard() {
 		Container refresh = new Container();
-		
+		refresh.setLayout(new GridLayout(9,9));
 		
 		for(int i = 8; i >= 0; i--) {
 			for(int j = 0; j <= 8; j++) {
@@ -104,7 +116,69 @@ public class Display {
 						Color playerTwo = new Color(255, 51, 51);
 						temp.setForeground(playerTwo);
 					}
+					
 					temp.setBackground(background);
+					
+					temp.addMouseListener(new MouseListener() {
+						public void mousePressed(MouseEvent val) {
+						}
+						@Override
+						public void mouseEntered(MouseEvent val) {
+						}
+						@Override
+						public void mouseExited(MouseEvent val) {
+						}
+						@Override
+						public void mouseClicked(MouseEvent val) {
+							int x = val.getXOnScreen();
+							int y = val.getYOnScreen();
+							
+							for(int i = 0; i < 8; i++) {
+								for(int j = 0; j < 8; j++) {
+									if(squares[i][j] == gameboard.getComponentAt(x-100, y-100)) {
+										squares[i][j].setBackground(new Color(74,82,104));
+										
+										//Saves the selected square and checks if a move is needed
+										if(originalRow == -1) {
+											originalRow = i;
+											originalCol = j;
+										} else {
+											//moves square
+											if(squares[originalRow][originalCol] != squares[i][j]) {
+												System.out.println("i: " + originalRow + " j: " + originalCol);
+												boolean currentPlayer = game.GetPiece(originalRow-1, originalCol-1).getPlayer();
+												if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
+													
+													squares[i][j].setText(squares[originalRow][originalCol].getText());
+													squares[originalRow][originalCol].setText("");
+													
+													if(game.GetPiece(originalRow-1, originalCol-1).getPlayer() == true) {
+														squares[i][j].setForeground(new Color(102, 255, 51));
+													} else {
+														squares[i][j].setForeground(new Color(255, 51, 51));
+													}
+													
+													squares[originalRow][originalCol].setForeground(new Color(0,0,0));
+													squares[originalRow][originalCol].setBackground(new Color(74,102,104));
+													squares[i][j].setBackground(new Color(74,102,104));
+													originalRow = -1;
+													originalCol = -1;
+												}
+												
+											}
+										}
+										return;
+									} 
+								}
+							}
+						}
+						
+						@Override
+						public void mouseReleased(MouseEvent val) {
+						}
+					});
+					squares[i-1][j-1] = temp;
+					
 					refresh.add(temp);
 				} else {
 					refresh.add(border);
@@ -112,16 +186,13 @@ public class Display {
 			}
 
 		}
-		
 		gameboard.setVisible(false);
-		refresh.setLayout(new GridLayout(9,9));
 		Color background = new Color(74,102,104);
 		refresh.setBackground(background);
 		canvas.add(refresh);
 		refresh.setBounds(100, 50, 700, 700);
 		canvas.validate();
 		gameboard = refresh;
-		
 	}
 	
 	

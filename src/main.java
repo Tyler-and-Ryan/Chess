@@ -13,15 +13,18 @@ static boolean success = true;
 	public static void main(String[] args) {
 		
 		//creates board
-		Display display = new Display(800,800, game1);
+		Display display = new Display(1000,1000, game1);
 		
 		Scanner userInput = new Scanner(System.in);
 		String currentPieceLoc;
 		String moveToLoc;
 		
 		System.out.println(game1.toString());
-		System.out.println("P1 gets the first turn. If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
+		
+		
+		//System.out.println("P1 gets the first turn. If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
 		while (!userInput.nextLine().equals("quit")) {
+			/*
 			System.out.println("Which square contains the piece you would like to move next?");
 			currentPieceLoc = userInput.nextLine();
 			System.out.println("Which square would you like your selected piece to move to?");
@@ -38,9 +41,14 @@ static boolean success = true;
 				System.out.println("If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
 			} else {
 				//something went wrong
-			}
+			}*/
 		}
-		game1.GameStats();
+		
+		System.out.println(game1.toString());
+		//display.UpdateBoard(game1);
+		//display.RefreshBoard();
+		
+		//game1.GameStats();
 	}
 
 	//interprets the user input containing a letter representing a column and a number representing a row and converts it to row/col ints
