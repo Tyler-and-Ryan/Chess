@@ -22,11 +22,17 @@ static boolean quit = false;
 		String moveToLoc;
 		
 		System.out.println(game1.toString());
+
 		
 		
 		//System.out.println("P1 gets the first turn. If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
 		while (!userInput.nextLine().equals("quit")) {
 			/*
+
+		System.out.println("Player One gets the first turn. If you would like to abort the game, then type 'quit'.");
+		while (quit != true) {
+
+
 			System.out.println("Which square contains the piece you would like to move next?");
 			currentPieceLoc = userInput.nextLine();
 			System.out.println("Which square would you like your selected piece to move to?");
@@ -51,6 +57,12 @@ static boolean quit = false;
 		//display.RefreshBoard();
 		
 		//game1.GameStats();
+
+
+			//} 
+		//}
+		//game1.GameStats();
+		return;
 	}
 
 	//interprets the user input containing a letter representing a column and a number representing a row and converts it to row/col ints
@@ -102,14 +114,15 @@ static boolean quit = false;
 		System.out.println("Row: " + row + " Col: " + col + " moveToRow: " + moveToRow + " moveToCol: " + moveToCol);
 		return game1.MovePiece(row, col, moveToRow, moveToCol, player);
 	}
-	
-	public static void completeGame() {
-		System.out.println("Congrats nerd, you won 🤓");
-		if (player) {
-			System.out.println("Player one has conquered player two");
-		} else {
-			System.out.println("Player two has conquered player one");
-		}
-		quit = true;
-	}
 }
+	
+	//public static void completeGame() {
+		//System.out.println("Congrats nerd, you won 🤓");
+		//if (player) {
+			//System.out.println("Player one has conquered player two");
+		//} else {
+			//System.out.println("Player two has conquered player one");
+		//}
+		//quit = true;
+	//}
+
