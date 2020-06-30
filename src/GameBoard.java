@@ -468,8 +468,8 @@ public class GameBoard {
 	
 	//checks if the player passed through is in check, returns true if they are and false if they aren't
 	public boolean refreshCheck(boolean player) {
-		int kingRowLoc;
-		int kingColLoc;
+		int kingRowLoc = -1;
+		int kingColLoc = -1;
 		Object[] playerPieces;
 		Object[] opponentPieces;
 		if (player) {
@@ -483,6 +483,29 @@ public class GameBoard {
 			if (playerPieces[i].toString().equals("King")) {
 				kingRowLoc = playerPieces[i].GetRow();
 				kingColLoc = playerPieces[i].GetCol();
+			}
+		}
+		for (int i = 0; i < opponentPieces.length; i++) {
+			if (opponentPieces[i].toString().equals("Pawn")) {
+				if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+					 return true;
+				}
+			} else if (opponentPieces[i].toString().equals("Bishop")) {
+				if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+					 return true;
+				}
+			} else if (opponentPieces[i].toString().equals("Horse")) {
+				if (IsLegalHorse(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+					 return true;
+				}
+			} else if (opponentPieces[i].toString().equals("Queen")) {
+				if (IsLegalQueen(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+					 return true;
+				}
+			} else if (opponentPieces[i].toString().equals("Castle")) {
+				if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+					 return true;
+				}
 			}
 		}
 		return false;
