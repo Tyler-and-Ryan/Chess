@@ -14,12 +14,20 @@ static boolean check = false;
 	public static void main(String[] args) {
 		
 		//creates board
-		Display display = new Display(1000,1000, game1);
+		//Display display = new Display(1000,1000, game1);
 		
 		Scanner userInput = new Scanner(System.in);
 		String currentPieceLoc;
 		String moveToLoc;
 		
+		game1.MovePiece(1, 0, 3, 0, true);
+		game1.MovePiece(3, 0, 4, 0, true);
+		game1.MovePiece(4, 0, 5, 0, true);
+		game1.MovePiece(5, 0, 6, 1, true);
+		if(game1.MovePiece(5, 0, 6, 1, true) == false) {
+			System.out.println("OOF");
+		}
+		game1.MovePiece(5, 0, 6, 1, true);
 		System.out.println(game1.toString());
 
 		

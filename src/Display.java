@@ -145,7 +145,9 @@ public class Display {
 											squares[i][j].setBackground(new Color(74,102,104));
 											originalRow = -1;
 											originalCol = -1;
-										} else {
+										} 
+										
+										if(originalRow != -1 && originalCol != -1){
 											//moves square if the move is a valid game move
 											if(squares[originalRow][originalCol] != squares[i][j]) {
 												boolean currentPlayer = game.GetPiece(originalRow, originalCol).getPlayer();
@@ -166,7 +168,7 @@ public class Display {
 													squares[i][j].setBackground(new Color(74,102,104));
 													originalRow = -1;
 													originalCol = -1;
-												} 
+												}
 												
 											}
 										}
@@ -201,8 +203,10 @@ public class Display {
 	//Handles creation and actions for the menu bar
 	public void MenuBar() {
 		JMenuBar panel = new JMenuBar();
-		JMenu menu = new JMenu("Options");
+		JMenu menu = new JMenu("options");
 		JMenuItem quit = new JMenuItem("quit");
+		JMenuItem reset = new JMenuItem("reset game");
+		menu.add(reset);
 		menu.add(quit);
 		panel.add(menu);
 	
@@ -212,6 +216,17 @@ public class Display {
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				canvas.setVisible(false);
+			}
+		});
+		
+		//Adds quit option functionality
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//game.ClearBoard();
+				GameBoard newGame = new GameBoard();
+				game = newGame;
+				gameboard.setVisible(false);
+				RefreshBoard();
 			}
 		});
 	}
