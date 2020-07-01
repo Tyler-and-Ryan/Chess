@@ -30,7 +30,6 @@ public class Display {
 		squares = new JButton[8][8];
 		
 		//Sets up game board
-		Color background = new Color(100,100,100);
 		gameboard = new Container();
 		RefreshBoard();
 		
@@ -48,7 +47,6 @@ public class Display {
 		
 		
 		//Makes the gameboard visible once set up is complete
-		canvas.setBackground(background);
 		canvas.setLayout(null);
 		canvas.setVisible(true);
 		
@@ -222,7 +220,7 @@ public class Display {
 		//Adds quit option functionality
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//game.ClearBoard();
+				game.ClearBoard();
 				GameBoard newGame = new GameBoard();
 				game = newGame;
 				gameboard.setVisible(false);
