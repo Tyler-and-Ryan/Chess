@@ -302,9 +302,11 @@ public class GameBoard {
 		}
 		
 		//pawn tries to move one space forward 
-		if ((Math.abs(moveToRow - row) == 1) && (moveToCol == col)) {                                   
+		if ((Math.abs(moveToRow - row) == 1) && (moveToCol == col) && board[moveToRow][moveToCol] == null) {                                   
 			return true;
 		}
+		
+		
 		return false;
 	}
 	
@@ -390,6 +392,7 @@ public class GameBoard {
 				j++;
 			}
 		}
+		
 		if(moveToRow > row && moveToCol < col){
 			int i = row+1;
 			int j = col-1;
