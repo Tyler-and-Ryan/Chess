@@ -158,7 +158,6 @@ public class GameBoard {
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
 	//Also checks that the player is only moving their pieces
 	public boolean MovePiece(int row, int col, int moveToRow, int moveToCol, boolean player) {
-		//Decrements row by one to match the board toString
 		
 		//checks if the piece being removed is out of bounds
 		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
@@ -173,12 +172,12 @@ public class GameBoard {
 		}	
 		
 		//disables friendly fire
-		if (board[moveToRow][moveToCol] != null) {
+		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
 			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
 				System.out.println("Try a different move");
+				return false;
 			} 
-			return false;
 		}
 		
 		//checks if there is no piece at the location
@@ -192,10 +191,7 @@ public class GameBoard {
 			//Case for taking over a piece
 			
 			if(IsLegalPawn(row, col, moveToRow, moveToCol) && board[row][col] != null) {
-				if(board[moveToRow][moveToCol] != null) {
-					System.out.println(board[moveToRow][moveToCol].toString());
-					RemovePiece(moveToRow, moveToCol);
-				}
+				RemovePiece(moveToRow, moveToCol);
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
 				System.out.println("Try a different move");
@@ -205,6 +201,7 @@ public class GameBoard {
 			//Case for taking over a piece
 			if(IsLegalCastle(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
 				RemovePiece(moveToRow, moveToCol);
+				
 			} else {
 				System.out.println("ILLEGAL MOVE - BRO UR BAD");
 				System.out.println("Try a different move");
@@ -255,7 +252,7 @@ public class GameBoard {
 		//moves the piece
 		board[row][col].ChangeLocation(moveToRow, moveToCol);
 		board[row][col].moved();
-		toString();
+		
 		board[moveToRow][moveToCol] = board[row][col];
 		board[row][col] = null;
 		return true;
@@ -290,7 +287,6 @@ public class GameBoard {
 		if ((Math.abs(moveToRow - row) == 1) && (moveToCol == col)) {                                     //pawn tries to move one space forward 
 			return true;
 		}
-
 		return false;
 	}
 	

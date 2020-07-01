@@ -168,8 +168,7 @@ public class Display {
 													squares[i][j].setBackground(new Color(74,102,104));
 													originalRow = -1;
 													originalCol = -1;
-												}
-												
+												} 
 											}
 										}
 										return;
