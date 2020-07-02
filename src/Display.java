@@ -3,16 +3,18 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class Display {
-	JFrame canvas;
-	Container gameboard;
-	JButton[][] squares;
-	int originalRow, originalCol;
-	GameBoard game;
-	int width, height;
+	private JFrame canvas;
+	private JPanel gameboard;
+	private Container alertbox;
+	private JButton[][] squares;
+	private int originalRow, originalCol;
+	private GameBoard game;
+	private int width, height;
 	
 	
 	//Creates the game display
 	public Display(int width, int height, GameBoard game) {
+		//creates frame and instantiates class members
 		canvas = new JFrame();
 		canvas.setTitle("Chess (Version 0.6)");
 		this.width = width;
@@ -30,27 +32,42 @@ public class Display {
 		squares = new JButton[8][8];
 		
 		//Sets up game board
-		gameboard = new Container();
+		gameboard = new JPanel();
 		RefreshBoard();
 		
-		//Adds player names to the board
-		JLabel playerTwoName = new JLabel("Player Two");
-		canvas.add(playerTwoName);
-		playerTwoName.setBounds((width/2)-50, 0, 100, 20);
+		//creates alertbox
+		alertbox = new Container();
+		alertbox.setBackground(new Color(255,0,255));
+		JLabel alertText = new JLabel();
+		alertText.setForeground(new Color(255,0,255));
+		alertText.setText("INVALID MOVE");
+		alertbox.add(alertText);
+		canvas.add(alertText);
+		alertText.setBounds((width/2)-50, 0, 300, 100);
 		
-		Container nameBox = new Container();
-		JLabel playerOneName = new JLabel("Player One");
-		canvas.add(nameBox);
-		nameBox.setBounds((width/2)-50, (height-250), 100, 20);
-		nameBox.add(playerOneName);
-		playerOneName.setSize(100, 20);
+		//Sets up canvas layering
+		JLayeredPane layers = new JLayeredPane();
+		canvas.setLayeredPane(layers);
+		layers.add(gameboard, 1);
+		gameboard.setBounds(50, 150, 800, 700);
+		layers.add(alertText, 1);
+		canvas.setBackground(new Color(0,0,0));
 		
+		//Menu bar
+		MenuBar();
+		
+		//Background Animation
+		//SoonTM
 		
 		//Makes the gameboard visible once set up is complete
-		canvas.setLayout(null);
+		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
 		
 		
+	}
+	
+	public void BackgroundAnimation(Graphics g) {
+		//SoonTM
 	}
 	
 	//Imports the new gameboard
@@ -60,6 +77,15 @@ public class Display {
 	
 	//Refreshes/redraws a new gameboard
 	public void RefreshBoard() {
+		
+		//Adds player names to the board
+		JLabel playerTwoName = new JLabel("Player Two");
+		playerTwoName.setForeground(new Color(255,255,255));
+				
+		JLabel playerOneName = new JLabel("Player One");
+		playerOneName.setForeground(new Color(255,255,255));
+		
+		//Builds board
 		Container refresh = new Container();
 		refresh.setLayout(new GridLayout(9,9));
 		
@@ -71,13 +97,14 @@ public class Display {
 				//Adds appropriate box content to the label which will later be inserted into the grid
 				if(j == 0 && i != 0) {
 					border = new JLabel("Row " + i);
+					border.setForeground(new Color(255,255,255));
 				} else if (i != 0) {
 					
 					//Game Content Squares
 					if(game.GetPiece(i-1, j-1) != null) {
 						temp = new JButton(game.GetPiece(i-1,j-1).toString());
 					} else {
-						temp = new JButton("Empty");
+						temp = new JButton("");
 					}
 				}
 				if(i == 0) {
@@ -100,6 +127,7 @@ public class Display {
 					} else if (j == 8) {
 						border = new JLabel("Column H");
 					}
+					border.setForeground(new Color(255,255,255));
 				}
 				
 				//Adds box content to board
@@ -131,7 +159,7 @@ public class Display {
 							
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
-									if(squares[i][j] == gameboard.getComponentAt(x-100, y-100)) {
+									if(squares[i][j] == gameboard.getComponentAt(x-100, y-200)) {
 										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
@@ -191,10 +219,23 @@ public class Display {
 		gameboard.setVisible(false);
 		Color background = new Color(74,102,104);
 		refresh.setBackground(background);
-		canvas.add(refresh);
-		refresh.setBounds(100, 50, 700, 700);
+		
+	
+		//Correctly orients the gameboard layout
+		JPanel temp = new JPanel(new BorderLayout());
+		temp.add(playerTwoName, BorderLayout.NORTH );
+		temp.add(refresh, BorderLayout.CENTER);
+		temp.add(playerOneName, BorderLayout.SOUTH);
+
+		
+		temp.setBackground(new Color(0,0,0));
+		playerOneName.setBounds(0,0,100,20);
+		playerOneName.setSize(100, 20);
+		//refresh.setBounds(100, 150, 700, 700);
+		
 		canvas.validate();
-		gameboard = refresh;
+		gameboard = temp;
+		//canvas.add(temp);
 	}
 	
 	
@@ -209,7 +250,6 @@ public class Display {
 		panel.add(menu);
 	
 		canvas.setJMenuBar(panel);
-		
 		//Adds quit option functionality
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -227,5 +267,6 @@ public class Display {
 				RefreshBoard();
 			}
 		});
+		
 	}
 }
