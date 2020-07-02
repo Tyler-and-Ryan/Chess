@@ -312,7 +312,6 @@ public class GameBoard {
 	//This checks if the location to move the castle piece is legal
 	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
 		if(row == moveToRow || col == moveToCol) {
-			boolean pieceInBetween = false;
 			if(col == moveToCol) {
 				int start;
 				int distance; 
@@ -379,52 +378,58 @@ public class GameBoard {
 	
 	//Checks if the Bishop can move to the intended spot
 	private boolean IsLegalBishop(int row, int col, int moveToRow, int moveToCol) {
+		int deltaCol = Math.abs(moveToCol - col);
+		int deltaRow = Math.abs(moveToRow - row);
+		int startRow;
+		int startCol;
 		
-		if(moveToRow > row && moveToCol > col){
-			int i = row+1;
-			int j = col+1;
-			while(i != moveToRow && i < boardSize && j < boardSize && j != moveToCol && i >= 0 && j >= 0) {
-				if(board[i][j] != null) {
-					return false;
-				}
-				i++;
-				j++;
-			}
+		if (deltaRow != deltaCol) {                                                                                     //not moving diagonal
+			return false;
 		}
-		
-		if(moveToRow > row && moveToCol < col){
-			int i = row+1;
-			int j = col-1;
-			while(i != moveToRow && i < boardSize && j < boardSize && j != moveToCol && i >= 0 && j >= 0) {
-				if(board[i][j] != null) {
+		if (deltaRow == 0 || deltaCol == 0) {                                                                           //not actually moving to a different spot
+			return false;
+		}
+		if (moveToRow > row && moveToCol > col) {                                                                       //checking if bishop is jumping over any pieces
+			startRow = 1;                                                                                               //when going up diagonal right
+			startCol = 1;
+			while (startRow < deltaRow) {
+				if (board[row + startRow][col + startCol] != null) {
 					return false;
 				}
-				i++;
-				j--;
+				startRow++;
+				startCol++;
+			}
+		} else if (moveToRow > row && moveToCol < col) {                                                                //checking if bishop is jumping over any pieces
+			startRow = 1;                                                                                               //when going up diagonal left
+			startCol = -1;
+			while (startRow < deltaRow) {
+				if (board[row + startRow][col + startCol] != null) {
+					return false;
+				}
+				startRow++;
+				startCol--;
+			}
+		} else if (moveToRow < row && moveToCol > col) {                                                                 //checking if bishop is jumping over any pieces
+			startRow = -1;                                                                                               //when going down diagonal right
+			startCol = 1;
+			while (startCol < deltaCol) {
+				if (board[row + startRow][col + startCol] != null) {
+					return false;
+				}
+				startRow--;
+				startCol++;
+			}
+		} else {                                                                                                         //checking if bishop is jumping over any pieces
+			startRow = -1;                                                                                               //when going down diagonal left
+			startCol = -1;
+			while (Math.abs(startCol) < deltaCol) {
+				if (board[row + startRow][col + startCol] != null) {
+					return false;
+				}
+				startRow--;
+				startCol--;
 			}
 			
-		}
-		if(moveToRow < row && moveToCol > col){
-			int i = row-1;
-			int j = col+1;
-			while(i != moveToRow && i < boardSize && j < boardSize && j != moveToCol && i >= 0 && j >= 0) {
-				if(board[i][j] != null) {
-					return false;
-				}
-				i--;
-				j++;
-			}
-		}
-		if(moveToRow < row && moveToCol < col){
-			int i = row-1;
-			int j = col-1;
-			while(i != moveToRow && i < boardSize && j < boardSize && j != moveToCol && i >= 0 && j >= 0) {
-				if(board[i][j] != null) {
-					return false;
-				}
-				i--;
-				j--;
-			}
 		}
 		return true;
 	}
