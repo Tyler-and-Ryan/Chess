@@ -88,22 +88,20 @@ public class Display {
 		P2Box.setSize(100,100);
 		P2Box.setLayout(null);
 		playerTwoName.setHorizontalAlignment(JLabel.CENTER);
-<<<<<<< HEAD
-=======
+
 		playerTwoName.setVerticalAlignment(JLabel.TOP);
 		
->>>>>>> 08b03bd4c5a62293c81cda2dd0803b69c9dc34b7
+
 				
 		JLabel playerOneName = new JLabel("Player One");
 		playerOneName.setForeground(new Color(255,255,255));
 		playerOneName.setHorizontalAlignment(JLabel.CENTER);
-<<<<<<< HEAD
-=======
+
 		playerOneName.setHorizontalTextPosition(JLabel.RIGHT);
 		playerOneName.setVerticalAlignment(JLabel.CENTER);
 		playerOneName.setVerticalTextPosition(JLabel.CENTER);
 
->>>>>>> 08b03bd4c5a62293c81cda2dd0803b69c9dc34b7
+
 		
 		//Builds board
 		Container refresh = new Container();
