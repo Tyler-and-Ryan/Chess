@@ -81,9 +81,13 @@ public class Display {
 		//Adds player names to the board
 		JLabel playerTwoName = new JLabel("Player Two");
 		playerTwoName.setForeground(new Color(255,255,255));
+		playerTwoName.setHorizontalAlignment(JLabel.CENTER);
+		
 				
 		JLabel playerOneName = new JLabel("Player One");
 		playerOneName.setForeground(new Color(255,255,255));
+		playerOneName.setHorizontalAlignment(JLabel.CENTER);
+
 		
 		//Builds board
 		Container refresh = new Container();
@@ -111,21 +115,21 @@ public class Display {
 					if(j == 0) {
 						border = new JLabel("");
 					} else if(j == 1) {
-						border = new JLabel("Column A");
+						border = new JLabel("      Column A");
 					} else if (j == 2) {
-						border = new JLabel("Column B");
+						border = new JLabel("      Column B");
 					} else if (j == 3) {
-						border = new JLabel("Column C");
+						border = new JLabel("      Column C");
 					} else if (j == 4) {
-						border = new JLabel("Column D");
+						border = new JLabel("      Column D");
 					} else if (j == 5) {
-						border = new JLabel("Column E");
+						border = new JLabel("      Column E");
 					} else if (j == 6) {
-						border = new JLabel("Column F");
+						border = new JLabel("      Column F");
 					} else if (j == 7) {
-						border = new JLabel("Column G");
+						border = new JLabel("      Column G");
 					} else if (j == 8) {
-						border = new JLabel("Column H");
+						border = new JLabel("      Column H");
 					}
 					border.setForeground(new Color(255,255,255));
 				}
