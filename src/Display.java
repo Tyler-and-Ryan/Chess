@@ -82,11 +82,13 @@ public class Display {
 		JLabel playerTwoName = new JLabel("Player Two");
 		playerTwoName.setForeground(new Color(255,255,255));
 		playerTwoName.setHorizontalAlignment(JLabel.CENTER);
+		playerTwoName.setVerticalAlignment(JLabel.CENTER);
 		
 				
 		JLabel playerOneName = new JLabel("Player One");
 		playerOneName.setForeground(new Color(255,255,255));
 		playerOneName.setHorizontalAlignment(JLabel.CENTER);
+		playerOneName.setVerticalAlignment(JLabel.CENTER);
 
 		
 		//Builds board
@@ -231,15 +233,9 @@ public class Display {
 		temp.add(refresh, BorderLayout.CENTER);
 		temp.add(playerOneName, BorderLayout.SOUTH);
 
-		
 		temp.setBackground(new Color(0,0,0));
-		playerOneName.setBounds(0,0,100,20);
-		playerOneName.setSize(100, 20);
-		//refresh.setBounds(100, 150, 700, 700);
 		
-		canvas.validate();
 		gameboard = temp;
-		//canvas.add(temp);
 	}
 	
 	
