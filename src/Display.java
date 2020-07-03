@@ -82,14 +82,10 @@ public class Display {
 		JLabel playerTwoName = new JLabel("Player Two");
 		playerTwoName.setForeground(new Color(255,255,255));
 		playerTwoName.setHorizontalAlignment(JLabel.CENTER);
-		playerTwoName.setVerticalAlignment(JLabel.CENTER);
-		
 				
 		JLabel playerOneName = new JLabel("Player One");
 		playerOneName.setForeground(new Color(255,255,255));
 		playerOneName.setHorizontalAlignment(JLabel.CENTER);
-		playerOneName.setVerticalAlignment(JLabel.CENTER);
-
 		
 		//Builds board
 		Container refresh = new Container();
@@ -165,8 +161,9 @@ public class Display {
 							
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
-									if(squares[i][j] == gameboard.getComponentAt(x-100, y-200)) {
-										
+									
+									//Handles the event for the correct square
+									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-20, y-200)) {
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
 											//saves the location if it is a first click on a square
@@ -205,7 +202,7 @@ public class Display {
 											}
 										}
 										return;
-									} 
+									}
 								}
 							}
 						}
