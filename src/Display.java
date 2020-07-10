@@ -10,6 +10,7 @@ public class Display {
 	private int originalRow, originalCol;
 	private GameBoard game;
 	private int width, height;
+	private boolean currentPlayer;
 	
 	
 	//Creates the game display
@@ -22,6 +23,7 @@ public class Display {
 		this.game = game;
 		originalRow = -1;
 		originalCol = -1;
+		currentPlayer = true;
 
 		canvas.setSize(width,height);
 		
@@ -37,20 +39,25 @@ public class Display {
 		
 		//creates alertbox
 		alertbox = new Container();
-		alertbox.setBackground(new Color(255,0,255));
+		JPanel temp = new JPanel();
+		temp.setBackground(new Color(255,0,0));
 		JLabel alertText = new JLabel();
 		alertText.setForeground(new Color(255,0,255));
 		alertText.setText("INVALID MOVE");
+		alertbox.add(temp);
 		alertbox.add(alertText);
-		canvas.add(alertText);
+		//canvas.add(alertbox);
+		
+		
 		alertText.setBounds((width/2)-50, 0, 300, 100);
+		alertText.setVisible(true);
 		
 		//Sets up canvas layering
 		JLayeredPane layers = new JLayeredPane();
 		canvas.setLayeredPane(layers);
 		layers.add(gameboard, 1);
 		gameboard.setBounds(50, 150, 800, 700);
-		layers.add(alertText, 1);
+		layers.add(alertbox, 1);
 		canvas.setBackground(new Color(0,0,0));
 		
 		//Menu bar
@@ -165,21 +172,19 @@ public class Display {
 					temp.setBackground(background);
 					
 					temp.addMouseListener(new MouseListener() {
-						public void mousePressed(MouseEvent val) {}
-						@Override
-						public void mouseEntered(MouseEvent val) {}
-						@Override
-						public void mouseExited(MouseEvent val) {}
-						@Override
-						public void mouseClicked(MouseEvent val) {
+						public void mousePressed(MouseEvent val) {
 							int x = val.getXOnScreen();
 							int y = val.getYOnScreen();
 							
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
-									
 									//Handles the event for the correct square
+									System.out.println("X " + x + " Y" + y);
+									System.out.println("1 " + gameboard.getComponent(1).getComponentAt(x-20, y-200));
+									System.out.println("2 " + squares[i][j].toString());
+									System.out.println("board " + gameboard.getComponent(1).toString());
 									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-20, y-200)) {
+										System.out.println("YES");
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
 											//saves the location if it is a first click on a square
@@ -192,14 +197,15 @@ public class Display {
 											originalRow = -1;
 											originalCol = -1;
 										} 
-										
+											
 										if(originalRow != -1 && originalCol != -1){
 											//moves square if the move is a valid game move
 											if(squares[originalRow][originalCol] != squares[i][j]) {
 												boolean currentPlayer = game.GetPiece(originalRow, originalCol).getPlayer();
-												
+													
 												//If move is valid
 												if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
+													//Checks if the player is selecting their piece
 													squares[i][j].setText(squares[originalRow][originalCol].getText());
 													squares[originalRow][originalCol].setText("");
 													
@@ -214,6 +220,14 @@ public class Display {
 													squares[i][j].setBackground(new Color(74,102,104));
 													originalRow = -1;
 													originalCol = -1;
+														
+													//game.MovePiece(originalRow, originalCol, i, j, currentPlayer);
+													/*
+													if(currentPlayer == true) {
+														currentPlayer = false;
+													} else {
+														currentPlayer = true;
+													}*/
 												} 
 											}
 										}
@@ -222,6 +236,12 @@ public class Display {
 								}
 							}
 						}
+						@Override
+						public void mouseEntered(MouseEvent val) {}
+						@Override
+						public void mouseExited(MouseEvent val) {}
+						@Override
+						public void mouseClicked(MouseEvent val) {}
 						
 						@Override
 						public void mouseReleased(MouseEvent val) {}
@@ -251,6 +271,14 @@ public class Display {
 		gameboard = temp;
 	}
 	
+	//Changes the alert message and then sets the alert to be visible
+	public void SetAlert(boolean player, String text) {
+		
+	}
+	
+	public void DisableAlert() {
+		alertbox.setVisible(false);
+	}
 	
 	//Handles creation and actions for the menu bar
 	public void MenuBar() {

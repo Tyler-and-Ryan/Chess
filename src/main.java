@@ -16,47 +16,8 @@ static boolean check = false;
 		//creates board
 		Display display = new Display(1000,1000, game1);
 		
-		Scanner userInput = new Scanner(System.in);
-		String currentPieceLoc;
-		String moveToLoc;
+		//while()
 		
-		//System.out.println("P1 gets the first turn. If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
-		while (!userInput.nextLine().equals("quit")) {
-			/*
-
-		System.out.println("Player One gets the first turn. If you would like to abort the game, then type 'quit'.");
-		while (quit != true) {
-
-
-			System.out.println("Which square contains the piece you would like to move next?");
-			currentPieceLoc = userInput.nextLine();
-			System.out.println("Which square would you like your selected piece to move to?");
-			moveToLoc = userInput.nextLine();
-			success = attemptMove(currentPieceLoc, moveToLoc);
-			if (success) {
-				player = !player;
-				System.out.println(game1.toString());
-				if (player == true) {
-					System.out.println("It is now Player 1's turn.");
-				} else {
-					System.out.println("It is now Player 2's turn.");
-				}
-				System.out.println("If you would like to abort the game, then type 'quit'. If not, type 'continue' and press enter.");
-			} else {
-				//something went wrong
-			}*/
-		}
-		
-		System.out.println(game1.toString());
-		//display.UpdateBoard(game1);
-		//display.RefreshBoard();
-		
-		//game1.GameStats();
-
-
-			//} 
-		//}
-		//game1.GameStats();
 		return;
 	}
 
