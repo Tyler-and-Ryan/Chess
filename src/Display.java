@@ -46,7 +46,7 @@ public class Display {
 		alertText.setText("INVALID MOVE");
 		alertbox.add(temp);
 		alertbox.add(alertText);
-		//canvas.add(alertbox);
+		canvas.add(alertbox);
 		
 		
 		alertText.setBounds((width/2)-50, 0, 300, 100);
@@ -63,8 +63,6 @@ public class Display {
 		//Menu bar
 		MenuBar();
 		
-		//Background Animation
-		//SoonTM
 		
 		//Makes the gameboard visible once set up is complete
 		canvas.setLayout(new BorderLayout());
@@ -179,12 +177,10 @@ public class Display {
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
 									//Handles the event for the correct square
-									System.out.println("X " + x + " Y" + y);
-									System.out.println("1 " + gameboard.getComponent(1).getComponentAt(x-20, y-200));
-									System.out.println("2 " + squares[i][j].toString());
-									System.out.println("board " + gameboard.getComponent(1).toString());
-									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-20, y-200)) {
-										System.out.println("YES");
+									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-55, y-200)) {
+										System.out.println("IJ X" + squares[i][j].getX() + " Y " + squares[i][j].getY());
+										System.out.println("ME X" + x + " Y " + y);
+										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
 											//saves the location if it is a first click on a square
@@ -201,33 +197,39 @@ public class Display {
 										if(originalRow != -1 && originalCol != -1){
 											//moves square if the move is a valid game move
 											if(squares[originalRow][originalCol] != squares[i][j]) {
-												boolean currentPlayer = game.GetPiece(originalRow, originalCol).getPlayer();
 													
 												//If move is valid
-												if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
-													//Checks if the player is selecting their piece
-													squares[i][j].setText(squares[originalRow][originalCol].getText());
-													squares[originalRow][originalCol].setText("");
-													
-													if(currentPlayer == true) {
-														squares[i][j].setForeground(new Color(102, 255, 51));
-													} else {
-														squares[i][j].setForeground(new Color(255, 51, 51));
-													}
-													
-													squares[originalRow][originalCol].setForeground(new Color(0,0,0));
-													squares[originalRow][originalCol].setBackground(new Color(74,102,104));
-													squares[i][j].setBackground(new Color(74,102,104));
-													originalRow = -1;
-													originalCol = -1;
+												if(currentPlayer == game.GetPiece(originalRow, originalCol).getPlayer()) {
+													DisableAlert();
+													if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
+														//Checks if the player is selecting their piece
+														squares[i][j].setText(squares[originalRow][originalCol].getText());
+														squares[originalRow][originalCol].setText("");
 														
-													//game.MovePiece(originalRow, originalCol, i, j, currentPlayer);
-													/*
+														if(currentPlayer == true) {
+															squares[i][j].setForeground(new Color(102, 255, 51));
+														} else {
+															squares[i][j].setForeground(new Color(255, 51, 51));
+														}
+														
+														squares[originalRow][originalCol].setForeground(new Color(0,0,0));
+														squares[originalRow][originalCol].setBackground(new Color(74,102,104));
+														squares[i][j].setBackground(new Color(74,102,104));
+														originalRow = -1;
+														originalCol = -1;
+														
+														if(currentPlayer == true) {
+															currentPlayer = false;
+														} else {
+															currentPlayer = true;
+														}
+													}
+												} else {
 													if(currentPlayer == true) {
-														currentPlayer = false;
+														SetAlert("Not Player One's turn");
 													} else {
-														currentPlayer = true;
-													}*/
+														SetAlert("Not Player Two's turn");
+													}
 												} 
 											}
 										}
@@ -272,8 +274,8 @@ public class Display {
 	}
 	
 	//Changes the alert message and then sets the alert to be visible
-	public void SetAlert(boolean player, String text) {
-		
+	public void SetAlert(String text) {
+		alertbox.setVisible(true);
 	}
 	
 	public void DisableAlert() {
