@@ -178,8 +178,6 @@ public class Display {
 								for(int j = 0; j < 8; j++) {
 									//Handles the event for the correct square
 									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-55, y-200)) {
-										System.out.println("IJ X" + squares[i][j].getX() + " Y " + squares[i][j].getY());
-										System.out.println("ME X" + x + " Y " + y);
 										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
