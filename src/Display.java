@@ -67,6 +67,7 @@ public class Display {
 		//Makes the gameboard visible once set up is complete
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
+		System.out.println(canvas.getRootPane());
 		
 		
 	}
@@ -84,19 +85,10 @@ public class Display {
 	public void RefreshBoard() {
 		
 		//Adds player names to the board
-		//JFrame P2Box = new JFrame();
 		
 		JLabel playerTwoName = new JLabel("Player Two");
-		canvas.add(playerTwoName);
-		//P2Box.setForeground(new Color(255,255,255));
-		playerTwoName.setBounds(20, 20, 100, 50);
-		//P2Box.setSize(100,100);
-		//P2Box.setLayout(null);
-		playerTwoName.setHorizontalAlignment(JLabel.CENTER);
-		playerTwoName.setVerticalAlignment(JLabel.TOP);
-		playerTwoName.setVisible(true);
-		//P2Box.setState(Frame.ICONIFIED);
-		System.out.println(playerTwoName.isShowing());
+		playerTwoName.setBounds(20,20,50,50);
+		//layers.add(playerTwoName, 2);
 		
 
 				
@@ -107,6 +99,9 @@ public class Display {
 		playerOneName.setHorizontalTextPosition(JLabel.RIGHT);
 		playerOneName.setVerticalAlignment(JLabel.CENTER);
 		playerOneName.setVerticalTextPosition(JLabel.CENTER);
+
+
+
 
 
 		
