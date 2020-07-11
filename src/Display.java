@@ -10,6 +10,7 @@ public class Display {
 	private int originalRow, originalCol;
 	private GameBoard game;
 	private int width, height;
+	private boolean currentPlayer;
 	
 	
 	//Creates the game display
@@ -22,6 +23,7 @@ public class Display {
 		this.game = game;
 		originalRow = -1;
 		originalCol = -1;
+		currentPlayer = true;
 
 		canvas.setSize(width,height);
 		
@@ -37,27 +39,30 @@ public class Display {
 		
 		//creates alertbox
 		alertbox = new Container();
-		alertbox.setBackground(new Color(255,0,255));
+		JPanel temp = new JPanel();
+		temp.setBackground(new Color(255,0,0));
 		JLabel alertText = new JLabel();
 		alertText.setForeground(new Color(255,0,255));
 		alertText.setText("INVALID MOVE");
+		alertbox.add(temp);
 		alertbox.add(alertText);
-		canvas.add(alertText);
+		canvas.add(alertbox);
+		
+		
 		alertText.setBounds((width/2)-50, 0, 300, 100);
+		alertText.setVisible(true);
 		
 		//Sets up canvas layering
 		JLayeredPane layers = new JLayeredPane();
 		canvas.setLayeredPane(layers);
 		layers.add(gameboard, 1);
 		gameboard.setBounds(50, 150, 800, 700);
-		layers.add(alertText, 1);
+		layers.add(alertbox, 1);
 		canvas.setBackground(new Color(0,0,0));
 		
 		//Menu bar
 		MenuBar();
 		
-		//Background Animation
-		//SoonTM
 		
 		//Makes the gameboard visible once set up is complete
 		canvas.setLayout(new BorderLayout());
@@ -167,21 +172,15 @@ public class Display {
 					temp.setBackground(background);
 					
 					temp.addMouseListener(new MouseListener() {
-						public void mousePressed(MouseEvent val) {}
-						@Override
-						public void mouseEntered(MouseEvent val) {}
-						@Override
-						public void mouseExited(MouseEvent val) {}
-						@Override
-						public void mouseClicked(MouseEvent val) {
+						public void mousePressed(MouseEvent val) {
 							int x = val.getXOnScreen();
 							int y = val.getYOnScreen();
 							
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
-									
 									//Handles the event for the correct square
-									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-20, y-200)) {
+									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-55, y-200)) {
+										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
 											//saves the location if it is a first click on a square
@@ -194,28 +193,43 @@ public class Display {
 											originalRow = -1;
 											originalCol = -1;
 										} 
-										
+											
 										if(originalRow != -1 && originalCol != -1){
 											//moves square if the move is a valid game move
 											if(squares[originalRow][originalCol] != squares[i][j]) {
-												boolean currentPlayer = game.GetPiece(originalRow, originalCol).getPlayer();
-												
+													
 												//If move is valid
-												if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
-													squares[i][j].setText(squares[originalRow][originalCol].getText());
-													squares[originalRow][originalCol].setText("");
-													
-													if(currentPlayer == true) {
-														squares[i][j].setForeground(new Color(102, 255, 51));
-													} else {
-														squares[i][j].setForeground(new Color(255, 51, 51));
+												if(currentPlayer == game.GetPiece(originalRow, originalCol).getPlayer()) {
+													DisableAlert();
+													if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
+														//Checks if the player is selecting their piece
+														squares[i][j].setText(squares[originalRow][originalCol].getText());
+														squares[originalRow][originalCol].setText("");
+														
+														if(currentPlayer == true) {
+															squares[i][j].setForeground(new Color(102, 255, 51));
+														} else {
+															squares[i][j].setForeground(new Color(255, 51, 51));
+														}
+														
+														squares[originalRow][originalCol].setForeground(new Color(0,0,0));
+														squares[originalRow][originalCol].setBackground(new Color(74,102,104));
+														squares[i][j].setBackground(new Color(74,102,104));
+														originalRow = -1;
+														originalCol = -1;
+														
+														if(currentPlayer == true) {
+															currentPlayer = false;
+														} else {
+															currentPlayer = true;
+														}
 													}
-													
-													squares[originalRow][originalCol].setForeground(new Color(0,0,0));
-													squares[originalRow][originalCol].setBackground(new Color(74,102,104));
-													squares[i][j].setBackground(new Color(74,102,104));
-													originalRow = -1;
-													originalCol = -1;
+												} else {
+													if(currentPlayer == true) {
+														SetAlert("Not Player One's turn");
+													} else {
+														SetAlert("Not Player Two's turn");
+													}
 												} 
 											}
 										}
@@ -224,6 +238,12 @@ public class Display {
 								}
 							}
 						}
+						@Override
+						public void mouseEntered(MouseEvent val) {}
+						@Override
+						public void mouseExited(MouseEvent val) {}
+						@Override
+						public void mouseClicked(MouseEvent val) {}
 						
 						@Override
 						public void mouseReleased(MouseEvent val) {}
@@ -252,6 +272,14 @@ public class Display {
 		gameboard = temp;
 	}
 	
+	//Changes the alert message and then sets the alert to be visible
+	public void SetAlert(String text) {
+		alertbox.setVisible(true);
+	}
+	
+	public void DisableAlert() {
+		alertbox.setVisible(false);
+	}
 	
 	//Handles creation and actions for the menu bar
 	public void MenuBar() {

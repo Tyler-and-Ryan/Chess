@@ -297,8 +297,14 @@ public class GameBoard {
 		
 		//pawn tries to move two spaces forward 
 		if (((row == 1) || (row == 6)) && (Math.abs(moveToRow - row) == 2) 
-				  && (board[moveToRow][moveToCol] == null) && (moveToCol == col)) {                              
-			return true;
+				  && (board[moveToRow][moveToCol] == null) && (moveToCol == col)) {
+			if(row == 1 && board[2][moveToCol] == null) {
+				return true;
+			}
+			if(row == 6 && board[5][moveToCol] == null) {
+				return true;
+			}
+			return false;
 		}
 		
 		//pawn tries to move one space forward 
