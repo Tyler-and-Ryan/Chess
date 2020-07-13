@@ -1,5 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.plaf.LabelUI;
+
 import java.awt.event.*;
 
 public class Display {
@@ -14,6 +16,7 @@ public class Display {
 	private JLabel playerTwoName;
 	private JLabel playerOneName;
 	private JLabel alertText;
+	private JComponent fontAndSize;
 	
 	
 	//Creates the game display
@@ -75,6 +78,8 @@ public class Display {
 		alertText.setForeground(new Color(255,0,255));
 		layers.add(alertText, new Integer(1));
 
+		//trying to edit font and size of labels
+		System.out.println(alertText.getUI());
 		
 	}
 	
