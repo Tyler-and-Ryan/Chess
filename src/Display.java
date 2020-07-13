@@ -13,6 +13,7 @@ public class Display {
 	private boolean currentPlayer;
 	private JLabel playerTwoName;
 	private JLabel playerOneName;
+	private JLabel alertText;
 	
 	
 	//Creates the game display
@@ -38,29 +39,14 @@ public class Display {
 		//Sets up game board
 		gameboard = new JPanel();
 		RefreshBoard();
-		
-		//creates alertbox
-		alertbox = new Container();
-		JPanel temp = new JPanel();
-		temp.setBackground(new Color(255,0,0));
-		JLabel alertText = new JLabel();
-		alertText.setForeground(new Color(255,0,255));
-		alertText.setText("INVALID MOVE");
-		alertbox.add(temp);
-		alertbox.add(alertText);
-		canvas.add(alertbox);
-		
-		
-		alertText.setBounds((width/2)-50, 0, 300, 100);
-		alertText.setVisible(true);
-		
+				
 		//Sets up canvas layering
 		JLayeredPane layers = new JLayeredPane();
 		canvas.setLayeredPane(layers);
 		layers.add(gameboard, 1);
 		gameboard.setBounds(50, 150, 800, 700);
-		layers.add(alertbox, 1);
 		canvas.setBackground(new Color(0,0,0));
+		
 		
 		//Menu bar
 		MenuBar();
@@ -70,7 +56,8 @@ public class Display {
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
 		
-		//creates player name labels on the board
+		
+		//creates player names on the board
 		playerTwoName = new JLabel("Player Two");
 		playerTwoName.setBounds(460,60,100,100);
 		playerTwoName.setForeground(new Color(255,255,255));
@@ -80,6 +67,14 @@ public class Display {
 		playerOneName.setBounds(460,800,100,100);
 		playerOneName.setForeground(new Color(255,255,255));
 		layers.add(playerOneName, new Integer(1));
+		
+		
+		//creates alertbox
+		alertText = new JLabel("INVALID MOVE");
+		alertText.setBounds((width/2)-50, 20, 300, 100);
+		alertText.setForeground(new Color(255,0,255));
+		layers.add(alertText, new Integer(1));
+
 		
 	}
 	
@@ -164,7 +159,7 @@ public class Display {
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
 									//Handles the event for the correct square
-									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-55, y-200)) {
+									if(squares[i][j] == gameboard.getComponent(0).getComponentAt(x-55, y-200)) {
 										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
