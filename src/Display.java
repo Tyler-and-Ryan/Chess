@@ -11,6 +11,8 @@ public class Display {
 	private GameBoard game;
 	private int width, height;
 	private boolean currentPlayer;
+	private JLabel playerTwoName;
+	private JLabel playerOneName;
 	
 	
 	//Creates the game display
@@ -67,8 +69,17 @@ public class Display {
 		//Makes the gameboard visible once set up is complete
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
-		System.out.println(canvas.getRootPane());
 		
+		//creates player name labels on the board
+		playerTwoName = new JLabel("Player Two");
+		playerTwoName.setBounds(460,60,100,100);
+		playerTwoName.setForeground(new Color(255,255,255));
+		layers.add(playerTwoName, new Integer(1));
+		
+		playerOneName = new JLabel("Player One");
+		playerOneName.setBounds(460,800,100,100);
+		playerOneName.setForeground(new Color(255,255,255));
+		layers.add(playerOneName, new Integer(1));
 		
 	}
 	
@@ -83,27 +94,6 @@ public class Display {
 	
 	//Refreshes/redraws a new gameboard
 	public void RefreshBoard() {
-		
-		//Adds player names to the board
-		
-		JLabel playerTwoName = new JLabel("Player Two");
-		playerTwoName.setBounds(20,20,50,50);
-		//layers.add(playerTwoName, 2);
-		
-
-				
-		JLabel playerOneName = new JLabel("Player One");
-		playerOneName.setForeground(new Color(255,255,255));
-		playerOneName.setHorizontalAlignment(JLabel.CENTER);
-
-		playerOneName.setHorizontalTextPosition(JLabel.RIGHT);
-		playerOneName.setVerticalAlignment(JLabel.CENTER);
-		playerOneName.setVerticalTextPosition(JLabel.CENTER);
-
-
-
-
-
 		
 		//Builds board
 		Container refresh = new Container();
@@ -259,9 +249,7 @@ public class Display {
 	
 		//Correctly orients the gameboard layout
 		JPanel temp = new JPanel(new BorderLayout());
-		temp.add(playerTwoName, BorderLayout.NORTH );
 		temp.add(refresh, BorderLayout.CENTER);
-		temp.add(playerOneName, BorderLayout.SOUTH);
 		temp.setBackground(new Color(0,0,0));
 		
 		gameboard = temp;
