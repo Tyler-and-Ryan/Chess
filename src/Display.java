@@ -13,6 +13,7 @@ public class Display {
 	private boolean currentPlayer;
 	private JLabel playerTwoName;
 	private JLabel playerOneName;
+	private JLabel alertText;
 	
 	
 	//Creates the game display
@@ -47,6 +48,7 @@ public class Display {
 		//Sets up game board
 		gameboard = new JPanel();
 		RefreshBoard();
+
 		
 		//creates alertbox
 		alertbox = new Container();
@@ -61,24 +63,25 @@ public class Display {
 			
 		alertText.setBounds((width/2)-50, 0, 300, 100);
 		alertText.setVisible(true);
+
 				
 		//Sets up canvas layering
 		JLayeredPane layers = new JLayeredPane();
 		canvas.setLayeredPane(layers);
 		layers.add(gameboard, 1);
 		gameboard.setBounds(50, 150, 800, 700);
-		layers.add(alertbox, 1);
 		canvas.setBackground(new Color(0,0,0));
-				
+
 		//Menu bar
 		MenuBar();
-				
 				
 		//Makes the gameboard visible once set up is complete
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
+
 				
 		//creates player name labels on the board
+		//creates player names on the board
 		playerTwoName = new JLabel("Player Two");
 		playerTwoName.setBounds(460,60,100,100);
 		playerTwoName.setForeground(new Color(255,255,255));
@@ -87,7 +90,17 @@ public class Display {
 		playerOneName = new JLabel("Player One");
 		playerOneName.setBounds(460,800,100,100);
 		playerOneName.setForeground(new Color(255,255,255));
-		layers.add(playerOneName, new Integer(1));	
+
+		layers.add(playerOneName, new Integer(1));
+		layers.add(playerOneName, new Integer(1));
+		
+		
+		//creates alertbox
+		alertText = new JLabel("INVALID MOVE");
+		alertText.setBounds((width/2)-50, 20, 300, 100);
+		alertText.setForeground(new Color(255,0,255));
+		layers.add(alertText, new Integer(1));
+
 	}
 	
 	public void BackgroundAnimation(Graphics g) {
