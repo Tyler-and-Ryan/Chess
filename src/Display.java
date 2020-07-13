@@ -39,9 +39,34 @@ public class Display {
 		//Initalizes squares double array
 		squares = new JButton[8][8];
 		
+		
+		ConstructCanvas();
+		
+	}
+	
+	public void ConstructCanvas() {
+		//Initalizes squares double array
+		squares = new JButton[8][8];
+		
 		//Sets up game board
 		gameboard = new JPanel();
 		RefreshBoard();
+
+		
+		//creates alertbox
+		alertbox = new Container();
+		JPanel temp = new JPanel();
+		temp.setBackground(new Color(255,0,0));
+		JLabel alertText = new JLabel();
+		alertText.setForeground(new Color(255,0,255));
+		alertText.setText("INVALID MOVE");
+		alertbox.add(temp);
+		alertbox.add(alertText);
+		canvas.add(alertbox);
+			
+		alertText.setBounds((width/2)-50, 0, 300, 100);
+		alertText.setVisible(true);
+
 				
 		//Sets up canvas layering
 		JLayeredPane layers = new JLayeredPane();
@@ -49,26 +74,27 @@ public class Display {
 		layers.add(gameboard, 1);
 		gameboard.setBounds(50, 150, 800, 700);
 		canvas.setBackground(new Color(0,0,0));
-		
-		
+
 		//Menu bar
 		MenuBar();
-		
-		
+				
 		//Makes the gameboard visible once set up is complete
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
-		
-		
+
+				
+		//creates player name labels on the board
 		//creates player names on the board
 		playerTwoName = new JLabel("Player Two");
 		playerTwoName.setBounds(460,60,100,100);
 		playerTwoName.setForeground(new Color(255,255,255));
 		layers.add(playerTwoName, new Integer(1));
-		
+				
 		playerOneName = new JLabel("Player One");
 		playerOneName.setBounds(460,800,100,100);
 		playerOneName.setForeground(new Color(255,255,255));
+
+		layers.add(playerOneName, new Integer(1));
 		layers.add(playerOneName, new Integer(1));
 		
 		
@@ -78,9 +104,12 @@ public class Display {
 		alertText.setForeground(new Color(255,0,255));
 		layers.add(alertText, new Integer(1));
 
+<<<<<<< HEAD
 		//trying to edit font and size of labels
 		System.out.println(alertText.getUI());
 		
+=======
+>>>>>>> b3ab232857acbd2f078ec66d17131b4a5913b15e
 	}
 	
 	public void BackgroundAnimation(Graphics g) {
@@ -98,7 +127,7 @@ public class Display {
 		//Builds board
 		Container refresh = new Container();
 		refresh.setLayout(new GridLayout(9,9));
-
+		
 		for(int i = 8; i >= 0; i--) {
 			for(int j = 0; j <= 8; j++) {
 				JButton temp = null;
@@ -185,7 +214,7 @@ public class Display {
 													
 												//If move is valid
 												if(currentPlayer == game.GetPiece(originalRow, originalCol).getPlayer()) {
-													DisableAlert();
+													//DisableAlert();
 													if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
 														//Checks if the player is selecting their piece
 														squares[i][j].setText(squares[originalRow][originalCol].getText());
@@ -242,7 +271,7 @@ public class Display {
 			}
 
 		}
-		gameboard.setVisible(false);
+		//gameboard.setVisible(false);
 		Color background = new Color(74,102,104);
 		refresh.setBackground(background);
 		
@@ -282,14 +311,23 @@ public class Display {
 			}
 		});
 		
-		//Adds quit option functionality
-		quit.addActionListener(new ActionListener() {
+		//Adds reset option functionality
+		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("HII");
 				game.ClearBoard();
 				GameBoard newGame = new GameBoard();
 				game = newGame;
-				gameboard.setVisible(false);
+				for(int i  = 0; i < 8; i++) {
+					for(int j = 0; j < 8; j++) {
+						squares[i][j] = null;
+					}
+				}
+				currentPlayer = true;
 				RefreshBoard();
+				ConstructCanvas();
+				
+				
 			}
 		});
 		
