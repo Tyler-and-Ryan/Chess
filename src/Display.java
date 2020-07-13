@@ -164,7 +164,7 @@ public class Display {
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
 									//Handles the event for the correct square
-									if(squares[i][j] == gameboard.getComponent(1).getComponentAt(x-55, y-200)) {
+									if(squares[i][j] == gameboard.getComponent(0).getComponentAt(x-55, y-200)) {
 										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
