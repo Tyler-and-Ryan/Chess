@@ -190,12 +190,10 @@ public class Display {
 		alertText.setForeground(new Color(255,0,255));
 		layers.add(alertText, new Integer(1));
 
-<<<<<<< HEAD
 		//trying to edit font and size of labels
 		System.out.println(alertText.getUI());
 		
-=======
->>>>>>> b3ab232857acbd2f078ec66d17131b4a5913b15e
+
 	}
 	
 	public void BackgroundAnimation(Graphics g) {
