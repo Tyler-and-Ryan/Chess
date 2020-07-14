@@ -14,9 +14,7 @@ static boolean check = false;
 	public static void main(String[] args) {
 		
 		//creates board
-		Display display = new Display(1000,1000, game1);
-		
-		//while()
+		Display display = new Display(1300,1000, game1);
 		
 		return;
 	}

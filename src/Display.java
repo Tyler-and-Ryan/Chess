@@ -3,6 +3,7 @@ import javax.swing.*;
 import javax.swing.plaf.LabelUI;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Display {
 	private JFrame canvas;
@@ -13,8 +14,6 @@ public class Display {
 	private GameBoard game;
 	private int width, height;
 	private boolean currentPlayer;
-	private JLabel playerTwoName;
-	private JLabel playerOneName;
 	private JLabel alertText;
 	private JComponent fontAndSize;
 	
@@ -140,12 +139,12 @@ public class Display {
 				
 		//creates player name labels on the board
 		//creates player names on the board
-		playerTwoName = new JLabel("Player Two");
+		JLabel playerTwoName = new JLabel("Player Two");
 		playerTwoName.setBounds(460,60,100,100);
 		playerTwoName.setForeground(new Color(255,255,255));
 		layers.add(playerTwoName, new Integer(1));
 				
-		playerOneName = new JLabel("Player One");
+		JLabel playerOneName = new JLabel("Player One");
 		playerOneName.setBounds(460,810,100,100);
 		playerOneName.setForeground(new Color(255,255,255));
 
@@ -159,8 +158,72 @@ public class Display {
 		alertText.setForeground(new Color(255,0,255));
 		layers.add(alertText, new Integer(1));
 
-
-
+		//creates the lost pieces dashboard
+		ArrayList<Object> lostPieces = new ArrayList();
+		int playerOneCount = 0;
+		Object[] playerOnePieces = game.getPlayerOnePieces();
+		Object[] playerTwoPieces = game.getPlayerTwoPieces();
+		for(int i = 0; i < playerOnePieces.length; i++) {
+			if(playerOnePieces[i].GetStatus() == false) {
+				playerOneCount++;
+				lostPieces.add(lostPieces.size(),playerOnePieces[i]);
+			}
+			if(playerTwoPieces[i].GetStatus() == false) {
+				lostPieces.add(0,playerTwoPieces[i]);
+			}
+		}
+		
+		//Gets the correct height for the display
+		int depth = 100+(lostPieces.size()*50);
+		
+		JPanel lostPiecesDisplay = new JPanel();
+		int gridSize = 0;
+		if(lostPieces.size() > 2) {
+			gridSize = lostPieces.size()-2;
+		}
+		lostPiecesDisplay.setLayout(new GridLayout(4 + gridSize,2));
+		
+		//generates the dashboard
+		for(int i = 0; i < 4+gridSize; i++) {
+			JLabel tempLeft;
+			JLabel tempRight;
+			if(i == 0 || (i-(1+playerOneCount)) == 0) {
+				if(i == 0) {
+					tempLeft = new JLabel("Player Two");
+					tempRight = new JLabel("");
+					tempLeft.setForeground(new Color(255, 51, 51));
+				} else {
+					tempLeft = new JLabel("Player One");
+					tempRight = new JLabel("");
+					tempLeft.setForeground(new Color(102, 255, 51));
+				}
+			} else {
+				if(!lostPieces.isEmpty()) {
+					tempLeft = new JLabel(lostPieces.get(0).toString());
+					tempRight = new JLabel("Last seen at " + "(" + lostPieces.get(0).GetRow() + ", " + lostPieces.get(0).GetCol() + ")");
+					lostPieces.remove(0);
+					
+					tempLeft.setForeground(menuText);
+					tempRight.setForeground(menuText);
+				} else {
+					tempLeft = new JLabel("");
+					tempRight = new JLabel("");
+				}
+			}
+			
+			tempLeft.setPreferredSize(new Dimension(50,100));
+			tempRight.setPreferredSize(new Dimension(50,100));
+			
+			tempLeft.setBackground(menuBackground);
+			tempRight.setBackground(menuBackground);
+			lostPiecesDisplay.add(tempLeft);
+			lostPiecesDisplay.add(tempRight);
+		}
+		
+		lostPiecesDisplay.setBackground(menuBackground);
+		lostPiecesDisplay.setBounds(900, 150, 300, depth);
+		layers.add(lostPiecesDisplay,1);
+		
 		//trying to edit font and size of labels
 		//System.out.println(alertText.getUI());
 
@@ -296,6 +359,7 @@ public class Display {
 														} else {
 															currentPlayer = true;
 														}
+														ConstructCanvas();
 													}
 												} else {
 													if(currentPlayer == true) {
