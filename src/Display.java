@@ -20,7 +20,7 @@ public class Display {
 	public Display(int width, int height, GameBoard game) {
 		//creates frame and instantiates class members
 		canvas = new JFrame();
-		canvas.setTitle("Chess (Version 0.6)");
+		canvas.setTitle("Chess (Version 0.7)");
 		this.width = width;
 		this.height = height;
 		this.game = game;
@@ -41,7 +41,13 @@ public class Display {
 		
 	}
 	
+	//Creates the display with correct layering
 	public void ConstructCanvas() {
+		
+		//Colors
+		Color menuBackground = new Color(77,75,72);
+		Color menuText = new Color(255,255,255);
+		
 		//Initalizes squares double array
 		squares = new JButton[8][8];
 		
@@ -73,9 +79,89 @@ public class Display {
 		canvas.setBackground(new Color(0,0,0));
 
 		//Menu bar
-		MenuBar();
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		JMenuBar menu = new JMenuBar();
+		JMenu itemlist = new JMenu("▼ Options");
+		JMenuItem quit = new JMenuItem("Quit");
+		JMenuItem reset = new JMenuItem("Reset game");
+		itemlist.add(reset);
+		itemlist.add(quit);
+		menu.add(itemlist);
+		panel.setBackground(menuBackground);
+		panel.setBounds(0, 0, width, 50);
+		panel.add(menu);
+		
+		//Orients the option menu correctly on the panel and
+		itemlist.setPreferredSize(new Dimension(100,50));
+		menu.setBackground(menuBackground);
+		itemlist.setForeground(menuText);
+		menu.setBounds(0,0,100,50);
+		
+		quit.setPreferredSize(new Dimension(100,50));
+		reset.setPreferredSize(new Dimension(100,50));
+		quit.setBackground(menuBackground);
+		quit.setForeground(menuText);
+		reset.setBackground(menuBackground);
+		reset.setForeground(menuText);
+		
+		//Sets AIOption button onto menu panel
+		JButton AIOption = new JButton("♚ Play Computer");
+		
+		//Resets board and begins the next game with an AI
+		AIOption.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(AIOption.getBackground() != new Color(189,189,189)) {
+					AIOption.setBackground(menuBackground);
+				} else {
+					AIOption.setBackground(new Color(189,189,189));
+				}
+			}
+		});
+		
+		//Menu text animation - doesn't work yet
+		itemlist.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("HI");
+				if(itemlist.getText() == "▼ Options") {
+					itemlist.setText("► Options");
+				} else {
+					System.out.println("HI");
+					itemlist.setText("▼ Options");
+				}
+			}
+		});
+		
+		//Adds quit option functionality
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				canvas.setVisible(false);
+			}
+		});
+		
+		//Adds reset option functionality
+		reset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GameBoard newGame = new GameBoard();
+				game = newGame;
+				currentPlayer = true;
+				ConstructCanvas();
+			}
+		});
+		
+		AIOption.setPreferredSize(new Dimension(150,50));
+		AIOption.setBackground(menuBackground);
+		AIOption.setForeground(menuText);
+		AIOption.setBounds(100,0,150,50);
+		panel.add(AIOption);
+		
+		//Adds layers to panel
+		layers.add(panel, 1);
+		
+		
 				
 		//Makes the gameboard visible once set up is complete
+		canvas.setBounds(0, 100, width, height);
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
 
@@ -184,7 +270,7 @@ public class Display {
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
 									//Handles the event for the correct square
-									if(squares[i][j] == gameboard.getComponent(0).getComponentAt(x-55, y-200)) {
+									if(squares[i][j] == gameboard.getComponent(0).getComponentAt(x-55, y-280)) {
 										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
@@ -293,7 +379,8 @@ public class Display {
 		menu.add(reset);
 		menu.add(quit);
 		panel.add(menu);
-	
+		//panel.setBackground(new Color(0,0,0));
+		panel.setBounds(0, 0, 800, 200);
 		canvas.setJMenuBar(panel);
 		//Adds quit option functionality
 		quit.addActionListener(new ActionListener() {
@@ -305,20 +392,10 @@ public class Display {
 		//Adds reset option functionality
 		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("HII");
-				game.ClearBoard();
 				GameBoard newGame = new GameBoard();
 				game = newGame;
-				for(int i  = 0; i < 8; i++) {
-					for(int j = 0; j < 8; j++) {
-						squares[i][j] = null;
-					}
-				}
 				currentPlayer = true;
-				RefreshBoard();
 				ConstructCanvas();
-				
-				
 			}
 		});
 		
