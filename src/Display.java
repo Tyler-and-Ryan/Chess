@@ -153,10 +153,11 @@ public class Display {
 		
 		
 		//creates alertbox
-		alertText = new JLabel("INVALID MOVE");
+		alertText = new JLabel();
 		alertText.setBounds((width/2)-50, 20, 300, 100);
 		alertText.setForeground(new Color(255,0,255));
 		layers.add(alertText, new Integer(1));
+		alertText.setVisible(false);
 
 		//creates the lost pieces dashboard
 		ArrayList<Object> lostPieces = new ArrayList();
@@ -333,11 +334,10 @@ public class Display {
 										if(originalRow != -1 && originalCol != -1){
 											//moves square if the move is a valid game move
 											if(squares[originalRow][originalCol] != squares[i][j]) {
-													
 												//If move is valid
 												if(currentPlayer == game.GetPiece(originalRow, originalCol).getPlayer()) {
-													//DisableAlert();
 													if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
+														DisableAlert();
 														//Checks if the player is selecting their piece
 														squares[i][j].setText(squares[originalRow][originalCol].getText());
 														squares[originalRow][originalCol].setText("");
@@ -360,6 +360,8 @@ public class Display {
 															currentPlayer = true;
 														}
 														ConstructCanvas();
+													} else {
+														SetAlert("Invalid Move");
 													}
 												} else {
 													if(currentPlayer == true) {
@@ -409,6 +411,7 @@ public class Display {
 	
 	//Changes the alert message and then sets the alert to be visible
 	public void SetAlert(String text) {
+		alertText.setText(text);
 		alertText.setVisible(true);
 	}
 	
