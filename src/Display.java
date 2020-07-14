@@ -54,22 +54,6 @@ public class Display {
 		//Sets up game board
 		gameboard = new JPanel();
 		RefreshBoard();
-
-		
-		//creates alertbox
-		alertbox = new Container();
-		JPanel temp = new JPanel();
-		temp.setBackground(new Color(255,0,0));
-		JLabel alertText = new JLabel();
-		alertText.setForeground(new Color(255,0,255));
-		alertText.setText("WARNING BOX");
-		alertbox.add(temp);
-		alertbox.add(alertText);
-		canvas.add(alertbox);
-			
-		alertText.setBounds((width/2)-50, 0, 300, 100);
-		alertText.setVisible(true);
-
 				
 		//Sets up canvas layering
 		JLayeredPane layers = new JLayeredPane();
@@ -373,10 +357,10 @@ public class Display {
 	
 	//Changes the alert message and then sets the alert to be visible
 	public void SetAlert(String text) {
-		alertbox.setVisible(true);
+		alertText.setVisible(true);
 	}
 	
 	public void DisableAlert() {
-		alertbox.setVisible(false);
+		alertText.setVisible(false);
 	}
 }
