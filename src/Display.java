@@ -174,7 +174,7 @@ public class Display {
 		layers.add(playerTwoName, new Integer(1));
 				
 		playerOneName = new JLabel("Player One");
-		playerOneName.setBounds(460,800,100,100);
+		playerOneName.setBounds(460,810,100,100);
 		playerOneName.setForeground(new Color(255,255,255));
 
 		layers.add(playerOneName, new Integer(1));
