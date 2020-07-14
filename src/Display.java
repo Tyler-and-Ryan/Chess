@@ -190,10 +190,10 @@ public class Display {
 
 
 		//trying to edit font and size of labels
-		System.out.println(alertText.getUI());
+		//System.out.println(alertText.getUI());
 
 		//trying to edit font and size of labels
-		System.out.println(alertText.getUI());
+		//System.out.println(alertText.getUI());
 		
 
 
