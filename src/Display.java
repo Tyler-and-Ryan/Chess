@@ -33,9 +33,6 @@ public class Display {
 
 		canvas.setSize(width,height);
 		
-		//Menu bar
-		MenuBar();
-		
 		//Initalizes squares double array
 		squares = new JButton[8][8];
 		
@@ -65,7 +62,7 @@ public class Display {
 		temp.setBackground(new Color(255,0,0));
 		JLabel alertText = new JLabel();
 		alertText.setForeground(new Color(255,0,255));
-		alertText.setText("INVALID MOVE");
+		alertText.setText("WARNING BOX");
 		alertbox.add(temp);
 		alertbox.add(alertText);
 		canvas.add(alertbox);
@@ -375,36 +372,5 @@ public class Display {
 	
 	public void DisableAlert() {
 		alertbox.setVisible(false);
-	}
-	
-	//Handles creation and actions for the menu bar
-	public void MenuBar() {
-		JMenuBar panel = new JMenuBar();
-		JMenu menu = new JMenu("options");
-		JMenuItem quit = new JMenuItem("quit");
-		JMenuItem reset = new JMenuItem("reset game");
-		menu.add(reset);
-		menu.add(quit);
-		panel.add(menu);
-		//panel.setBackground(new Color(0,0,0));
-		panel.setBounds(0, 0, 800, 200);
-		canvas.setJMenuBar(panel);
-		//Adds quit option functionality
-		quit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				canvas.setVisible(false);
-			}
-		});
-		
-		//Adds reset option functionality
-		reset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GameBoard newGame = new GameBoard();
-				game = newGame;
-				currentPlayer = true;
-				ConstructCanvas();
-			}
-		});
-		
 	}
 }
