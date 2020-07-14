@@ -119,18 +119,6 @@ public class Display {
 			}
 		});
 		
-		//Menu text animation - doesn't work yet
-		itemlist.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("HI");
-				if(itemlist.getText() == "▼ Options") {
-					itemlist.setText("► Options");
-				} else {
-					System.out.println("HI");
-					itemlist.setText("▼ Options");
-				}
-			}
-		});
 		
 		//Adds quit option functionality
 		quit.addActionListener(new ActionListener() {
