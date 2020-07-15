@@ -176,6 +176,8 @@ public class Display {
 			}
 		}
 		
+		
+		
 		//Gets the correct height for the display
 		int depth = 100+(lostPieces.size()*50);
 		
@@ -235,8 +237,14 @@ public class Display {
 		//trying to edit font and size of labels
 		//System.out.println(alertText.getUI());
 		
-
-
+		//Checks if the next player is in check
+		if(game.refreshCheck(currentPlayer)) {
+			if(currentPlayer) {
+				SetAlert("Player One is in check");
+			} else {
+				SetAlert("Player Two is in check");
+			}
+		}
 	}
 	
 	
@@ -331,14 +339,13 @@ public class Display {
 											originalRow = -1;
 											originalCol = -1;
 										} 
-											
+										
 										if(originalRow != -1 && originalCol != -1){
 											//moves square if the move is a valid game move
 											if(squares[originalRow][originalCol] != squares[i][j]) {
 												//If move is valid
 												if(currentPlayer == game.GetPiece(originalRow, originalCol).getPlayer()) {
 													if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
-														DisableAlert();
 														//Checks if the player is selecting their piece
 														squares[i][j].setText(squares[originalRow][originalCol].getText());
 														squares[originalRow][originalCol].setText("");
@@ -360,12 +367,13 @@ public class Display {
 														} else {
 															currentPlayer = true;
 														}
+														
 														ConstructCanvas();
 													} else {
 														SetAlert("Invalid Move");
 													}
 												} else {
-													if(currentPlayer == true) {
+													if(currentPlayer) {
 														SetAlert("Not Player One's turn");
 													} else {
 														SetAlert("Not Player Two's turn");
