@@ -2,6 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.LabelUI;
 
+import javafx.scene.layout.Border;
+
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -206,8 +208,8 @@ public class Display {
 					tempRight = new JLabel("Last seen at " + "(" + lostPieces.get(0).GetRow() + ", " + lostPieces.get(0).GetCol() + ")");
 					lostPieces.remove(0);
 					
-					tempLeft.setForeground(menuText);
-					tempRight.setForeground(menuText);
+					tempLeft.setForeground(Color.BLACK);
+					tempRight.setForeground(Color.BLACK);
 				} else {
 					tempLeft = new JLabel("");
 					tempRight = new JLabel("");
@@ -217,14 +219,16 @@ public class Display {
 			tempLeft.setPreferredSize(new Dimension(50,100));
 			tempRight.setPreferredSize(new Dimension(50,100));
 			
-			tempLeft.setBackground(menuBackground);
-			tempRight.setBackground(menuBackground);
+			//tempLeft.setBackground(menuBackground);
+			//tempRight.setBackground(menuBackground);
 			lostPiecesDisplay.add(tempLeft);
 			lostPiecesDisplay.add(tempRight);
 		}
 		
-		lostPiecesDisplay.setBackground(menuBackground);
 		lostPiecesDisplay.setBounds(900, 150, 300, depth);
+		RoundBorder border = new RoundBorder(900,150,300,depth);
+		
+		layers.add(border,1);
 		layers.add(lostPiecesDisplay,1);
 		
 		//trying to edit font and size of labels
@@ -235,9 +239,6 @@ public class Display {
 		
 	}
 	
-	public void BackgroundAnimation(Graphics g) {
-		//SoonTM
-	}
 	
 	//Imports the new gameboard
 	public void UpdateBoard(GameBoard game) {
