@@ -233,14 +233,6 @@ public class Display {
 		//trying to edit font and size of labels
 		//System.out.println(alertText.getUI());
 		
-		//Checks if the next player is in check
-		if(game.refreshCheck(currentPlayer)) {
-			if(currentPlayer) {
-				SetAlert("Player One is in check");
-			} else {
-				SetAlert("Player Two is in check");
-			}
-		}
 	}
 	
 	public void BackgroundAnimation(Graphics g) {
@@ -368,6 +360,14 @@ public class Display {
 														}
 														
 														ConstructCanvas();
+														//Checks if the next player is in check
+														if(game.refreshCheck(currentPlayer)) {
+															if(currentPlayer) {
+																SetAlert("Player One is in check");
+															} else {
+																SetAlert("Player Two is in check");
+															}
+														}
 													} else {
 														SetAlert("Invalid Move");
 													}

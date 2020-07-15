@@ -380,7 +380,7 @@ public class GameBoard {
 			return false;
 		}
 		
-		if((distance > 1) || (distance == 0)) {
+		if((distance > 1) || (distance == 0) || refreshCheck(board[row][col].getPlayer(), moveToRow, moveToCol)) {
 			return false;
 		}
 		return true;
@@ -528,32 +528,71 @@ public class GameBoard {
 			if (opponentPieces[i].toString().equals("Pawn")) {
 				if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Pawn can check");
-					 return true;
+					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Bishop")) {
 				if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Bishop can check");
-					 return true;
+					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Horse")) {
 				if (IsLegalHorse(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Horse can check");
-					 return true;
+					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Queen")) {
 				if (IsLegalQueen(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Queen can check");
-					 return true;
+					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Castle")) {
 				if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Castle can check");
-					 return true;
+					return true;
 				}
 			}
 		}
 		return false;
 	}
+	
+	//checks if the player passed through is in check, returns true if they are and false if they aren't
+		public boolean refreshCheck(boolean player, int kingRowLoc, int kingColLoc) {
+			Object[] opponentPieces;
+			if (player) {
+				opponentPieces = playerTwoPieces;
+			} else {
+				opponentPieces = playerOnePieces;
+			}
+			for (int i = 0; i < opponentPieces.length; i++) {
+				if (opponentPieces[i].toString().equals("Pawn")) {
+					if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+						System.out.println("Pawn can check");
+						return true;
+					}
+				} else if (opponentPieces[i].toString().equals("Bishop")) {
+					if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+						System.out.println("Bishop can check");
+						return true;
+					}
+				} else if (opponentPieces[i].toString().equals("Horse")) {
+					if (IsLegalHorse(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+						System.out.println("Horse can check");
+						return true;
+					}
+				} else if (opponentPieces[i].toString().equals("Queen")) {
+					if (IsLegalQueen(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+						System.out.println("Queen can check");
+						return true;
+					}
+				} else if (opponentPieces[i].toString().equals("Castle")) {
+					if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+						System.out.println("Castle can check");
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 	
 	
 	//quick text to give a congratulations message to whoever wins
