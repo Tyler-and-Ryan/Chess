@@ -208,8 +208,8 @@ public class Display {
 					tempRight = new JLabel("Last seen at " + "(" + lostPieces.get(0).GetRow() + ", " + lostPieces.get(0).GetCol() + ")");
 					lostPieces.remove(0);
 					
-					tempLeft.setForeground(Color.BLACK);
-					tempRight.setForeground(Color.BLACK);
+					tempLeft.setForeground(Color.WHITE);
+					tempRight.setForeground(Color.WHITE);
 				} else {
 					tempLeft = new JLabel("");
 					tempRight = new JLabel("");
@@ -219,18 +219,20 @@ public class Display {
 			tempLeft.setPreferredSize(new Dimension(50,100));
 			tempRight.setPreferredSize(new Dimension(50,100));
 			
-			tempLeft.setBackground(menuBackground);
-			//tempRight.setBackground(menuBackground);
+			//tempLeft.setForeground(menuText);
+			//tempRight.setForeground(menuText);
 			lostPiecesDisplay.add(tempLeft);
 			lostPiecesDisplay.add(tempRight);
 		}
 		
 		lostPiecesDisplay.setBounds(900, 150, 300, depth);
+		lostPiecesDisplay.setBackground(menuBackground);
+		/*
 		RoundBorder border = new RoundBorder(900,150,300,depth);
 		Rectangle test = new Rectangle(900, 150, 300, depth);
 		border.setBounds(900, 150, 300, depth);
-		layers.add(border,1);
-		//layers.add(lostPiecesDisplay,1);
+		layers.add(border,1);*/
+		layers.add(lostPiecesDisplay,1);
 		
 		//trying to edit font and size of labels
 		//System.out.println(alertText.getUI());
