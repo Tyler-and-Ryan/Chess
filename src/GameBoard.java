@@ -141,7 +141,7 @@ public class GameBoard {
 				}
 			}
 		} else {
-			for(int i = 0; i < playerOnePieces.length; i++) {
+			for(int i = 0; i < playerTwoPieces.length; i++) {
 				if(board[row][col].GetRow() == playerTwoPieces[i].GetRow() && board[row][col].GetCol() == playerTwoPieces[i].GetCol()) {
 					board[row][col].ChangeStatus(false);
 					break;
@@ -314,7 +314,7 @@ public class GameBoard {
 				 * -jumps over enemy pieces
 				 * -takes over/lands on a friendly piece
 				 */
-				for(int i = start+1; i <= start+distance; i++) {
+				for(int i = start+1; i < start+distance; i++) {
 					if(board[i][col] != null) {
 						//jumping over friendlies
 						if((board[i][col].getPlayer() == board[row][col].getPlayer())) {
@@ -345,7 +345,7 @@ public class GameBoard {
 				 * -jumps over enemy pieces
 				 * -takes over/lands on a friendly piece
 				 */
-				for(int i = start+1; i <= start+distance; i++) {
+				for(int i = start+1; i < start+distance; i++) {
 					if(board[row][i] != null) {
 						//jumping over friendlies
 						if((board[row][i].getPlayer() == board[row][col].getPlayer())) {
