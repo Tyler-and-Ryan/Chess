@@ -5,7 +5,6 @@ public class GameBoard {
 	private Object[] playerOnePieces;
 	private Object[] playerTwoPieces;
 	private int boardSize;
-	private boolean quit = false;
 	
 	//Constructor 
 	//TODO: (add implementation later to have variable board size)
