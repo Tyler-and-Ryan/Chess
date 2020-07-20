@@ -17,10 +17,10 @@ public class RoundBorder extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g){
-		super.paintComponent(g);
+		//super.paintComponent(g);
 		this.setBackground(Color.WHITE);
-		g.setColor(Color.WHITE);
+		//g.setColor(Color.WHITE);
 		g.fillRoundRect(x, y, width, height, 50, 50);
-		g.drawRoundRect(x, y, width, height, 50, 50);
+		//g.drawRoundRect(x, y, width, height, 50, 50);
 	}
 }

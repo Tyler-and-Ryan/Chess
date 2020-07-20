@@ -219,7 +219,7 @@ public class Display {
 			tempLeft.setPreferredSize(new Dimension(50,100));
 			tempRight.setPreferredSize(new Dimension(50,100));
 			
-			//tempLeft.setBackground(menuBackground);
+			tempLeft.setBackground(menuBackground);
 			//tempRight.setBackground(menuBackground);
 			lostPiecesDisplay.add(tempLeft);
 			lostPiecesDisplay.add(tempRight);
@@ -227,9 +227,10 @@ public class Display {
 		
 		lostPiecesDisplay.setBounds(900, 150, 300, depth);
 		RoundBorder border = new RoundBorder(900,150,300,depth);
-		
+		Rectangle test = new Rectangle(900, 150, 300, depth);
+		border.setBounds(900, 150, 300, depth);
 		layers.add(border,1);
-		layers.add(lostPiecesDisplay,1);
+		//layers.add(lostPiecesDisplay,1);
 		
 		//trying to edit font and size of labels
 		//System.out.println(alertText.getUI());
