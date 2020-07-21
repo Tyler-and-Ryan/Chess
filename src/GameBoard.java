@@ -524,27 +524,27 @@ public class GameBoard {
 			}
 		}
 		for (int i = 0; i < opponentPieces.length; i++) {
-			if (opponentPieces[i].toString().equals("Pawn")) {
+			if (opponentPieces[i].toString().equals("Pawn") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Pawn can check");
 					return true;
 				}
-			} else if (opponentPieces[i].toString().equals("Bishop")) {
+			} else if (opponentPieces[i].toString().equals("Bishop") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Bishop can check");
 					return true;
 				}
-			} else if (opponentPieces[i].toString().equals("Horse")) {
+			} else if (opponentPieces[i].toString().equals("Horse") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalHorse(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Horse can check");
 					return true;
 				}
-			} else if (opponentPieces[i].toString().equals("Queen")) {
+			} else if (opponentPieces[i].toString().equals("Queen") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalQueen(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Queen can check");
 					return true;
 				}
-			} else if (opponentPieces[i].toString().equals("Castle")) {
+			} else if (opponentPieces[i].toString().equals("Castle") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Castle can check");
 					return true;
@@ -563,27 +563,27 @@ public class GameBoard {
 				opponentPieces = playerOnePieces;
 			}
 			for (int i = 0; i < opponentPieces.length; i++) {
-				if (opponentPieces[i].toString().equals("Pawn")) {
+				if (opponentPieces[i].toString().equals("Pawn") && (opponentPieces[i].GetStatus() == true)) {
 					if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 						System.out.println("Pawn can check");
 						return true;
 					}
-				} else if (opponentPieces[i].toString().equals("Bishop")) {
+				} else if (opponentPieces[i].toString().equals("Bishop") && (opponentPieces[i].GetStatus() == true)) {
 					if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 						System.out.println("Bishop can check");
 						return true;
 					}
-				} else if (opponentPieces[i].toString().equals("Horse")) {
+				} else if (opponentPieces[i].toString().equals("Horse") && (opponentPieces[i].GetStatus() == true)) {
 					if (IsLegalHorse(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 						System.out.println("Horse can check");
 						return true;
 					}
-				} else if (opponentPieces[i].toString().equals("Queen")) {
+				} else if (opponentPieces[i].toString().equals("Queen") && (opponentPieces[i].GetStatus() == true)) {
 					if (IsLegalQueen(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 						System.out.println("Queen can check");
 						return true;
 					}
-				} else if (opponentPieces[i].toString().equals("Castle")) {
+				} else if (opponentPieces[i].toString().equals("Castle") && (opponentPieces[i].GetStatus() == true)) {
 					if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 						System.out.println("Castle can check");
 						return true;
