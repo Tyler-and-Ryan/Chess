@@ -525,6 +525,7 @@ public class GameBoard {
 		}
 		for (int i = 0; i < opponentPieces.length; i++) {
 			if (opponentPieces[i].toString().equals("Pawn")) {
+				System.out.println(board[opponentPieces[i].GetRow()][opponentPieces[i].GetCol()].toString());
 				if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Pawn can check");
 					return true;
