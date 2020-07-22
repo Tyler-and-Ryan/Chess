@@ -479,6 +479,42 @@ public class GameBoard {
 		return false;
 	}
 	
+	//Returns the gameboard
+	public Object[][] AccessBoard(){
+		return board;
+	}
+	
+	//returns playerPieces array
+	public Object[] AccessPlayerPieces(boolean player) {
+		if(player) {
+			return playerOnePieces;
+		} else {
+			return playerTwoPieces;
+		}
+	}
+	
+	//Copy gameboard method
+	public void CopyBoard(GameBoard copy) {
+		//board = copy.AccessBoard();
+		for(int i = 0; i < boardSize; i++) {
+			for(int j = 0; j < boardSize; j++) {
+				board[i][j] = copy.GetPiece(i, j);
+			}
+		}
+		
+		Object[] tempOne = copy.AccessPlayerPieces(true);
+		Object[] tempTwo = copy.AccessPlayerPieces(false);
+		playerTwoPieces = copy.AccessPlayerPieces(false);
+		for(int i = 0; i < tempOne.length; i++) {
+			playerOnePieces[i] = tempOne[i];
+		}
+		for(int i = 0; i < tempTwo.length; i++) {
+			playerTwoPieces[i] = tempTwo[i];
+		}
+
+	}
+	
+	
 	//returns a string with the game stats for each player so far
 	public void GameStats() {
 		System.out.println("\n============PLAYER ONE STATS============");

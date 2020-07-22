@@ -340,48 +340,80 @@ public class Display {
 											if(squares[originalRow][originalCol] != squares[i][j]) {
 												//If move is valid
 												if(currentPlayer == game.GetPiece(originalRow, originalCol).getPlayer()) {
-													if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
-														//Checks if the player is selecting their piece
-														squares[i][j].setText(squares[originalRow][originalCol].getText());
-														squares[originalRow][originalCol].setText("");
+													
+													boolean continuePermission = true;
+													
+													//If the player is in check, it makes sure that if you move a piece the player gets out of check
+													if(game.refreshCheck(currentPlayer)) {
+														GameBoard moveCheck = new GameBoard();
+														moveCheck.CopyBoard(game);
+														System.out.println(moveCheck.toString());
+														moveCheck.MovePiece(originalRow, originalCol, i, j, currentPlayer);
 														
-														if(currentPlayer == true) {
-															squares[i][j].setForeground(new Color(102, 255, 51));
-														} else {
-															squares[i][j].setForeground(new Color(255, 51, 51));
-														}
-														
-														squares[originalRow][originalCol].setForeground(new Color(0,0,0));
-														squares[originalRow][originalCol].setBackground(new Color(74,102,104));
-														squares[i][j].setBackground(new Color(74,102,104));
-														originalRow = -1;
-														originalCol = -1;
-														
-														if(currentPlayer == true) {
-															currentPlayer = false;
-														} else {
-															currentPlayer = true;
-														}
-														
-														ConstructCanvas();
-														//Checks if the next player is in check
-														if(game.refreshCheck(currentPlayer)) {
+														System.out.println("=================================");
+														System.out.println(moveCheck.toString());
+														if(moveCheck.refreshCheck(currentPlayer)){
+															System.out.println("HIIII");
 															if(currentPlayer) {
-																SetAlert("Player One is in check");
+																SetAlert("Player One is still in check");
 															} else {
-																SetAlert("Player Two is in check");
+																SetAlert("Player Two is still in check");
 															}
+															continuePermission = false;
+														} else {
+															System.out.println("GOOD");
+														}
+													}
+													
+													if(continuePermission) {
+														
+														//goes bad here
+														System.out.println("=================================");
+														System.out.println(game.toString());
+														
+														if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
+															//Checks if the player is selecting their piece
+															squares[i][j].setText(squares[originalRow][originalCol].getText());
+															squares[originalRow][originalCol].setText("");
+															
+															if(currentPlayer == true) {
+																squares[i][j].setForeground(new Color(102, 255, 51));
+															} else {
+																squares[i][j].setForeground(new Color(255, 51, 51));
+															}
+															
+															squares[originalRow][originalCol].setForeground(new Color(0,0,0));
+															squares[originalRow][originalCol].setBackground(new Color(74,102,104));
+															squares[i][j].setBackground(new Color(74,102,104));
+															originalRow = -1;
+															originalCol = -1;
+															
+															if(currentPlayer == true) {
+																currentPlayer = false;
+															} else {
+																currentPlayer = true;
+															}
+															
+															ConstructCanvas();
+															//Checks if the next player is in check
+															if(game.refreshCheck(currentPlayer)) {
+																if(currentPlayer) {
+																	SetAlert("Player One is in check");
+																} else {
+																	SetAlert("Player Two is in check");
+																}
+															}
+														} else {
+															SetAlert("Invalid Move");
 														}
 													} else {
-														SetAlert("Invalid Move");
-													}
-												} else {
-													if(currentPlayer) {
-														SetAlert("Not Player One's turn");
-													} else {
-														SetAlert("Not Player Two's turn");
-													}
-												} 
+														if(currentPlayer) {
+															SetAlert("Not Player One's turn");
+														} else {
+															SetAlert("Not Player Two's turn");
+														}
+													} 
+												}
 											}
 										}
 										return;
