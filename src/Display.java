@@ -345,32 +345,27 @@ public class Display {
 													
 													//If the player is in check, it makes sure that if you move a piece the player gets out of check
 													if(game.refreshCheck(currentPlayer)) {
+														
+														//Creates a copy of the board
 														GameBoard moveCheck = new GameBoard();
 														moveCheck.CopyBoard(game);
 														System.out.println(moveCheck.toString());
 														moveCheck.MovePiece(originalRow, originalCol, i, j, currentPlayer);
 														
-														System.out.println("=================================");
-														System.out.println(moveCheck.toString());
+														//If the move still leaves them in check they will not loose permission to continue with the move
 														if(moveCheck.refreshCheck(currentPlayer)){
-															System.out.println("HIIII");
 															if(currentPlayer) {
 																SetAlert("Player One is still in check");
 															} else {
 																SetAlert("Player Two is still in check");
 															}
 															continuePermission = false;
-														} else {
-															System.out.println("GOOD");
 														}
 													}
 													
+													//If the move will not leave the player in check (if they are)
 													if(continuePermission) {
-														
-														//goes bad here
-														System.out.println("=================================");
-														System.out.println(game.toString());
-														
+														//If the move is valid
 														if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
 															//Checks if the player is selecting their piece
 															squares[i][j].setText(squares[originalRow][originalCol].getText());
@@ -427,7 +422,6 @@ public class Display {
 						public void mouseExited(MouseEvent val) {}
 						@Override
 						public void mouseClicked(MouseEvent val) {}
-						
 						@Override
 						public void mouseReleased(MouseEvent val) {}
 					});
