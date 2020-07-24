@@ -349,7 +349,6 @@ public class Display {
 														//Creates a copy of the board
 														GameBoard moveCheck = new GameBoard();
 														moveCheck.CopyBoard(game);
-														System.out.println(moveCheck.toString());
 														moveCheck.MovePiece(originalRow, originalCol, i, j, currentPlayer);
 														
 														//If the move still leaves them in check they will not loose permission to continue with the move

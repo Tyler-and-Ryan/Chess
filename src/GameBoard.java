@@ -379,10 +379,62 @@ public class GameBoard {
 			return false;
 		}
 		
-		if((distance > 1) || (distance == 0) || refreshCheck(board[row][col].getPlayer(), moveToRow, moveToCol)) {
+		//Simulates potential move with a projected gameboard
+		GameBoard moveCheck = new GameBoard();
+		moveCheck.CopyBoard(this);
+		
+		Object[][] temp = moveCheck.AccessBoard();
+		
+		temp[row][col].ChangeLocation(moveToRow, moveToCol);
+		temp[row][col].moved();
+		
+		temp[moveToRow][moveToCol] = board[row][col];
+		temp[row][col] = null;
+		
+		moveCheck.CopyPiecePositions(temp);
+		
+		//checks if the move is within one space of the other king
+		Object currentKing = board[row][col];
+		Object otherKing = null;
+		
+		boolean opponentPlayer;
+		Object[] pieceList = null;
+		if(board[row][col].getPlayer()) {
+			opponentPlayer = false;
+			pieceList = moveCheck.AccessPlayerPieces(opponentPlayer);
+		} else {
+			opponentPlayer = true;
+			pieceList = moveCheck.AccessPlayerPieces(opponentPlayer);
+		}
+		
+		
+		for(int i = 0; i < pieceList.length; i++) {
+			if(pieceList[i].toString() == "King") {
+				otherKing = pieceList[i];
+			}
+		}
+		
+		
+		int kingDistance = -1;
+		if(currentKing.GetRow() < otherKing.GetRow()) {
+			kingDistance = Math.abs(otherKing.GetRow() - currentKing.GetRow());
+		} else if  (otherKing.GetRow() < currentKing.GetRow()) {
+			kingDistance = Math.abs(currentKing.GetRow() - otherKing.GetRow());
+		} else if (currentKing.GetCol() < otherKing.GetCol()) {
+			kingDistance = Math.abs(otherKing.GetCol() - currentKing.GetCol());
+		} else if (otherKing.GetCol() < currentKing.GetCol()) {
+			kingDistance = Math.abs(currentKing.GetCol() - otherKing.GetCol());
+		}
+
+		if(kingDistance <= 1) {
+			return false;
+		}
+		
+		if((distance > 1) || (distance == 0) || moveCheck.refreshCheck(board[row][col].getPlayer())) {
 			return false;
 		}
 		return true;
+		
 	}
 	
 	//Checks if the Bishop can move to the intended spot
@@ -493,9 +545,18 @@ public class GameBoard {
 		}
 	}
 	
+	//Copys over a 2D array of objects
+	public void CopyPiecePositions(Object[][] copy) {
+		for(int i = 0; i < boardSize; i++) {
+			for(int j = 0; j < boardSize; j++) {
+				board[i][j] = copy[i][j];
+			}
+		}
+	}
+	
 	//Copy gameboard method
 	public void CopyBoard(GameBoard copy) {
-		//board = copy.AccessBoard();
+		
 		for(int i = 0; i < boardSize; i++) {
 			for(int j = 0; j < boardSize; j++) {
 				board[i][j] = copy.GetPiece(i, j);
@@ -585,48 +646,10 @@ public class GameBoard {
 					System.out.println("Castle can check");
 					return true;
 				}
-			}
+			} 
 		}
 		return false;
 	}
-	//checks if the player passed through is in check, returns true if they are and false if they aren't
-		public boolean refreshCheck(boolean player, int kingRowLoc, int kingColLoc) {
-			Object[] opponentPieces;
-			if (player) {
-				opponentPieces = playerTwoPieces;
-			} else {
-				opponentPieces = playerOnePieces;
-			}
-			for (int i = 0; i < opponentPieces.length; i++) {
-				if (opponentPieces[i].toString().equals("Pawn") && (opponentPieces[i].GetStatus() == true)) {
-					if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
-						System.out.println("Pawn can check");
-						return true;
-					}
-				} else if (opponentPieces[i].toString().equals("Bishop") && (opponentPieces[i].GetStatus() == true)) {
-					if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
-						System.out.println("Bishop can check");
-						return true;
-					}
-				} else if (opponentPieces[i].toString().equals("Horse") && (opponentPieces[i].GetStatus() == true)) {
-					if (IsLegalHorse(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
-						System.out.println("Horse can check");
-						return true;
-					}
-				} else if (opponentPieces[i].toString().equals("Queen") && (opponentPieces[i].GetStatus() == true)) {
-					if (IsLegalQueen(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
-						System.out.println("Queen can check");
-						return true;
-					}
-				} else if (opponentPieces[i].toString().equals("Castle") && (opponentPieces[i].GetStatus() == true)) {
-					if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
-						System.out.println("Castle can check");
-						return true;
-					}
-				}
-			}
-			return false;
-		}
 	
 	
 	//quick text to give a congratulations message to whoever wins
