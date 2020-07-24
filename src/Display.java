@@ -142,14 +142,17 @@ public class Display {
 		//creates player name labels on the board
 		//creates player names on the board
 		JLabel playerTwoName = new JLabel("Player Two");
-		playerTwoName.setBounds(460,60,100,100);
+		playerTwoName.setBounds(420,5,200,200);
 		playerTwoName.setForeground(new Color(255,255,255));
+		Font labelFont = playerTwoName.getFont();
+		playerTwoName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
 		layers.add(playerTwoName, new Integer(1));
 				
 		JLabel playerOneName = new JLabel("Player One");
-		playerOneName.setBounds(460,810,100,100);
+		playerOneName.setBounds(420,770,200,200);
 		playerOneName.setForeground(new Color(255,255,255));
-
+		playerOneName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
+		
 		layers.add(playerOneName, new Integer(1));
 		layers.add(playerOneName, new Integer(1));
 		
