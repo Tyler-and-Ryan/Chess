@@ -17,7 +17,9 @@ public class Display {
 	private int width, height;
 	private boolean currentPlayer;
 	private JLabel alertText;
-	private JComponent fontAndSize;
+	private JLabel playerTwoName;
+	private JLabel playerOneName;
+	private Font labelFont;
 	
 	
 	//Creates the game display
@@ -52,6 +54,18 @@ public class Display {
 		//Initalizes squares double array
 		squares = new JButton[8][8];
 		
+		//creates player name labels on the board
+		playerTwoName = new JLabel("Player Two");
+		playerTwoName.setBounds(420,5,200,200);
+		playerTwoName.setForeground(new Color(255,255,255));
+		labelFont = playerTwoName.getFont();
+		playerTwoName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
+				
+		playerOneName = new JLabel("Player One");
+		playerOneName.setBounds(420,770,200,200);
+		playerOneName.setForeground(new Color(255,255,255));
+		playerOneName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
+		
 		//Sets up game board
 		gameboard = new JPanel();
 		RefreshBoard();
@@ -62,6 +76,10 @@ public class Display {
 		layers.add(gameboard, 1);
 		gameboard.setBounds(50, 150, 800, 700);
 		canvas.setBackground(new Color(0,0,0));
+		
+		//Adds playernames to layer
+		layers.add(playerOneName, new Integer(1));
+		layers.add(playerTwoName, new Integer(1));
 
 		//Menu bar
 		JPanel panel = new JPanel();
@@ -139,22 +157,7 @@ public class Display {
 		canvas.setVisible(true);
 
 				
-		//creates player name labels on the board
-		//creates player names on the board
-		JLabel playerTwoName = new JLabel("Player Two");
-		playerTwoName.setBounds(420,5,200,200);
-		playerTwoName.setForeground(new Color(255,255,255));
-		Font labelFont = playerTwoName.getFont();
-		playerTwoName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
-		layers.add(playerTwoName, new Integer(1));
-				
-		JLabel playerOneName = new JLabel("Player One");
-		playerOneName.setBounds(420,770,200,200);
-		playerOneName.setForeground(new Color(255,255,255));
-		playerOneName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
-		
-		layers.add(playerOneName, new Integer(1));
-		layers.add(playerOneName, new Integer(1));
+//
 		
 		
 		//creates alertbox
@@ -257,6 +260,20 @@ public class Display {
 		//Builds board
 		Container refresh = new Container();
 		refresh.setLayout(new GridLayout(9,9));
+		Font labelFont = playerTwoName.getFont();
+		
+		//Displays whose turn it is by making that players name label bold and yellow
+		if (currentPlayer) {
+			playerOneName.setFont(new Font(labelFont.getName(), Font.BOLD, 30));
+			playerOneName.setForeground(new Color(255,255,0));
+			playerTwoName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
+			playerTwoName.setForeground(new Color(255,255,255));
+		} else {
+			playerTwoName.setFont(new Font(labelFont.getName(), Font.BOLD, 30));
+			playerTwoName.setForeground(new Color(255,255,0));
+			playerOneName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
+			playerOneName.setForeground(new Color(255,255,255));
+		}
 		
 		for(int i = 8; i >= 0; i--) {
 			for(int j = 0; j <= 8; j++) {
