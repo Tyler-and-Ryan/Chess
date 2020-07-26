@@ -231,7 +231,13 @@ public class Display {
 			lostPiecesDisplay.add(tempRight);
 		}
 		
-		lostPiecesDisplay.setBounds(900, 150, 300, depth);
+		//Prevents display from getting too long
+		if(depth <= 600) {
+			lostPiecesDisplay.setBounds(900, 150, 300, depth);
+		} else {
+			lostPiecesDisplay.setBounds(900, 150, 300, 600);
+		}
+		
 		lostPiecesDisplay.setBackground(menuBackground);
 		/*
 		RoundBorder border = new RoundBorder(900,150,300,depth);

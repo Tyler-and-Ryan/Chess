@@ -294,6 +294,8 @@ public class GameBoard {
 	
 	//This checks if the location to move the castle piece is legal
 	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
+		int doubleJumpCounter = 0;
+		
 		if(row == moveToRow || col == moveToCol) {
 			if(col == moveToCol) {
 				int start;
@@ -315,6 +317,8 @@ public class GameBoard {
 				 */
 				for(int i = start+1; i < start+distance; i++) {
 					if(board[i][col] != null) {
+						doubleJumpCounter++;
+						
 						//jumping over friendlies
 						if((board[i][col].getPlayer() == board[row][col].getPlayer())) {
 							return false;
@@ -324,7 +328,11 @@ public class GameBoard {
 								return false;
 							}
 						}
+						if(doubleJumpCounter > 1) {
+							return false;
+						}
 					}
+					
 				}
 				return true;
 			} else {
@@ -332,10 +340,11 @@ public class GameBoard {
 				int distance; 
 				if(col < moveToCol) {
 					start = col;
-					distance = Math.abs(moveToCol-col);
+					distance = start + Math.abs(moveToCol-col);
 				} else if  (moveToCol < col) {
-					start = moveToCol;
-					distance = Math.abs(col-moveToCol);
+					start = col;
+					distance = start - Math.abs(col-moveToCol);
+					
 				} else {
 					return false;
 				}
@@ -344,8 +353,11 @@ public class GameBoard {
 				 * -jumps over enemy pieces
 				 * -takes over/lands on a friendly piece
 				 */
-				for(int i = start+1; i < start+distance; i++) {
-					if(board[row][i] != null) {
+
+				for(int i = start-1; i >= distance; i--) {
+					if(board[row][i] != null ) {
+						
+						doubleJumpCounter++;
 						//jumping over friendlies
 						if((board[row][i].getPlayer() == board[row][col].getPlayer())) {
 							return false;
@@ -355,6 +367,10 @@ public class GameBoard {
 								return false;
 							}
 						}
+					} 
+					if(doubleJumpCounter > 1) {
+						System.out.println("DOUBLES " + doubleJumpCounter);
+						return false;
 					}
 				}
 				return true;
@@ -638,8 +654,18 @@ public class GameBoard {
 				}
 			} else if (opponentPieces[i].toString().equals("Queen") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalQueen(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
-					System.out.println("Queen can check");
-					return true;
+					
+					//needs to check if there are pieces in between in horizontal and vertical situations
+					if(opponentPieces[i].GetRow() == kingRowLoc || opponentPieces[i].GetCol() == kingColLoc) {
+						if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+							System.out.println("Queen Horizontally or Vertically can check");
+							return true;
+						} 
+					} else {
+						System.out.println("Queen can check");
+						return true;
+					}
+					
 				}
 			} else if (opponentPieces[i].toString().equals("Castle") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
