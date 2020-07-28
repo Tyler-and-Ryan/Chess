@@ -5,6 +5,8 @@ public class GameBoard {
 	private Object[] playerOnePieces;
 	private Object[] playerTwoPieces;
 	private int boardSize;
+	//checkmateCounter prevents an infinite loop in refreshcheck when determining whether player is in checkmate
+	private int checkmateCounter = 0;
 	
 	//Constructor 
 	//TODO: (add implementation later to have variable board size)
@@ -446,7 +448,33 @@ public class GameBoard {
 			return false;
 		}
 		
-		if((distance > 1) || (distance == 0) || moveCheck.refreshCheck(board[row][col].getPlayer())) {
+		if((distance > 1) || (distance == 0)) {
+			return false;
+		}
+		
+		//TODO: right now this if statement only checks whether the king can move on the board without being in check or not. This doesnt account for other pieces being able to move in front of the
+		//king to get them out of check. I'm thinking i just do this double for loop again but for all the pieces on the board.
+		//tests if player is in checkmate
+		if(moveCheck.refreshCheck(board[row][col].getPlayer()) && (checkmateCounter == 0)) {
+			checkmateCounter = 1;
+			//tests if there is any spot on the board the king can move without being in check
+			for(int i = 0; i < boardSize; i++) {
+				for (int j = 0; j < boardSize; j++) {
+					//if the king can move somewhere on the board where they aren't in check, then they aren't in checkmate
+					if(!moveCheck.MovePiece(row, col, i, j, board[row][col].getPlayer())) {
+						checkmateCounter = 0;
+						break;
+					}
+					moveCheck.CopyBoard(this);
+				}
+			}
+			checkmateCounter = 0;
+			//if it didn't break out of the big if statement, it means the king doesn't have anywhere it can move on the board where it wont be in check, thus checkmate
+			completeGame(!board[row][col].getPlayer());
+		}
+		
+		//tests if player is in check
+		if(moveCheck.refreshCheck(board[row][col].getPlayer())) {
 			return false;
 		}
 		return true;
