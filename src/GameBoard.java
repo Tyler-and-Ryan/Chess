@@ -296,87 +296,78 @@ public class GameBoard {
 	
 	//This checks if the location to move the castle piece is legal
 	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
-		int doubleJumpCounter = 0;
+		System.out.println(row + " " + moveToRow);
+		System.out.println(col + " " + moveToCol);
 		
 		if(row == moveToRow || col == moveToCol) {
-			if(col == moveToCol) {
-				int start;
-				int distance; 
-				if(row < moveToRow) {
-					start = row;
-					distance = Math.abs(moveToRow-row);
-				} else if  (moveToRow < row) {
-					start = moveToRow;
-					distance = Math.abs(row-moveToRow);
-				} else {
-					return false;
-				}
-				
-				/*returns false if any of the following are true:
-				 * -jumps over friendly pieces
-				 * -jumps over enemy pieces
-				 * -takes over/lands on a friendly piece
-				 */
-				for(int i = start+1; i < start+distance; i++) {
-					if(board[i][col] != null) {
-						doubleJumpCounter++;
-						
-						//jumping over friendlies
-						if((board[i][col].getPlayer() == board[row][col].getPlayer())) {
-							return false;
-							//taking over/landing on a piece it shouldn't
-						} else if (board[moveToRow][moveToCol] != null) {
-							if ((board[i][col].getPlayer() != board[moveToRow][moveToCol].getPlayer()) && (i < (start+distance))) {
+			if(moveToRow != row) {
+				System.out.println("ROW");
+				if(moveToRow > row) {
+					System.out.println("YES");
+					for(int i = row+1; i <= moveToRow; i++) {
+						if(board[i][col] != null) {
+							if(i != moveToRow) {
 								return false;
+							} else {
+								return true;
+							}
+						} else {
+							if(i == moveToRow) {
+								return true;
 							}
 						}
-						if(doubleJumpCounter > 1) {
-							return false;
-						}
 					}
-					
-				}
-				return true;
-			} else {
-				int start;
-				int distance; 
-				if(col < moveToCol) {
-					start = col;
-					distance = start + Math.abs(moveToCol-col);
-				} else if  (moveToCol < col) {
-					start = col;
-					distance = start - Math.abs(col-moveToCol);
-					
 				} else {
-					return false;
-				}
-				/*returns false if any of the following are true:
-				 * -jumps over friendly pieces
-				 * -jumps over enemy pieces
-				 * -takes over/lands on a friendly piece
-				 */
-
-				for(int i = start-1; i >= distance; i--) {
-					if(board[row][i] != null ) {
-						
-						doubleJumpCounter++;
-						//jumping over friendlies
-						if((board[row][i].getPlayer() == board[row][col].getPlayer())) {
-							return false;
-							//taking over/landing on a piece it shouldn't
-						} else if (board[moveToRow][moveToCol] != null) {
-							if ((board[row][i].getPlayer() != board[moveToRow][moveToCol].getPlayer()) && (i < (start+distance))) {
+					System.out.println("WHY");
+					for(int i = row-1; i >= moveToRow; i--) {
+						if(board[i][col] != null) {
+							if(i != moveToRow) {
 								return false;
+							} else {
+								return true;
+							}
+						} else {
+							if(i == moveToRow) {
+								return true;
 							}
 						}
-					} 
-					if(doubleJumpCounter > 1) {
-						System.out.println("DOUBLES " + doubleJumpCounter);
-						return false;
 					}
 				}
-				return true;
+			} 
+			if(moveToCol != col){
+				System.out.println("COL");
+				if(moveToCol > col) {
+					for(int i = col+1; i <= moveToCol; i++) {
+						if(board[row][i] != null) {
+							if(i != moveToCol) {
+								return false;
+							} else {
+								return true;
+							}
+						} else {
+							if(i == moveToCol) {
+								return true;
+							}
+						}
+					}
+				} else {
+					for(int i = col-1; i >= moveToCol; i--) {
+						if(board[row][i] != null) {
+							if(i != moveToCol) {
+								return false;
+							} else {
+								return true;
+							}
+						} else {
+							if(i == moveToCol) {
+								return true;
+							}
+						}
+					}
+				}
+				return false;
 			}
+			return false;
 		} else {
 			return false;
 		}
