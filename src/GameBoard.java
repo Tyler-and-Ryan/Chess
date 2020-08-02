@@ -296,14 +296,9 @@ public class GameBoard {
 	
 	//This checks if the location to move the castle piece is legal
 	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
-		System.out.println(row + " " + moveToRow);
-		System.out.println(col + " " + moveToCol);
-		
 		if(row == moveToRow || col == moveToCol) {
 			if(moveToRow != row) {
-				System.out.println("ROW");
 				if(moveToRow > row) {
-					System.out.println("YES");
 					for(int i = row+1; i <= moveToRow; i++) {
 						if(board[i][col] != null) {
 							if(i != moveToRow) {
@@ -318,7 +313,6 @@ public class GameBoard {
 						}
 					}
 				} else {
-					System.out.println("WHY");
 					for(int i = row-1; i >= moveToRow; i--) {
 						if(board[i][col] != null) {
 							if(i != moveToRow) {
@@ -335,7 +329,6 @@ public class GameBoard {
 				}
 			} 
 			if(moveToCol != col){
-				System.out.println("COL");
 				if(moveToCol > col) {
 					for(int i = col+1; i <= moveToCol; i++) {
 						if(board[row][i] != null) {

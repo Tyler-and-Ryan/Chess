@@ -149,15 +149,13 @@ public class Display {
 		//Adds layers to panel
 		layers.add(panel, 1);
 		
-		
 				
 		//Makes the gameboard visible once set up is complete
 		canvas.setBounds(0, 100, width, height);
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
-
-				
-//
+		Toolkit val = Toolkit.getDefaultToolkit();
+		canvas.setLocation(val.getScreenSize().width/5,val.getScreenSize().height/4);
 		
 		
 		//creates alertbox
@@ -343,10 +341,11 @@ public class Display {
 							int x = val.getXOnScreen();
 							int y = val.getYOnScreen();
 							
+							
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
 									//Handles the event for the correct square
-									if(squares[i][j] == gameboard.getComponent(0).getComponentAt(x-55, y-280)) {
+									if(squares[i][j] == gameboard.getComponent(0).getComponentAt(x-55-canvas.getLocation().x, y-180-canvas.getLocation().y)) {
 										
 										//Saves the selected square and checks if a move is needed
 										if(originalRow == -1 && game.GetPiece(i, j) != null) {
