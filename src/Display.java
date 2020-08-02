@@ -155,7 +155,7 @@ public class Display {
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
 		Toolkit val = Toolkit.getDefaultToolkit();
-		canvas.setLocation(val.getScreenSize().width/5,val.getScreenSize().height/4);
+		canvas.setLocation(val.getScreenSize().width/5,val.getScreenSize().height/5);
 		
 		
 		//creates alertbox
@@ -223,8 +223,6 @@ public class Display {
 			tempLeft.setPreferredSize(new Dimension(50,100));
 			tempRight.setPreferredSize(new Dimension(50,100));
 			
-			//tempLeft.setForeground(menuText);
-			//tempRight.setForeground(menuText);
 			lostPiecesDisplay.add(tempLeft);
 			lostPiecesDisplay.add(tempRight);
 		}
@@ -237,18 +235,7 @@ public class Display {
 		}
 		
 		lostPiecesDisplay.setBackground(menuBackground);
-		/*
-		RoundBorder border = new RoundBorder(900,150,300,depth);
-		Rectangle test = new Rectangle(900, 150, 300, depth);
-		border.setBounds(900, 150, 300, depth);
-		layers.add(border,1);*/
 		layers.add(lostPiecesDisplay,1);
-		
-		//trying to edit font and size of labels
-		//System.out.println(alertText.getUI());
-
-		//trying to edit font and size of labels
-		//System.out.println(alertText.getUI());
 		
 	}
 	
