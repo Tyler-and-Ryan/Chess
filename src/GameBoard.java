@@ -1,4 +1,6 @@
+import java.awt.Point;
 import java.lang.StringBuilder;
+import java.util.Arrays;
 
 public class GameBoard {
 	private Object[][] board;
@@ -436,27 +438,6 @@ public class GameBoard {
 			return false;
 		}
 		
-		//TODO: right now this if statement only checks whether the king can move on the board without being in check or not. This doesnt account for other pieces being able to move in front of the
-		//king to get them out of check. I'm thinking i just do this double for loop again but for all the pieces on the board.
-		//tests if player is in checkmate
-		if(moveCheck.refreshCheck(board[row][col].getPlayer()) && (checkmateCounter == 0)) {
-			checkmateCounter = 1;
-			//tests if there is any spot on the board the king can move without being in check
-			for(int i = 0; i < boardSize; i++) {
-				for (int j = 0; j < boardSize; j++) {
-					//if the king can move somewhere on the board where they aren't in check, then they aren't in checkmate
-					if(!moveCheck.MovePiece(row, col, i, j, board[row][col].getPlayer())) {
-						checkmateCounter = 0;
-						break;
-					}
-					moveCheck.CopyBoard(this);
-				}
-			}
-			checkmateCounter = 0;
-			//if it didn't break out of the big if statement, it means the king doesn't have anywhere it can move on the board where it wont be in check, thus checkmate
-			completeGame(!board[row][col].getPlayer());
-		}
-		
 		//tests if player is in check
 		if(moveCheck.refreshCheck(board[row][col].getPlayer())) {
 			return false;
@@ -464,6 +445,178 @@ public class GameBoard {
 		return true;
 		
 	}
+	
+	//returns true if king is in checkmate, false if it isn't
+    private boolean isCheckMate(int kingRow, int kingCol) {
+		//TODO: right now this if statement only checks whether the king can move on the board without being in check or not. This doesnt account for other pieces being able to move in front of the
+		//king to get them out of check
+    	
+    	//PROBLEM I FOUND AND AM TOO TIRED TO FIX RIGHT NOW: THE ISLEGAL CHECK FOR ALL THE POTENTIAL MOVES HAS LOGICAL ERROR, FOR EXAMPLE, IF YOU HAVE A KING IN CHECK FROM A CASTLE 5 TILES TO THE LEFT OF IT,
+    	//THE ISLEGAL FOR CASTLE WILL NOT SAY THE KING IS IN CHECK WHEN IT MOVES ONE SPACE TO THE RIGHT BECAUSE THE CASTLE CANT JUMP OVER PIECES (AND WHEN THE ISLEGALCASTLE IS BEING DONE, IT ASSUMES THE KING IS STILL
+    	//IN ITS SPOT AND NOT REMOVED FROM ITS CURRENT SPOT, AND MOVED ONE SPOT TO THE RIGHT LIKE YOU WANT TO TEST FOR. NEED TO FIND A WAY TO TEMPORARILY MOVE PIECE TO INTENDED ISLEGAL SPOT SO PREVENT LOGICAL ERROR
+    	
+    	//creates 3x3 array of pointers with King at center
+    	Point[][] possibleMoves = new Point[3][3];
+    	for (int i = possibleMoves.length-1; i >= 0; i--) {
+    		for (int j = 0; j < possibleMoves.length; j++) {
+    			if (i == 0) {
+    				possibleMoves[i][j] = new Point(kingRow + 1, kingCol - 1 + j);
+    			} else if (i == 1) {
+    				possibleMoves[i][j] = new Point(kingRow, kingCol - 1 + j);
+    			} else if (i == 2) {
+    				possibleMoves[i][j] = new Point(kingRow - 1, kingCol - 1 + j);
+    			}
+    		}
+    	}
+    	
+    	possibleMoves[1][1] = null;
+    	//accounts for edge cases on the board, makes off the board moves null
+    	if (kingRow == 0) {
+    		possibleMoves[0][0] = null;
+    		possibleMoves[0][1] = null;
+    		possibleMoves[0][2] = null;
+    	}
+    	if (kingRow == boardSize-1) {
+    		possibleMoves[2][0] = null;
+    		possibleMoves[2][1] = null;
+    		possibleMoves[2][2] = null;
+    	}
+    	if (kingCol == 0) {
+    		possibleMoves[0][2] = null;
+    		possibleMoves[1][2] = null;
+    		possibleMoves[2][2] = null;
+    	}
+    	if (kingCol == boardSize-1) {
+    		possibleMoves[0][0] = null;
+    		possibleMoves[1][0] = null;
+    		possibleMoves[2][0] = null;
+    	}
+ 
+    	
+    	Object[] friendlies;
+    	Object[] enemies;
+    	if (board[kingRow][kingCol].getPlayer() == true) {
+    		friendlies = playerOnePieces;
+    		enemies = playerTwoPieces;
+    	} else {
+    		friendlies = playerTwoPieces;
+    		enemies = playerOnePieces;
+    	}
+    	
+    	//places a null where all friendly pieces are within 1 tile of the king
+    	for (int i = 0; i < friendlies.length; i++) {
+    		if ((friendlies[i].GetRow() - kingRow == 1) && (friendlies[i].GetCol() - kingCol == -1)) {
+    			possibleMoves[0][0] = null;
+    		} else if ((friendlies[i].GetRow() - kingRow == 1) && (friendlies[i].GetCol() - kingCol == 0)) {
+    			possibleMoves[0][1] = null;
+    		} else if ((friendlies[i].GetRow() - kingRow == 1) && (friendlies[i].GetCol() - kingCol == 1)) {
+    			possibleMoves[0][2] = null;
+    		} else if ((friendlies[i].GetRow() - kingRow == 0) && (friendlies[i].GetCol() - kingCol == -1)) {
+    			possibleMoves[1][0] = null;
+    		} else if ((friendlies[i].GetRow() - kingRow == 0) && (friendlies[i].GetCol() - kingCol == 1)) {
+    			possibleMoves[1][2] = null;
+    		} else if ((friendlies[i].GetRow() - kingRow == -1) && (friendlies[i].GetCol() - kingCol == -1)) {
+    			possibleMoves[2][0] = null;
+    		} else if ((friendlies[i].GetRow() - kingRow == -1) && (friendlies[i].GetCol() - kingCol == 0)) {
+    			possibleMoves[2][1] = null;
+    		} else if ((friendlies[i].GetRow() - kingRow == -1) && (friendlies[i].GetCol() - kingCol == 1)) {
+    			possibleMoves[2][2] = null;
+    		}
+    	}
+    	
+    	for (int i = 0; i < possibleMoves.length; i++) {
+    		for (int j = 0; j < possibleMoves.length; j++) {
+    			if (possibleMoves[i][j] != null) {
+    				System.out.print((int)possibleMoves[i][j].getX() + " " + (int)possibleMoves[i][j].getY() + "---");
+    			} else {
+    				System.out.print("NULL ---");
+    			}
+    		}
+    		System.out.println();
+    	}
+    	
+    	//tests whether the enemy pieces can move to any of the not null squares in possibleMoves Array
+    	for (int j = 0; j < possibleMoves.length; j++) {
+    		for (int k = 0; k < possibleMoves.length; k++) {
+    			//if one of the squares within 1 tile of the king is available to move to, tests whether any of the enemy pieces can attack that spot (putting the king in check if he moved)
+    			if (possibleMoves[j][k] != null) {
+    				for (int i = 0; i < enemies.length; i++) {
+    						if (enemies[i].toString().equals("Pawn") && (enemies[i].GetStatus() == true)) {
+    							if (possibleMoves[j][k] != null) {
+    								if (IsLegalPawn(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+    									//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    									possibleMoves[j][k] = null;
+    								}
+    							}
+    							} else if (enemies[i].toString().equals("Bishop") && (enemies[i].GetStatus() == true)) {
+    								if (possibleMoves[j][k] != null) {
+    									if (IsLegalBishop(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+    										//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    										possibleMoves[j][k] = null;
+    									}
+    								}
+    								} else if (enemies[i].toString().equals("Horse") && (enemies[i].GetStatus() == true)) {
+    									if (possibleMoves[j][k] != null) {
+    										if (IsLegalHorse(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+    											//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    											possibleMoves[j][k] = null;
+    										}
+    									}
+    									} else if (enemies[i].toString().equals("Queen") && (enemies[i].GetStatus() == true)) {
+    										if (possibleMoves[j][k] != null) {
+    											if (IsLegalQueen(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+					
+    													//needs to check if there are pieces in between in horizontal and vertical situations
+    													if(enemies[i].GetRow() == (int)possibleMoves[j][k].getX() || enemies[i].GetCol() == (int)possibleMoves[j][k].getY()) {
+    														if (possibleMoves[j][k] != null) {
+    															if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+    																//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    																possibleMoves[j][k] = null;
+    															} 
+    														}
+    														} else {
+    															//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    															possibleMoves[j][k] = null;
+    															}
+					
+    											}
+    										}
+    										} else if (enemies[i].toString().equals("Castle") && (enemies[i].GetStatus() == true)) {
+    											if (possibleMoves[j][k] != null) {
+    												if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+    													//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    													possibleMoves[j][k] = null;
+    												}
+    											}
+    											} 
+    				}
+    			}
+    		}
+    	}
+    	
+    	for (int i = 0; i < possibleMoves.length; i++) {
+    		for (int j = 0; j < possibleMoves.length; j++) {
+    			if (possibleMoves[i][j] != null) {
+    				System.out.print((int)possibleMoves[i][j].getX() + " " + (int)possibleMoves[i][j].getY() + "---");
+    			} else {
+    				System.out.print("NULL ---");
+    			}
+    		}
+    		System.out.println();
+    	}
+    	
+    	//tests if any squares are not null, if they aren't null at this point then they are a valid place for the king to move and its not checkmate. If none of the squares within 1 tile
+    	//of the king are valid, the king has nowhere to move and is in checkmate.
+    	for (int i = 0; i < possibleMoves.length; i++) {
+    		for (int j = 0; j < possibleMoves.length; j++) {
+    			if (possibleMoves[i][j] != null) {
+    				return false;
+    			}
+    		}
+    	}
+    	//if none of the tiles within 1 square of king are available to move to, king is in checkmate
+    	return true;
+    }
 	
 	//Checks if the Bishop can move to the intended spot
 	private boolean IsLegalBishop(int row, int col, int moveToRow, int moveToCol) {
@@ -648,20 +801,34 @@ public class GameBoard {
 				kingColLoc = playerPieces[i].GetCol();
 			}
 		}
+		
+		
 		for (int i = 0; i < opponentPieces.length; i++) {
 			if (opponentPieces[i].toString().equals("Pawn") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Pawn can check");
+					//tests whether its check or checkmate
+					if (isCheckMate(kingRowLoc, kingColLoc)) {
+						completeGame(player);
+					}
 					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Bishop") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Bishop can check");
+					//tests whether its check or checkmate
+					if (isCheckMate(kingRowLoc, kingColLoc)) {
+						completeGame(player);
+					}
 					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Horse") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalHorse(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Horse can check");
+					//tests whether its check or checkmate
+					if (isCheckMate(kingRowLoc, kingColLoc)) {
+						completeGame(player);
+					}
 					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Queen") && (opponentPieces[i].GetStatus() == true)) {
@@ -671,10 +838,18 @@ public class GameBoard {
 					if(opponentPieces[i].GetRow() == kingRowLoc || opponentPieces[i].GetCol() == kingColLoc) {
 						if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 							System.out.println("Queen Horizontally or Vertically can check");
+							//tests whether its check or checkmate
+							if (isCheckMate(kingRowLoc, kingColLoc)) {
+								completeGame(player);
+							}
 							return true;
 						} 
 					} else {
 						System.out.println("Queen can check");
+						//tests whether its check or checkmate
+						if (isCheckMate(kingRowLoc, kingColLoc)) {
+							completeGame(player);
+						}
 						return true;
 					}
 					
@@ -682,6 +857,10 @@ public class GameBoard {
 			} else if (opponentPieces[i].toString().equals("Castle") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Castle can check");
+					//tests whether its check or checkmate
+					if (isCheckMate(kingRowLoc, kingColLoc)) {
+						completeGame(player);
+					}
 					return true;
 				}
 			} 
