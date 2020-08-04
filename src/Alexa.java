@@ -48,7 +48,6 @@ public class Alexa {
 					
 			if(piece.GetStatus() == true && !game.refreshCheck(false)) {
 				options = game.LegalMoves(piece.GetRow(), piece.GetCol());
-					
 				if(options != null) {
 					goodPiece = true;
 				}
