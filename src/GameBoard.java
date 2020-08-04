@@ -1,5 +1,6 @@
 import java.awt.Point;
 import java.lang.StringBuilder;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GameBoard {
@@ -82,6 +83,57 @@ public class GameBoard {
 		}
 	}
 	
+	//Gets possible legal moves for a selected piece
+	//returns null if no options are valid else returns points of valid move locations
+	public ArrayList<Point> LegalMoves(int row, int col){
+		ArrayList<Point> options = new ArrayList<Point>();
+			
+		if(board[row][col] != null) {
+			for(int i = 0; i < boardSize; i++) {
+				for(int j = 0; j < boardSize; j++) {
+					if(board[row][col].toString() == "Pawn") {
+						if(IsLegalPawn(row,col,i,j)) {
+							Point temp = new Point(i,j);
+							options.add(temp);
+						}
+					} else if(board[row][col].toString() == "Bishop") {
+						if(IsLegalBishop(row,col,i,j)) {
+							Point temp = new Point(i,j);
+							options.add(temp);
+						}
+					} else if(board[row][col].toString() == "Castle") {
+						if(IsLegalCastle(row,col,i,j)) {
+							Point temp = new Point(i,j);
+							options.add(temp);
+						}
+					} else if(board[row][col].toString() == "Horse") {
+						if(IsLegalHorse(row,col,i,j)) {
+							Point temp = new Point(i,j);
+							options.add(temp);
+						}
+					} else if(board[row][col].toString() == "King") {
+						if(IsLegalKing(row,col,i,j)) {
+							Point temp = new Point(i,j);
+							options.add(temp);
+						}
+					} else if(board[row][col].toString() == "Queen") {
+						if(IsLegalQueen(row,col,i,j)) {
+							Point temp = new Point(i,j);
+							options.add(temp);
+						}
+					} 
+				}
+			}
+		}
+		
+		if(options.size() == 0) {
+			return null;
+		} else {
+			return options;
+		}
+	}
+	
+	//Gets 
 	public Object[] getPlayerOnePieces() {
 		return playerOnePieces;
 	}
@@ -577,7 +629,7 @@ public class GameBoard {
     														} else {
     															//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
     															possibleMoves[j][k] = null;
-    															}
+    														}
 					
     											}
     										}

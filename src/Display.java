@@ -59,15 +59,12 @@ public class Display {
 		//creates player name or computer labels on the board
 		
 		if(AIenabled) {
-			System.out.println("HI");
 			playerTwoName = new JLabel("Computer");
-			//attempts to set color here
 			playerTwoName.setForeground(new Color(47,141,255));
 		} else {
 			playerTwoName = new JLabel("Player Two");
 			playerTwoName.setForeground(new Color(255,255,255));
 		}
-		
 		
 		playerTwoName.setBounds(420,5,200,200);
 		labelFont = playerTwoName.getFont();
@@ -423,7 +420,13 @@ public class Display {
 																}
 															} else {
 																//current player is always true
-																//AI generates a move and it is put on the gameboard here
+																Alexa computer = new Alexa();
+																computer.UpdateBoard(game);
+																Point[] AIMove = new Point[2];
+																AIMove = computer.GenerateMove();
+																
+																game.MovePiece(AIMove[0].x, AIMove[0].y, AIMove[1].x, AIMove[1].y, false);
+																
 															}
 															
 															
