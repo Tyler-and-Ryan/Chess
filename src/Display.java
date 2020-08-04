@@ -20,19 +20,21 @@ public class Display {
 	private JLabel playerTwoName;
 	private JLabel playerOneName;
 	private Font labelFont;
+	private boolean AIenabled;
 	
 	
 	//Creates the game display
 	public Display(int width, int height, GameBoard game) {
 		//creates frame and instantiates class members
 		canvas = new JFrame();
-		canvas.setTitle("Chess (Version 0.7)");
+		canvas.setTitle("Chess (Version 0.8)");
 		this.width = width;
 		this.height = height;
 		this.game = game;
 		originalRow = -1;
 		originalCol = -1;
 		currentPlayer = true;
+		AIenabled = false;
 
 		canvas.setSize(width,height);
 		
@@ -54,10 +56,20 @@ public class Display {
 		//Initalizes squares double array
 		squares = new JButton[8][8];
 		
-		//creates player name labels on the board
-		playerTwoName = new JLabel("Player Two");
+		//creates player name or computer labels on the board
+		
+		if(AIenabled) {
+			System.out.println("HI");
+			playerTwoName = new JLabel("Computer");
+			//attempts to set color here
+			playerTwoName.setForeground(new Color(47,141,255));
+		} else {
+			playerTwoName = new JLabel("Player Two");
+			playerTwoName.setForeground(new Color(255,255,255));
+		}
+		
+		
 		playerTwoName.setBounds(420,5,200,200);
-		playerTwoName.setForeground(new Color(255,255,255));
 		labelFont = playerTwoName.getFont();
 		playerTwoName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
 				
@@ -114,10 +126,14 @@ public class Display {
 		//Resets board and begins the next game with an AI
 		AIOption.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(AIOption.getBackground() != new Color(189,189,189)) {
-					AIOption.setBackground(menuBackground);
+				if(AIenabled == false) {
+					AIenabled = true;
+					GameBoard newGame = new GameBoard();
+					game = newGame;
+					currentPlayer = true;
+					ConstructCanvas();
 				} else {
-					AIOption.setBackground(new Color(189,189,189));
+					SetAlert("AI is already enabled");
 				}
 			}
 		});
@@ -133,6 +149,7 @@ public class Display {
 		//Adds reset option functionality
 		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AIenabled = false;
 				GameBoard newGame = new GameBoard();
 				game = newGame;
 				currentPlayer = true;
@@ -254,17 +271,20 @@ public class Display {
 		Font labelFont = playerTwoName.getFont();
 		
 		//Displays whose turn it is by making that players name label bold and yellow
-		if (currentPlayer) {
-			playerOneName.setFont(new Font(labelFont.getName(), Font.BOLD, 30));
-			playerOneName.setForeground(new Color(255,255,0));
-			playerTwoName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
-			playerTwoName.setForeground(new Color(255,255,255));
-		} else {
-			playerTwoName.setFont(new Font(labelFont.getName(), Font.BOLD, 30));
-			playerTwoName.setForeground(new Color(255,255,0));
-			playerOneName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
-			playerOneName.setForeground(new Color(255,255,255));
+		if(!AIenabled) {
+			if (currentPlayer) {
+				playerOneName.setFont(new Font(labelFont.getName(), Font.BOLD, 30));
+				playerOneName.setForeground(new Color(255,255,0));
+				playerTwoName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
+				playerTwoName.setForeground(new Color(255,255,255));
+			} else {
+				playerTwoName.setFont(new Font(labelFont.getName(), Font.BOLD, 30));
+				playerTwoName.setForeground(new Color(255,255,0));
+				playerOneName.setFont(new Font(labelFont.getName(), Font.PLAIN, 30));
+				playerOneName.setForeground(new Color(255,255,255));
+			}
 		}
+		
 		
 		for(int i = 8; i >= 0; i--) {
 			for(int j = 0; j <= 8; j++) {
@@ -394,11 +414,18 @@ public class Display {
 															originalRow = -1;
 															originalCol = -1;
 															
-															if(currentPlayer == true) {
+															
+															if(!AIenabled) {
+																if(currentPlayer == true) {
 																currentPlayer = false;
-															} else {
+																} else {
 																currentPlayer = true;
+																}
+															} else {
+																//current player is always true
+																//AI generates a move and it is put on the gameboard here
 															}
+															
 															
 															ConstructCanvas();
 															//Checks if the next player is in check
