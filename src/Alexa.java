@@ -39,6 +39,8 @@ public class Alexa {
 		Object piece = null;
 		ArrayList<Point> options = null;
 		
+		
+		
 		//Gets a piece on the board to move
 		boolean goodPiece = false;
 		while(goodPiece == false) {
