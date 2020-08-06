@@ -532,10 +532,6 @@ public class GameBoard {
 		//TODO: right now this if statement only checks whether the king can move on the board without being in check or not. This doesnt account for other pieces being able to move in front of the
 		//king to get them out of check
     	
-    	//PROBLEM I FOUND AND AM TOO TIRED TO FIX RIGHT NOW: THE ISLEGAL CHECK FOR ALL THE POTENTIAL MOVES HAS LOGICAL ERROR, FOR EXAMPLE, IF YOU HAVE A KING IN CHECK FROM A CASTLE 5 TILES TO THE LEFT OF IT,
-    	//THE ISLEGAL FOR CASTLE WILL NOT SAY THE KING IS IN CHECK WHEN IT MOVES ONE SPACE TO THE RIGHT BECAUSE THE CASTLE CANT JUMP OVER PIECES (AND WHEN THE ISLEGALCASTLE IS BEING DONE, IT ASSUMES THE KING IS STILL
-    	//IN ITS SPOT AND NOT REMOVED FROM ITS CURRENT SPOT, AND MOVED ONE SPOT TO THE RIGHT LIKE YOU WANT TO TEST FOR. NEED TO FIND A WAY TO TEMPORARILY MOVE PIECE TO INTENDED ISLEGAL SPOT SO PREVENT LOGICAL ERROR
-    	
     	//creates 3x3 array of pointers with King at center
     	Point[][] possibleMoves = new Point[3][3];
     	for (int i = possibleMoves.length-1; i >= 0; i--) {
@@ -553,21 +549,22 @@ public class GameBoard {
     	possibleMoves[1][1] = null;
     	//accounts for edge cases on the board, makes off the board moves null
     	if (kingRow == 0) {
-    		possibleMoves[0][0] = null;
-    		possibleMoves[0][1] = null;
-    		possibleMoves[0][2] = null;
-    	}
-    	if (kingRow == boardSize-1) {
     		possibleMoves[2][0] = null;
     		possibleMoves[2][1] = null;
     		possibleMoves[2][2] = null;
+    	}
+    	System.out.println(kingRow + " " + kingCol);
+    	if (kingRow == (boardSize-1)) {
+    		possibleMoves[0][0] = null;
+    		possibleMoves[0][1] = null;
+    		possibleMoves[0][2] = null;
     	}
     	if (kingCol == 0) {
     		possibleMoves[0][2] = null;
     		possibleMoves[1][2] = null;
     		possibleMoves[2][2] = null;
     	}
-    	if (kingCol == boardSize-1) {
+    	if (kingCol == (boardSize-1)) {
     		possibleMoves[0][0] = null;
     		possibleMoves[1][0] = null;
     		possibleMoves[2][0] = null;
@@ -610,20 +607,17 @@ public class GameBoard {
     			if (possibleMoves[i][j] != null) {
     				System.out.print((int)possibleMoves[i][j].getX() + " " + (int)possibleMoves[i][j].getY() + "---");
     			} else {
-    				System.out.print("NULL ---");
+    				System.out.print("NULL---");
     			}
     		}
     		System.out.println();
     	}
-    	
-    	//STILL HAS A LOGICAL ISSUE WHERE THE ENEMY PIECES OF THE KING WITHIN THE 3X3 SQUARE ARE LEFT AS POSSIBLE MOVE SQUARES, BUT THE ISLEGAL FOR THOSE SQUARES WILL FAIL BECAUSE THE PIECES BEING TESTED
-    	//IN THIS LOOP ARE FRIENDLY WITH THE KINGS ENEMY PIECE
+
     	//tests whether the enemy pieces can move to any of the not null squares in possibleMoves Array
     	for (int j = 0; j < possibleMoves.length; j++) {
     		for (int k = 0; k < possibleMoves.length; k++) {
     			//if one of the squares within 1 tile of the king is available to move to, tests whether any of the enemy pieces can attack that spot (putting the king in check if he moved)
     			if (possibleMoves[j][k] != null) {
-    			  //if ()
     				for (int i = 0; i < enemies.length; i++) {
     						if (enemies[i].toString().equals("Pawn") && (enemies[i].GetStatus() == true)) {
     							if (possibleMoves[j][k] != null) {
