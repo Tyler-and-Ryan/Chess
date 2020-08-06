@@ -165,12 +165,9 @@ public class Display {
 		
 				
 		//Makes the gameboard visible once set up is complete
-		canvas.setBounds(0, 100, width, height);
+		canvas.setSize(width, height);
 		canvas.setLayout(new BorderLayout());
 		canvas.setVisible(true);
-		Toolkit val = Toolkit.getDefaultToolkit();
-		canvas.setLocation(val.getScreenSize().width/5,val.getScreenSize().height/5);
-		
 		
 		//creates alertbox
 		alertText = new JLabel();

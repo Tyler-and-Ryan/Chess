@@ -58,14 +58,14 @@ public class GameBoard {
 						temp = new Queen(true, i, j);
 					}
 					if(i == boardSize-1) {
-						temp = new Queen(false, i, j);
+						temp = new King(false, i, j);
 					}
 				} else if (j == 4){
 					if(i == 0) {
 						temp = new King(true, i, j);
 					}
 					if(i == boardSize-1) {
-						temp = new King(false, i, j);
+						temp = new Queen(false, i, j);
 					}
 				}
 				board[i][j] = temp;
