@@ -419,12 +419,12 @@ public class Display {
 																currentPlayer = true;
 																}
 															} else {
-																//current player is always true
+																//current player is always true and AI is false
 																Alexa computer = new Alexa();
 																computer.UpdateBoard(game);
 																Point[] AIMove = new Point[2];
 																AIMove = computer.GenerateMove();
-																
+																System.out.println(AIMove[0].toString() + " " + AIMove[1].toString());
 																game.MovePiece(AIMove[0].x, AIMove[0].y, AIMove[1].x, AIMove[1].y, false);
 																
 															}

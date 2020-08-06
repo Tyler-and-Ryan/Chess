@@ -59,11 +59,11 @@ public class Alexa {
 		//Gets location of new move and original location
 		Point original = new Point(piece.GetRow(),piece.GetCol());
 		int randomOption = rand.nextInt(options.size());
+		System.out.println("OPTIONS: " + options.size());
 		Point moveLocation = options.get(randomOption%options.size());
-			
+		
 		move[0] = original;
 		move[1] = moveLocation;
-		
 		
 		return move;
 	}

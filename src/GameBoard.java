@@ -127,6 +127,9 @@ public class GameBoard {
 		if(options.size() == 0) {
 			return null;
 		} else {
+			System.out.println(board[row][col].toString());
+			System.out.println("row: " + (row+1) + " col: " + (col+1));
+			System.out.println(options.toString());
 			return options;
 		}
 	}
@@ -219,18 +222,10 @@ public class GameBoard {
 			return false;
 		}	
 		
-		//disables friendly fire
-		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
-			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
-				return false;
-			} 
-		}
-		
-		//checks if there is no piece at the location
-		if(board[row][col] == null) {					
+		if(board[row][col] == null) {
 			return false;
 		}
-				
+		
 		if (board[row][col].toString().equals("Pawn")) {
 			//Case for taking over a piece
 			if(IsLegalPawn(row, col, moveToRow, moveToCol) && board[row][col].isGamePiece()) {
@@ -294,6 +289,18 @@ public class GameBoard {
 	//This is also dependent on [0,0] being the top left of the board 🤡
 	private boolean IsLegalPawn(int row, int col, int moveToRow, int moveToCol) {
 		
+		//disables friendly fire
+		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
+			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
+				return false;
+			} 
+		}
+				
+		//checks if there is no piece at the location
+		if(board[row][col] == null) {					
+			return false;
+		}
+		
 		//Prevents incorrect vertical movements
 		if(moveToRow <= row && (board[row][col].getPlayer() == true)) {
 			return false;
@@ -348,6 +355,18 @@ public class GameBoard {
 	
 	//This checks if the location to move the castle piece is legal
 	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
+		//disables friendly fire
+		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
+			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
+				return false;
+			} 
+		}
+				
+		//checks if there is no piece at the location
+		if(board[row][col] == null) {					
+			return false;
+		}
+		
 		if(row == moveToRow || col == moveToCol) {
 			if(moveToRow != row) {
 				if(moveToRow > row) {
@@ -420,6 +439,18 @@ public class GameBoard {
 	
 	//Checks if the king can move to the intended spot
 	private boolean IsLegalKing(int row, int col, int moveToRow, int moveToCol) {
+		//disables friendly fire
+		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
+			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
+				return false;
+			} 
+		}
+				
+		//checks if there is no piece at the location
+		if(board[row][col] == null) {					
+			return false;
+		}
+		
 		int distance;
 		if(row < moveToRow) {
 			distance = Math.abs(moveToRow - row);
@@ -701,6 +732,18 @@ public class GameBoard {
 	
 	//Checks if the Bishop can move to the intended spot
 	private boolean IsLegalBishop(int row, int col, int moveToRow, int moveToCol) {
+		//disables friendly fire
+		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
+			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
+				return false;
+			} 
+		}
+				
+		//checks if there is no piece at the location
+		if(board[row][col] == null) {					
+			return false;
+		}
+		
 		int deltaCol = Math.abs(moveToCol - col);
 		int deltaRow = Math.abs(moveToRow - row);
 		int startRow;
@@ -768,6 +811,18 @@ public class GameBoard {
 	
 	//Checks if the king can move to the intended spot
 	private boolean IsLegalHorse(int row, int col, int moveToRow, int moveToCol) {
+		//disables friendly fire
+		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
+			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
+				return false;
+			} 
+		}
+				
+		//checks if there is no piece at the location
+		if(board[row][col] == null) {					
+			return false;
+		}
+		
 		int vertCounter = 0;
 		int horizCounter = 0;
 		
