@@ -4,6 +4,7 @@ public class Object {
 	public int moveCount() {
 		return -1;
 	}
+	
 	//this method serves no purpose other than appeasing eclipse
 	//if this method is being called during the logic of an isLegal method, something is wrong
 	public boolean getPlayer() {
