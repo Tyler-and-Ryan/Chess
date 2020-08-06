@@ -549,21 +549,22 @@ public class GameBoard {
     	possibleMoves[1][1] = null;
     	//accounts for edge cases on the board, makes off the board moves null
     	if (kingRow == 0) {
-    		possibleMoves[0][0] = null;
-    		possibleMoves[0][1] = null;
-    		possibleMoves[0][2] = null;
-    	}
-    	if (kingRow == boardSize-1) {
     		possibleMoves[2][0] = null;
     		possibleMoves[2][1] = null;
     		possibleMoves[2][2] = null;
+    	}
+    	System.out.println(kingRow + " " + kingCol);
+    	if (kingRow == (boardSize-1)) {
+    		possibleMoves[0][0] = null;
+    		possibleMoves[0][1] = null;
+    		possibleMoves[0][2] = null;
     	}
     	if (kingCol == 0) {
     		possibleMoves[0][2] = null;
     		possibleMoves[1][2] = null;
     		possibleMoves[2][2] = null;
     	}
-    	if (kingCol == boardSize-1) {
+    	if (kingCol == (boardSize-1)) {
     		possibleMoves[0][0] = null;
     		possibleMoves[1][0] = null;
     		possibleMoves[2][0] = null;
@@ -606,7 +607,7 @@ public class GameBoard {
     			if (possibleMoves[i][j] != null) {
     				System.out.print((int)possibleMoves[i][j].getX() + " " + (int)possibleMoves[i][j].getY() + "---");
     			} else {
-    				System.out.print("NULL ---");
+    				System.out.print("NULL---");
     			}
     		}
     		System.out.println();
