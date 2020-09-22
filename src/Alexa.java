@@ -8,7 +8,7 @@ public class Alexa {
 	
 	public static final int KING = 20;
 	public static final int QUEEN = 10;
-	public static final int CASTLE = 5;
+	public static final int CASTLE = 7;
 	public static final int BISHOP = 5;
 	public static final int HORSE = 3;
 	public static final int PAWN = 1;
@@ -39,59 +39,80 @@ public class Alexa {
 		
 		//gets all the possible legal moves available
 		Object[] AIPieces = game.getPlayerTwoPieces();
-		for(int i = 0; i < AIPieces.length; i++) {
-			piece = AIPieces[i];
 		
-			if(piece.GetStatus() == true && !game.refreshCheck(false)) {
-				ArrayList<Point> legalMoves = game.LegalMoves(piece.GetRow(), piece.GetCol());
-				if(legalMoves != null) {
-					for(int j = 0; j < legalMoves.size(); j++) {
-						Point[] temp = new Point[2];
-						temp[0] = new Point(piece.GetRow(), piece.GetCol());
-						temp[1] = legalMoves.get(j);
-						options.add(temp);
+		//sorts the best legal move to position 0 in the array list
+		int maxScore = -1;
+		for(int i = 0; i < AIPieces.length; i++) {
+			int row = AIPieces[0].GetRow();
+			int col = AIPieces[0].GetCol();
+			
+			
+			if(game.GetPiece(row,col) != null) {
+				//Gets legal moves for current option, it will be null if no legal moves are possible
+				ArrayList<Point> temp = game.LegalMoves(row, col);
+				
+				//Finds the most valuable move for each option if it exists.
+				if(temp != null) {
+					for(int k = 0; k < temp.size(); k++) {
+						//Resets movescore to test a new legal move
+						int moveScore = 0;
+						if(game.GetPiece(temp.get(k).x, temp.get(k).y) != null) {
+							if(game.GetPiece(temp.get(k).x, temp.get(k).y).toString() == "Pawn") {
+								moveScore = PAWN;
+							} else if (game.GetPiece(temp.get(k).x, temp.get(k).y).toString() == "Queen") {
+								moveScore = QUEEN;
+							} else if (game.GetPiece(temp.get(k).x, temp.get(k).y).toString() == "Castle") {
+								moveScore = CASTLE;
+							} else if (game.GetPiece(temp.get(k).x, temp.get(k).y).toString() == "Bishop") {
+								moveScore = BISHOP;
+							} else if (game.GetPiece(temp.get(k).x, temp.get(k).y).toString() == "Horse") {
+								moveScore = HORSE;
+							} else if (game.GetPiece(temp.get(k).x, temp.get(k).y).toString() == "King") {
+								moveScore = KING;
+							}
+						}
+						
+						//If it is the best move
+						if(moveScore > maxScore) {
+							System.out.println(moveScore);
+							Point[] bestChoice = new Point[2];
+							bestChoice[0] = new Point(row, col);
+							bestChoice[1] = new Point(temp.get(k).x, temp.get(k).y);
+							move = bestChoice;
+							maxScore = moveScore;
+							System.out.println("MAX SCORE = " + maxScore);
+						}
+						
 					}
+				}	 
+			}
+			
+		}
+		
+		//if best move score = 0 then select random piece and move it
+		System.out.println("MAX SCORE = " + maxScore);
+		if(maxScore == 0) {
+			boolean goodMove = false;
+			while(goodMove == false) {
+				int val = (int)(Math.random() * AIPieces.length);
+				
+				if(game.LegalMoves(AIPieces[val].GetRow(), AIPieces[val].GetCol()) != null) {
+					System.out.println("AUDIBLE");
+					ArrayList<Point> temp = game.LegalMoves(AIPieces[val].GetRow(), AIPieces[val].GetCol());
+					Point[] bestChoice = new Point[2]; 
+					bestChoice[0] = new Point(AIPieces[val].GetRow(), AIPieces[val].GetCol());
+					bestChoice[1] = temp.get(0);
+					move = bestChoice;
+					goodMove = true;
 				}
 			}
 		}
 		
-		//sorts the best legal move to position 0 in the arraylist
-		int maxScore = 0;
-		for(int i = 0; i < options.size(); i++) {
-			Point[] moveTemp = options.get(i);
-			int row = moveTemp[1].x;
-			int col = moveTemp[1].y;
-			int moveScore = 0;
-			
-			if(game.GetPiece(row,col) != null) {
-				if(game.GetPiece(row, col).toString() == "Pawn") {
-					moveScore = PAWN;
-				} else if (game.GetPiece(row, col).toString() == "Queen") {
-					moveScore = QUEEN;
-				} else if (game.GetPiece(row, col).toString() == "Castle") {
-					moveScore = CASTLE;
-				} else if (game.GetPiece(row, col).toString() == "Bishop") {
-					moveScore = BISHOP;
-				} else if (game.GetPiece(row, col).toString() == "Horse") {
-					moveScore = HORSE;
-				} else if (game.GetPiece(row, col).toString() == "King") {
-					moveScore = KING;
-				} 
-			}
-			
-			if(moveScore > maxScore) {
-				moveScore = maxScore;
-				options.add(0, options.get(i));
-				options.remove(options.get(i+1));
-			}
-			
-		}
 		
 		//Gets the origin of the best move and the final destination for the move
-		move = options.get(0);
-		
 		moveCounter++;
-		
+		System.out.println(game.GetPiece(move[1].x, move[1].y));
+		System.out.println("===================");
 		return move;
 	}
 }

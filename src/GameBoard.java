@@ -125,11 +125,10 @@ public class GameBoard {
 		}
 		
 		if(options.size() == 0) {
+			//no legal moves possible
 			return null;
 		} else {
-			System.out.println(board[row][col].toString());
-			System.out.println("row: " + (row+1) + " col: " + (col+1));
-			System.out.println(options.toString());
+			//contains legal moves
 			return options;
 		}
 	}
@@ -553,7 +552,7 @@ public class GameBoard {
     		possibleMoves[2][1] = null;
     		possibleMoves[2][2] = null;
     	}
-    	System.out.println(kingRow + " " + kingCol);
+    	//System.out.println(kingRow + " " + kingCol);
     	if (kingRow == (boardSize-1)) {
     		possibleMoves[0][0] = null;
     		possibleMoves[0][1] = null;
