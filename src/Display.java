@@ -130,6 +130,7 @@ public class Display {
 					GameBoard newGame = new GameBoard();
 					game = newGame;
 					currentPlayer = true;
+					gameOver = false;
 					ConstructCanvas();
 				} else {
 					SetAlert("AI is already enabled");
