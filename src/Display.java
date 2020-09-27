@@ -21,13 +21,14 @@ public class Display {
 	private JLabel playerOneName;
 	private Font labelFont;
 	private boolean AIenabled;
+	private boolean gameOver;
 	
 	
 	//Creates the game display
 	public Display(int width, int height, GameBoard game) {
 		//creates frame and instantiates class members
 		canvas = new JFrame();
-		canvas.setTitle("Chess (Version 0.81)");
+		canvas.setTitle("Chess (Version 0.82)");
 		this.width = width;
 		this.height = height;
 		this.game = game;
@@ -35,6 +36,7 @@ public class Display {
 		originalCol = -1;
 		currentPlayer = true;
 		AIenabled = false;
+		gameOver = false;
 
 		canvas.setSize(width,height);
 		
@@ -150,6 +152,7 @@ public class Display {
 				GameBoard newGame = new GameBoard();
 				game = newGame;
 				currentPlayer = true;
+				gameOver = false;
 				ConstructCanvas();
 			}
 		});
@@ -190,7 +193,6 @@ public class Display {
 				lostPieces.add(0,playerTwoPieces[i]);
 			}
 		}
-		
 		
 		
 		//Gets the correct height for the display
@@ -324,6 +326,12 @@ public class Display {
 				//Adds box content to board
 				if(temp != null) {
 					Color background = new Color(74,102,104);
+					if(gameOver == false) {
+						temp.setBackground(background);
+					} else {
+						temp.setBackground(new Color(125,0,0));
+					}
+					
 					if(game.GetPiece(i-1, j-1) == null) {
 						temp.setText("");
 						temp.disable();
@@ -335,13 +343,15 @@ public class Display {
 						temp.setForeground(playerTwo);
 					}
 					
-					temp.setBackground(background);
-					
 					temp.addMouseListener(new MouseListener() {
 						public void mousePressed(MouseEvent val) {
 							int x = val.getXOnScreen();
 							int y = val.getYOnScreen();
 							
+							//Doesn't continue in gameboard piece selection if game is already over
+							if(gameOver == true) {
+								return;
+							}
 							
 							for(int i = 0; i < 8; i++) {
 								for(int j = 0; j < 8; j++) {
@@ -369,9 +379,26 @@ public class Display {
 													
 													boolean continuePermission = true;
 													
+													Object[] P1Pieces = game.getPlayerOnePieces();
+													Object[] P2Pieces = game.getPlayerTwoPieces();
+													
+													Object P1King = new Object();
+													Object P2King = new Object();
+													for(int p = 0; p < P1Pieces.length; p++) {
+														if(P1Pieces[p].toString() == "King") {
+															P1King = P1Pieces[p];
+														}
+													}
+													for(int p = 0; p < P2Pieces.length; p++) {
+														if(P2Pieces[p].toString() == "King") {
+															P2King = P2Pieces[p];
+														}
+													}
+										
+													
 													//If the player is in check, it makes sure that if you move a piece the player gets out of check
 													if(game.refreshCheck(currentPlayer)) {
-														
+
 														//Creates a copy of the board
 														GameBoard moveCheck = new GameBoard();
 														moveCheck.CopyBoard(game);
@@ -385,10 +412,10 @@ public class Display {
 																SetAlert("Player Two is still in check");
 															}
 															continuePermission = false;
-														}
+														} 
 													}
 													
-													//If the move will not leave the player in check (if they are)
+													//The move will not leave the player in check (if they are)
 													if(continuePermission) {
 														//If the move is valid
 														if(game.MovePiece(originalRow, originalCol, i, j, currentPlayer) == true) {
@@ -422,13 +449,22 @@ public class Display {
 																Point[] AIMove = new Point[2];
 																AIMove = computer.GenerateMove();
 																game.MovePiece(AIMove[0].x, AIMove[0].y, AIMove[1].x, AIMove[1].y, false);
-																
 															}
 															
 															
 															ConstructCanvas();
 															//Checks if the next player is in check
 															if(game.refreshCheck(currentPlayer)) {
+																
+																//Checks if either player is in checkmate
+																//INSERT END GAME CONDITION HERE
+																if(game.isCheckMate(P1King.GetRow(), P1King.GetCol()) || game.isCheckMate(P2King.GetRow(), P2King.GetCol())) {
+																	System.out.println("CHECKMATE DETECTED");
+																	continuePermission = false;
+																	gameOver = true;
+																	ConstructCanvas();
+																}
+																
 																if(currentPlayer) {
 																	SetAlert("Player One is in check");
 																} else {

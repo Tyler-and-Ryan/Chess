@@ -527,7 +527,7 @@ public class GameBoard {
 	}
 	
 	//returns true if king is in checkmate, false if it isn't
-    private boolean isCheckMate(int kingRow, int kingCol) {
+    public boolean isCheckMate(int kingRow, int kingCol) {
 		//TODO: right now this if statement only checks whether the king can move on the board without being in check or not. This doesnt account for other pieces being able to move in front of the
 		//king to get them out of check
     	
@@ -686,14 +686,14 @@ public class GameBoard {
 					
     											}
     										}
-    										} else if (enemies[i].toString().equals("Castle") && (enemies[i].GetStatus() == true)) {
-    											if (possibleMoves[j][k] != null) {
-    												if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
-    													//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
-    													possibleMoves[j][k] = null;
-    												}
+    									} else if (enemies[i].toString().equals("Castle") && (enemies[i].GetStatus() == true)) {
+    										if (possibleMoves[j][k] != null) {
+    											if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
+    												//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    												possibleMoves[j][k] = null;
     											}
-    											} 
+    										}
+    									} 
     				}
     			}
     		}
