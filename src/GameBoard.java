@@ -530,48 +530,44 @@ public class GameBoard {
 		//TODO: right now this if statement only checks whether the king can move on the board without being in check or not. This doesnt account for other pieces being able to move in front of the
 		//king to get them out of check
     	
-    	//creates 3x3 array of pointers with King at center
+    	//creates 3x3 array of pointers with King at center and sets the location of the squares in the grid
     	Point[][] possibleMoves = new Point[3][3];
-    	for (int i = possibleMoves.length-1; i >= 0; i--) {
+    	for (int i = 0; i < possibleMoves.length; i++) {
     		for (int j = 0; j < possibleMoves.length; j++) {
-    			if (i == 0) {
-    				possibleMoves[i][j] = new Point(kingRow + 1, kingCol - 1 + j);
+    			if (i == 0 && kingRow != boardSize-1) {
+    				//checks to make sure the left and right most possibilities are inside the board
+    				if(((kingCol - 1 + j) >= 0 )&& ((kingCol - 1 + j) < boardSize)) {
+    					possibleMoves[i][j] = new Point(kingRow + 1, kingCol - 1 + j);
+    				} else {
+        				possibleMoves[i][j] = null;
+        			}
     			} else if (i == 1) {
-    				possibleMoves[i][j] = new Point(kingRow, kingCol - 1 + j);
-    			} else if (i == 2) {
-    				possibleMoves[i][j] = new Point(kingRow - 1, kingCol - 1 + j);
+    				if(((kingCol - 1 + j) >= 0) && ((kingCol - 1 + j) < boardSize)) {
+    					possibleMoves[i][j] = new Point(kingRow, kingCol - 1 + j);
+    				} else {
+        				possibleMoves[i][j] = null;
+        			}
+    			} else if (i == 2 && kingRow != 0) {
+    				if(((kingCol - 1 + j) >= 0 )&& ((kingCol - 1 + j) < boardSize)) {
+    					possibleMoves[i][j] = new Point(kingRow - 1, kingCol - 1 + j);
+    				} else {
+        				possibleMoves[i][j] = null;
+        			}
+    			} else {
+    				possibleMoves[i][j] = null;
     			}
     		}
     	}
     	
-    	possibleMoves[1][1] = null;
+    	//Location of the king
+    	possibleMoves[1][1] = new Point(kingRow, kingCol);
     	
-    	//accounts if the king is along a square on the edge of the board
-    	if (kingRow == 0) {
-    		possibleMoves[2][0] = null;
-    		possibleMoves[2][1] = null;
-    		possibleMoves[2][2] = null;
-    	}
-    	
-    	if (kingRow == (boardSize-1)) {
-    		possibleMoves[0][0] = null;
-    		possibleMoves[0][1] = null;
-    		possibleMoves[0][2] = null;
-    	}
-    	if (kingCol == 0) {
-    		possibleMoves[0][2] = null;
-    		possibleMoves[1][2] = null;
-    		possibleMoves[2][2] = null;
-    	}
-    	if (kingCol == (boardSize-1)) {
-    		possibleMoves[0][0] = null;
-    		possibleMoves[1][0] = null;
-    		possibleMoves[2][0] = null;
-    	}
  
     	
     	Object[] friendlies;
     	Object[] enemies;
+    	
+    	//puts game pieces into the correct object array
     	if (board[kingRow][kingCol].getPlayer() == true) {
     		friendlies = playerOnePieces;
     		enemies = playerTwoPieces;
@@ -579,6 +575,9 @@ public class GameBoard {
     		friendlies = playerTwoPieces;
     		enemies = playerOnePieces;
     	}
+    	
+    	
+    	//VERIFIED TO WORK UP TO THIS POINT
     	
     	//places a null where all friendly pieces are within 1 tile of the king
     	for (int i = 0; i < friendlies.length; i++) {
@@ -601,17 +600,26 @@ public class GameBoard {
     		}
     	}
     	
-    	for (int i = 0; i < possibleMoves.length; i++) {
-    		for (int j = 0; j < possibleMoves.length; j++) {
+
+    	//DEBUG CONSOLE PRINT
+    	for (int i = 0; i < 3; i++) {
+    		for (int j = 0; j < 3; j++) {
     			if (possibleMoves[i][j] != null) {
-    				System.out.print((int)possibleMoves[i][j].getX() + " " + (int)possibleMoves[i][j].getY() + "---");
+    				int row = possibleMoves[i][j].x;
+    				int col = possibleMoves[i][j].y;
+    				if(board[row][col] !=  null) {
+    					System.out.print(board[row][col].toString() + " ");
+    				} else {
+    					System.out.print("SPACE ");
+    				}
+    				
     			} else {
-    				System.out.print("NULL---");
+    				System.out.print("CNTMOVE");
     			}
     		}
     		System.out.println();
     	}
-
+    	
     	//tests whether the enemy pieces can move to any of the not null squares in possibleMoves Array
     	for (int j = 0; j < possibleMoves.length; j++) {
     		for (int k = 0; k < possibleMoves.length; k++) {
