@@ -562,8 +562,6 @@ public class GameBoard {
     	//Location of the king
     	possibleMoves[1][1] = new Point(kingRow, kingCol);
     	
- 
-    	
     	Object[] friendlies;
     	Object[] enemies;
     	
@@ -575,9 +573,6 @@ public class GameBoard {
     		friendlies = playerTwoPieces;
     		enemies = playerOnePieces;
     	}
-    	
-    	
-    	//VERIFIED TO WORK UP TO THIS POINT
     	
     	//places a null where all friendly pieces are within 1 tile of the king
     	for (int i = 0; i < friendlies.length; i++) {
@@ -599,7 +594,6 @@ public class GameBoard {
     			possibleMoves[2][2] = null;
     		}
     	}
-    	
 
     	//DEBUG CONSOLE PRINT
     	for (int i = 0; i < 3; i++) {
@@ -614,11 +608,14 @@ public class GameBoard {
     				}
     				
     			} else {
-    				System.out.print("CNTMOVE");
+    				//A space the king cannot go to
+    				System.out.print("CANTMOVE ");
     			}
     		}
     		System.out.println();
     	}
+    	
+    	//VERIFIED TO WORK UP TO THIS POINT
     	
     	//tests whether the enemy pieces can move to any of the not null squares in possibleMoves Array
     	for (int j = 0; j < possibleMoves.length; j++) {
@@ -687,10 +684,10 @@ public class GameBoard {
     																}
     															} 
     														}
-    														} else {
-    															//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
-    															possibleMoves[j][k] = null;
-    														}
+    													} else {
+    														//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    														possibleMoves[j][k] = null;
+    													}
 					
     											}
     										}
@@ -705,17 +702,6 @@ public class GameBoard {
     				}
     			}
     		}
-    	}
-    	
-    	for (int i = 0; i < possibleMoves.length; i++) {
-    		for (int j = 0; j < possibleMoves.length; j++) {
-    			if (possibleMoves[i][j] != null) {
-    				System.out.print((int)possibleMoves[i][j].getX() + " " + (int)possibleMoves[i][j].getY() + "---");
-    			} else {
-    				System.out.print("NULL ---");
-    			}
-    		}
-    		System.out.println();
     	}
     	
     	//tests if any squares are not null, if they aren't null at this point then they are a valid place for the king to move and its not checkmate. If none of the squares within 1 tile
