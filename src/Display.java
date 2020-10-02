@@ -1,8 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.plaf.LabelUI;
 
-import javafx.scene.layout.Border;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -10,7 +8,6 @@ import java.util.ArrayList;
 public class Display {
 	private JFrame canvas;
 	private JPanel gameboard;
-	private Container alertbox;
 	private JButton[][] squares;
 	private int originalRow, originalCol;
 	private GameBoard game;
@@ -181,7 +178,7 @@ public class Display {
 		alertText.setVisible(false);
 
 		//creates the lost pieces dashboard
-		ArrayList<Object> lostPieces = new ArrayList();
+		ArrayList<Object> lostPieces = new ArrayList<Object>();
 		int playerOneCount = 0;
 		Object[] playerOnePieces = game.getPlayerOnePieces();
 		Object[] playerTwoPieces = game.getPlayerTwoPieces();
@@ -335,7 +332,6 @@ public class Display {
 					
 					if(game.GetPiece(i-1, j-1) == null) {
 						temp.setText("");
-						temp.disable();
 					} else if(game.GetPiece(i-1, j-1).getPlayer() == true) {
 						Color playerOne = new Color(102, 255, 51);
 						temp.setForeground(playerOne);

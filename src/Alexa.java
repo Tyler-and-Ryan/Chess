@@ -1,6 +1,5 @@
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Alexa {
 	
@@ -33,9 +32,6 @@ public class Alexa {
 		//position 1 is the new row/col
 		Point[] move = new Point[2];
 		
-		Object piece = null;
-		
-		ArrayList<Point[]> options = new ArrayList<Point[]>();
 		
 		//gets all the possible legal moves available
 		Object[] AIPieces = game.getPlayerTwoPieces();
@@ -54,7 +50,7 @@ public class Alexa {
 				//Finds the most valuable move for each option if it exists.
 				if(temp != null) {
 					for(int k = 0; k < temp.size(); k++) {
-						//Resets movescore to test a new legal move
+						//Resets move score to test a new legal move
 						int moveScore = 0;
 						if(game.GetPiece(temp.get(k).x, temp.get(k).y) != null) {
 							if(game.GetPiece(temp.get(k).x, temp.get(k).y).toString() == "Pawn") {

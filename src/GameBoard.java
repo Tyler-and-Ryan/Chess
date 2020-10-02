@@ -1,7 +1,6 @@
 import java.awt.Point;
 import java.lang.StringBuilder;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameBoard {
 	private Object[][] board;
@@ -16,7 +15,7 @@ public class GameBoard {
 		CreateBoard();
 	}
 	
-	//Creates the gameboard and sets pawns in the first two rows and the last two rows
+	//Creates the game board and sets pawns in the first two rows and the last two rows
 	private void CreateBoard() {
 		//Instantiates private members
 		board = new Object[boardSize][boardSize];
@@ -148,7 +147,7 @@ public class GameBoard {
 		return board[row][col];
 	}
 	
-	//Returns a string that contains the visualization of the gameboard
+	//Returns a string that contains the visualization of the game board
 	public String toString() {
 		StringBuilder returnVal = new StringBuilder("	   [PLAYER TWO]\n");
 		returnVal.append("  _   _   _   _   _   _   _   _  \n");
@@ -463,7 +462,7 @@ public class GameBoard {
 			return false;
 		}
 		
-		//Simulates potential move with a projected gameboard
+		//Simulates potential move with a projected game board
 		GameBoard moveCheck = new GameBoard();
 		moveCheck.CopyBoard(this);
 		
@@ -546,13 +545,14 @@ public class GameBoard {
     	}
     	
     	possibleMoves[1][1] = null;
-    	//accounts for edge cases on the board, makes off the board moves null
+    	
+    	//accounts if the king is along a square on the edge of the board
     	if (kingRow == 0) {
     		possibleMoves[2][0] = null;
     		possibleMoves[2][1] = null;
     		possibleMoves[2][2] = null;
     	}
-    	//System.out.println(kingRow + " " + kingCol);
+    	
     	if (kingRow == (boardSize-1)) {
     		possibleMoves[0][0] = null;
     		possibleMoves[0][1] = null;

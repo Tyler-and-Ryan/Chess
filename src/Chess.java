@@ -1,8 +1,5 @@
-import java.util.Scanner;
-
-
 // Main client
-public class main {
+public class Chess {
 
 	
  //variables 
@@ -15,7 +12,7 @@ static boolean check = false;
 		
 		//creates board
 		Display display = new Display(1300,1000, game1);
-		
+		display.ConstructCanvas();
 		return;
 	}
 
