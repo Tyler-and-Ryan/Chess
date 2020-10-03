@@ -673,7 +673,7 @@ public class GameBoard {
     	   							possibleMoves[2][0] = null;
     	   							possibleMoves[1][1] = null;
         							possibleMoves[0][2] = null;
-        							//System.out.println("QUEEN2 NULL");
+        							System.out.println("QUEEN2 NULL");
         							break;
    	    						}
    	    						//needs to check if there are pieces in between in horizontal and vertical situations
