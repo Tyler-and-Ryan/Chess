@@ -597,6 +597,12 @@ public class GameBoard {
 
     	//DEBUG CONSOLE PRINT
     	System.out.println("========PRECHECK=======");
+    	System.out.print("PLAYER: ");
+    	if(board[kingRow][kingCol].getPlayer()) {
+    		System.out.println("ME <----");
+    	} else {
+    		System.out.println("ENEMY <----");
+    	}
     	for (int i = 0; i < 3; i++) {
     		for (int j = 0; j < 3; j++) {
     			if (possibleMoves[i][j] != null) {
@@ -664,17 +670,16 @@ public class GameBoard {
     						if (IsLegalQueen(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
     	    					//if queen can check the king from bottom left or top right then the diagonal line of possible moves don't get the king out of check
     	   						if (((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() > kingCol))) {
-    	   							possibleMoves[0][0] = null;
-    	   							possibleMoves[1][1] = null;
-    	   							possibleMoves[2][2] = null;
-    	   							System.out.println("QUEEN1 NULL");
-    	       					//if queen can check the king from top left or bottom right then the diagonal line of possible moves don't get the king out of check
-    	   						} else if (((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() > kingCol))) {
     	   							possibleMoves[2][0] = null;
     	   							possibleMoves[1][1] = null;
         							possibleMoves[0][2] = null;
+    	   							System.out.println("QUEEN1 NULL");
+    	       					//if queen can check the king from top left or bottom right then the diagonal line of possible moves don't get the king out of check
+    	   						} else if (((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() > kingCol))) {
+        							possibleMoves[0][0] = null;
+    	   							possibleMoves[1][1] = null;
+    	   							possibleMoves[2][2] = null;
         							System.out.println("QUEEN2 NULL");
-        							break;
    	    						}
    	    						//needs to check if there are pieces in between in horizontal and vertical situations
     	   						else if(enemies[i].GetRow() == kingRow || enemies[i].GetCol() == kingCol) {
@@ -703,6 +708,7 @@ public class GameBoard {
     						//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
     						possibleMoves[j][k] = null;
     						System.out.println("CASTLE NULL");
+    						break;
     					}
     				} 
     			}
@@ -711,6 +717,12 @@ public class GameBoard {
     	
     	//DEBUG CONSOLE PRINT
     	System.out.println("========POSTCHECK=======");
+    	System.out.print("PLAYER: ");
+    	if(board[kingRow][kingCol].getPlayer()) {
+    		System.out.println("ME <----");
+    	} else {
+    		System.out.println("ENEMY <----");
+    	}
     	for (int i = 0; i < 3; i++) {
     		for (int j = 0; j < 3; j++) {
     			if (possibleMoves[i][j] != null) {
@@ -997,9 +1009,10 @@ public class GameBoard {
 						System.out.println("Queen can check");
 						//tests whether its check or checkmate
 						if (isCheckMate(kingRowLoc, kingColLoc)) {
-							completeGame(player);
+							completeGame(player);	
 						}
 						return true;
+						
 					}
 					
 				}

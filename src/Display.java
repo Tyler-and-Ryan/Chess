@@ -395,7 +395,6 @@ public class Display {
 													
 													//If the player is in check, it makes sure that if you move a piece the player gets out of check
 													if(game.refreshCheck(currentPlayer)) {
-
 														//Creates a copy of the board
 														GameBoard moveCheck = new GameBoard();
 														moveCheck.CopyBoard(game);
@@ -408,6 +407,7 @@ public class Display {
 															} else {
 																SetAlert("Player Two is still in check");
 															}
+															System.out.println("CONTINUE SET FALSE");
 															continuePermission = false;
 														} 
 													}
@@ -457,16 +457,17 @@ public class Display {
 																//INSERT END GAME CONDITION HERE
 																if(game.isCheckMate(P1King.GetRow(), P1King.GetCol()) || game.isCheckMate(P2King.GetRow(), P2King.GetCol())) {
 																	System.out.println("CHECKMATE DETECTED");
-																	continuePermission = false;
 																	gameOver = true;
-																	ConstructCanvas();
-																}
-																
+																} 
+	
 																if(currentPlayer) {
 																	SetAlert("Player One is in check");
 																} else {
 																	SetAlert("Player Two is in check");
 																}
+																
+																continuePermission = false;
+																ConstructCanvas();
 															}
 														} else {
 															SetAlert("Invalid Move");
