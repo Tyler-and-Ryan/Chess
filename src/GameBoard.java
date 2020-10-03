@@ -628,10 +628,6 @@ public class GameBoard {
     	    			if (possibleMoves[j][k] != null) {
     					
     					if (enemies[i].toString().equals("Pawn") && (enemies[i].GetStatus() == true)) {
-    						if(possibleMoves[j][k] == null) {
-    							System.out.println("TEST FAILED!");
-    							return false;
-    						}
     						if (IsLegalPawn(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
     							//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
     							System.out.println("PAWN NULL");
