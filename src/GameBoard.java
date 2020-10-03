@@ -596,6 +596,7 @@ public class GameBoard {
     	}
 
     	//DEBUG CONSOLE PRINT
+    	System.out.println("=======================");
     	for (int i = 0; i < 3; i++) {
     		for (int j = 0; j < 3; j++) {
     			if (possibleMoves[i][j] != null) {
@@ -620,85 +621,100 @@ public class GameBoard {
     	//tests whether the enemy pieces can move to any of the not null squares in possibleMoves Array
     	for (int j = 0; j < possibleMoves.length; j++) {
     		for (int k = 0; k < possibleMoves.length; k++) {
-    			//if one of the squares within 1 tile of the king is available to move to, tests whether any of the enemy pieces can attack that spot (putting the king in check if he moved)
-    			if (possibleMoves[j][k] != null) {
+    				
+    				//runs through the list of active enemy pieces
     				for (int i = 0; i < enemies.length; i++) {
-    						if (enemies[i].toString().equals("Pawn") && (enemies[i].GetStatus() == true)) {
-    							if (possibleMoves[j][k] != null) {
-    								if (IsLegalPawn(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+    					//if one of the squares within 1 tile of the king is available to move to, tests whether any of the enemy pieces can attack that spot (putting the king in check if he moved)
+    	    			if (possibleMoves[j][k] != null) {
+    					
+    					if (enemies[i].toString().equals("Pawn") && (enemies[i].GetStatus() == true)) {
+    						if(possibleMoves[j][k] == null) {
+    							System.out.println("TEST FAILED!");
+    							return false;
+    						}
+    						if (IsLegalPawn(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+    							//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    							System.out.println("PAWN NULL");
+    							possibleMoves[j][k] = null;
+
+    						}
+    						
+    						
+    					} else if (enemies[i].toString().equals("Bishop") && (enemies[i].GetStatus() == true)) {
+    						if (possibleMoves[j][k] != null) {
+    							if (IsLegalBishop(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
+    								//if bishop can check the king from bottom left or top right then the diagonal line of possible moves don't get the king out of check
+    								if (((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() > kingCol))) {
+    									possibleMoves[0][0] = null;
+    									possibleMoves[1][1] = null;
+    									possibleMoves[2][2] = null;
+    									System.out.println("BISHOP1 NULL");
+        							//if bishop can check the king from top left or bottom right then the diagonal line of possible moves don't get the king out of check
+    								} else if (((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() > kingCol))) {
+    									possibleMoves[2][0] = null;
+    									possibleMoves[1][1] = null;
+    									possibleMoves[0][2] = null;
+    									System.out.println("BISHOP2 NULL");
+    								}			
+    							}
+    						}
+    					} else if (enemies[i].toString().equals("Horse") && (enemies[i].GetStatus() == true)) {
+    						if (possibleMoves[j][k] != null) {
+    							if (IsLegalHorse(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
+    								//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    								possibleMoves[j][k] = null;
+    								System.out.println("HORSE NULL");
+    							}
+   							}
+   						} else if (enemies[i].toString().equals("Queen") && (enemies[i].GetStatus() == true)) {
+   							if (possibleMoves[j][k] != null) {
+    							if (IsLegalQueen(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
+    	    						//if queen can check the king from bottom left or top right then the diagonal line of possible moves don't get the king out of check
+    	   							if (((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() > kingCol))) {
+    	   								possibleMoves[0][0] = null;
+    	   								possibleMoves[1][1] = null;
+    	   								possibleMoves[2][2] = null;
+    	   								System.out.println("QUEEN1 NULL");
+    	       						//if queen can check the king from top left or bottom right then the diagonal line of possible moves don't get the king out of check
+    	   							} else if (((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() > kingCol))) {
+    	   								possibleMoves[2][0] = null;
+    	   								possibleMoves[1][1] = null;
+        								possibleMoves[0][2] = null;
+        								System.out.println("QUEEN2 NULL");
+   	    							}
+   	    							//needs to check if there are pieces in between in horizontal and vertical situations
+   									if(enemies[i].GetRow() == kingRow || enemies[i].GetCol() == kingCol) {
+    									if (possibleMoves[j][k] != null) {
+    										if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
+    											//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+   												if (enemies[i].GetRow() == kingRow) {
+   													possibleMoves[1][0] = null;
+   													possibleMoves[1][1] = null;
+   													possibleMoves[1][2] = null;
+   													System.out.println("QUEEN3 NULL");
+    											} else if (enemies[i].GetCol() == kingCol) {
+    												possibleMoves[2][1] = null;
+    												possibleMoves[1][1] = null;
+    												possibleMoves[0][1] = null;
+    												System.out.println("QUEEN4 NULL");
+    											}
+   											} 
+    									}
+    								} else {
     									//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
     									possibleMoves[j][k] = null;
-    								}
+    								}		
     							}
-    							} else if (enemies[i].toString().equals("Bishop") && (enemies[i].GetStatus() == true)) {
-    								if (possibleMoves[j][k] != null) {
-    									if (IsLegalBishop(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
-    										//if bishop can check the king from bottom left or top right then the diagonal line of possible moves don't get the king out of check
-    										if (((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() > kingCol))) {
-    											possibleMoves[0][0] = null;
-    											possibleMoves[1][1] = null;
-    											possibleMoves[2][2] = null;
-        									//if bishop can check the king from top left or bottom right then the diagonal line of possible moves don't get the king out of check
-    										} else if (((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() > kingCol))) {
-    											possibleMoves[2][0] = null;
-    											possibleMoves[1][1] = null;
-    											possibleMoves[0][2] = null;
-    										}
-    										
-    									}
-    								}
-    								} else if (enemies[i].toString().equals("Horse") && (enemies[i].GetStatus() == true)) {
-    									if (possibleMoves[j][k] != null) {
-    										if (IsLegalHorse(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
-    											//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
-    											possibleMoves[j][k] = null;
-    										}
-    									}
-    									} else if (enemies[i].toString().equals("Queen") && (enemies[i].GetStatus() == true)) {
-    										if (possibleMoves[j][k] != null) {
-    											if (IsLegalQueen(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
-    	    										//if queen can check the king from bottom left or top right then the diagonal line of possible moves don't get the king out of check
-    	    										if (((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() > kingCol))) {
-    	    											possibleMoves[0][0] = null;
-    	    											possibleMoves[1][1] = null;
-    	    											possibleMoves[2][2] = null;
-    	        									//if queen can check the king from top left or bottom right then the diagonal line of possible moves don't get the king out of check
-    	    										} else if (((enemies[i].GetRow() > kingRow) && (enemies[i].GetCol() < kingCol)) || ((enemies[i].GetRow() < kingRow) && (enemies[i].GetCol() > kingCol))) {
-    	    											possibleMoves[2][0] = null;
-    	    											possibleMoves[1][1] = null;
-    	    											possibleMoves[0][2] = null;
-    	    										}
-    													//needs to check if there are pieces in between in horizontal and vertical situations
-    													if(enemies[i].GetRow() == kingRow || enemies[i].GetCol() == kingCol) {
-    														if (possibleMoves[j][k] != null) {
-    															if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
-    																//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
-    																if (enemies[i].GetRow() == kingRow) {
-    																	possibleMoves[1][0] = null;
-    																	possibleMoves[1][1] = null;
-    																	possibleMoves[1][2] = null;
-    																} else if (enemies[i].GetCol() == kingCol) {
-    																	possibleMoves[2][1] = null;
-    																	possibleMoves[1][1] = null;
-    																	possibleMoves[0][1] = null;
-    																}
-    															} 
-    														}
-    													} else {
-    														//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
-    														possibleMoves[j][k] = null;
-    													}
-					
-    											}
-    										}
-    									} else if (enemies[i].toString().equals("Castle") && (enemies[i].GetStatus() == true)) {
-    										if (possibleMoves[j][k] != null) {
-    											if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
-    												//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
-    												possibleMoves[j][k] = null;
-    											}
-    										}
-    									} 
+    						}
+    					} else if (enemies[i].toString().equals("Castle") && (enemies[i].GetStatus() == true)) {
+    						if (possibleMoves[j][k] != null) {
+    							if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
+    								//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
+    								possibleMoves[j][k] = null;
+    								System.out.println("CASTLE NULL");
+    							}
+    						}
+    					} 
     				}
     			}
     		}
