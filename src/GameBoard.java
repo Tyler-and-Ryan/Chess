@@ -769,6 +769,7 @@ public class GameBoard {
     	
     	//If all are null then the player is truly in checkmate, if not then there is a way they can block the king from being in checkmate
     	//NOT COMPLETE YET
+    	/*
     	String[][] squaresToBlock = new String[8][8];
     	String checkMateCausePiece = board[checkMateCause.x][checkMateCause.y].toString();
     	for(int i = 0; i < 8; i++) {
@@ -784,10 +785,10 @@ public class GameBoard {
     			} else if (checkMateCausePiece == "Castle") {
     				squaresToBlock[i][j] = "Open";
     			} else {
-    				squaresToBlock[i][j] = null;
+    				squaresToBlock[i][j] = null;a
     			}
     		}
-    	}
+    	}*/
     	
     	
     	//DEBUG CONSOLE PRINT
