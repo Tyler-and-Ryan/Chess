@@ -220,7 +220,28 @@ public class Display {
 			} else {
 				if(!lostPieces.isEmpty()) {
 					tempLeft = new JLabel(lostPieces.get(0).toString());
-					tempRight = new JLabel("Last seen at " + "(" + lostPieces.get(0).GetRow() + ", " + lostPieces.get(0).GetCol() + ")");
+					
+					//Attaches the letter for the correct column
+					char columnLetter = 'X';
+					if(lostPieces.get(0).GetCol() == 0) {
+						columnLetter = 'A';
+					} else if(lostPieces.get(0).GetCol() == 1) {
+						columnLetter = 'B';
+					} else if(lostPieces.get(0).GetCol() == 2) {
+						columnLetter = 'C';
+					} else if(lostPieces.get(0).GetCol() == 3) {
+						columnLetter = 'D';
+					} else if(lostPieces.get(0).GetCol() == 4) {
+						columnLetter = 'E';
+					} else if(lostPieces.get(0).GetCol() == 5) {
+						columnLetter = 'F';
+					} else if(lostPieces.get(0).GetCol() == 6) {
+						columnLetter = 'G';
+					} else if(lostPieces.get(0).GetCol() == 7) {
+						columnLetter = 'H';
+					}
+					
+					tempRight = new JLabel("Last seen at " + "[" + (lostPieces.get(0).GetRow()+1) + ", " + columnLetter + "]");
 					lostPieces.remove(0);
 					
 					tempLeft.setForeground(Color.WHITE);

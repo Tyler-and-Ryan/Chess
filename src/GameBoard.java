@@ -627,7 +627,6 @@ public class GameBoard {
     	
     	//For saving the piece that actually checkmated the king
     	Point checkMateCause = new Point();
-    	checkMateCause = null;
     	//tests whether the enemy pieces can move to any of the not null squares in possibleMoves Array
     	for (int j = 0; j < possibleMoves.length; j++) {
     		for (int k = 0; k < possibleMoves.length; k++) {
@@ -641,7 +640,6 @@ public class GameBoard {
 	    					if (enemies[i].toString().equals("Pawn") && (enemies[i].GetStatus() == true)) {
 	    						if (IsLegalPawn(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
 	    							//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
-	    							System.out.println("PAWN NULL");
 	    							possibleMoves[j][k] = null;
 	    							checkMateCause.x = enemies[i].GetRow();
 	    							checkMateCause.y = enemies[i].GetCol();
@@ -655,7 +653,6 @@ public class GameBoard {
 	    									possibleMoves[0][0] = null;
 	    									possibleMoves[1][1] = null;
 	    									possibleMoves[2][2] = null;
-	    									System.out.println("BISHOP1 NULL");
 	    									checkMateCause.x = enemies[i].GetRow();
 	    	    							checkMateCause.y = enemies[i].GetCol();
 	        							//if bishop can check the king from top left or bottom right then the diagonal line of possible moves don't get the king out of check
@@ -663,7 +660,6 @@ public class GameBoard {
 	    									possibleMoves[0][2] = null;
 	    									possibleMoves[1][1] = null;
 	    									possibleMoves[0][0] = null;
-	    									System.out.println("BISHOP2 NULL");
 	    									checkMateCause.x = enemies[i].GetRow();
 	    	    							checkMateCause.y = enemies[i].GetCol();
 	    								}			
@@ -673,7 +669,6 @@ public class GameBoard {
 	    						if (IsLegalHorse(enemies[i].GetRow(), enemies[i].GetCol(), (int)possibleMoves[j][k].getX(), (int)possibleMoves[j][k].getY())) {
 	    							//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
 	    							possibleMoves[j][k] = null;
-	    							System.out.println("HORSE NULL");
 	    							checkMateCause.x = enemies[i].GetRow();
 	    							checkMateCause.y = enemies[i].GetCol();
 	    						}
@@ -685,7 +680,6 @@ public class GameBoard {
 	    	   							possibleMoves[2][0] = null;
 	    	   							possibleMoves[1][1] = null;
 	        							possibleMoves[0][2] = null;
-	    	   							System.out.println("QUEEN1 NULL");
 	    	   							checkMateCause.x = enemies[i].GetRow();
 		    							checkMateCause.y = enemies[i].GetCol();
 	    	       					//if queen can check the king from top left or bottom right then the diagonal line of possible moves don't get the king out of check
@@ -693,7 +687,6 @@ public class GameBoard {
 	        							possibleMoves[0][0] = null;
 	    	   							possibleMoves[1][1] = null;
 	    	   							possibleMoves[2][2] = null;
-	        							System.out.println("QUEEN2 NULL");
 	        							checkMateCause.x = enemies[i].GetRow();
 		    							checkMateCause.y = enemies[i].GetCol();
 	   	    						} else if(enemies[i].GetRow() == kingRow || enemies[i].GetCol() == kingCol) {
@@ -704,14 +697,12 @@ public class GameBoard {
 	   											possibleMoves[1][0] = null;
 	   											possibleMoves[1][1] = null;
 	   											possibleMoves[1][2] = null;
-	   											System.out.println("QUEEN3 NULL");
 	   											checkMateCause.x = enemies[i].GetRow();
 	   			    							checkMateCause.y = enemies[i].GetCol();
 	    									} else if (enemies[i].GetCol() == kingCol) {
 	    										possibleMoves[2][1] = null;
 	    										possibleMoves[1][1] = null;
 	    										possibleMoves[0][1] = null;
-	    										System.out.println("QUEEN4 NULL");
 	    										checkMateCause.x = enemies[i].GetRow();
 	    		    							checkMateCause.y = enemies[i].GetCol();
 	    									} 
@@ -727,7 +718,6 @@ public class GameBoard {
 		    					if (IsLegalCastle(enemies[i].GetRow(), enemies[i].GetCol(), kingRow, kingCol)) {
 		    						//if the possible move spot can be put in check, it is no longer a valid place for the king to go, thus turning the square null
 		    						possibleMoves[j][k] = null;
-		    						System.out.println("CASTLE NULL");
 		    						checkMateCause.x = enemies[i].GetRow();
 	    							checkMateCause.y = enemies[i].GetCol();
 		    					}
@@ -757,8 +747,9 @@ public class GameBoard {
 	    									if (IsLegalPawn(enemies[i].GetRow(), enemies[i].GetCol(), possibleMoves[z][t].x, possibleMoves[z][t].y)) {
 		    									possibleMoves[z][t] = null;
 		    								}
-    	    							} 
-	    								//ADD SOMETHING HERE FOR A KING TO PREVENT THE OTHER KING FROM MOVING HERE
+    	    							} else if (enemies[i].toString().equals("King") && (enemies[i].GetStatus() == true)) {
+    	    								//LOGIC FOR A KING NOT BEING ABLE TO MOVE INTO THE IN BETWEEN SPACE FOR TWO KINGS
+    	    							}
 	    							}
 	    						}
 	    					}
@@ -768,34 +759,92 @@ public class GameBoard {
     		}
     	
     	//If all are null then the player is truly in checkmate, if not then there is a way they can block the king from being in checkmate
-    	//NOT COMPLETE YET
-    	/*
     	String[][] squaresToBlock = new String[8][8];
     	String checkMateCausePiece = board[checkMateCause.x][checkMateCause.y].toString();
     	for(int i = 0; i < 8; i++) {
     		for(int j = 0; j < 8; j++) {
-    			if(checkMateCausePiece == "Pawn") {
-    				squaresToBlock[i][j] = "Open";
-    			} else if (checkMateCausePiece == "Bishop") {
-    				squaresToBlock[i][j] = "Open";
+    			if (checkMateCausePiece == "Bishop") {
+    				if(IsLegalBishop(checkMateCause.x,checkMateCause.y,i, j)) {
+    					if(board[i][j] != null) {
+    						if(board[i][j].toString() == "King") {
+    							break;
+    						}
+    					} else {
+    						squaresToBlock[i][j] = "Open";
+    					}
+    				} else if(i == checkMateCause.x && j == checkMateCause.y) {
+    					squaresToBlock[i][j] = "Open";
+    				}
     			} else if (checkMateCausePiece == "Queen") {
-    				squaresToBlock[i][j] = "Open";
-    			} else if (checkMateCausePiece == "Horse") {
-    				squaresToBlock[i][j] = "Open";
+    				if(IsLegalQueen(checkMateCause.x,checkMateCause.y,i, j)) {
+    					if(board[i][j] != null) {
+    						if(board[i][j].toString() == "King") {
+    							break;
+    						}
+    					} else {
+    						squaresToBlock[i][j] = "Open";
+    					}
+    				} else if(i == checkMateCause.x && j == checkMateCause.y) {
+    					squaresToBlock[i][j] = "Open";
+    				}
     			} else if (checkMateCausePiece == "Castle") {
-    				squaresToBlock[i][j] = "Open";
+    				if(IsLegalCastle(checkMateCause.x,checkMateCause.y,i, j)) {
+    					if(board[i][j] != null) {
+    						if(board[i][j].toString() == "King") {
+    							break;
+    						}
+    					} else {
+    						squaresToBlock[i][j] = "Open";
+    					}
+    				} else if(i == checkMateCause.x && j == checkMateCause.y) {
+    					squaresToBlock[i][j] = "Open";
+    				}
     			} else {
-    				squaresToBlock[i][j] = null;a
+    				squaresToBlock[i][j] = null;
     			}
     		}
-    	}*/
+    	}
+    	
+    	
+    	//Figures out which squares the checkmated player can block and if they can block one then checkmate method returns false since the player can still get out of checkmate
+    	Object[] protectionDetail;
+    	if (!board[checkMateCause.x][checkMateCause.y].getPlayer()) {
+    		protectionDetail = playerOnePieces;
+    	} else {
+    		protectionDetail = playerTwoPieces;
+    	}
+    	
+    	for(int i = 0; i < protectionDetail.length; i++) {
+    		for(int j = 0; j < 8; j++) {
+    			for(int k = 0; k < 8; k++) {
+    				if(squaresToBlock[j][k] != null) {
+    					if(protectionDetail[i].toString() == "Bishop") {
+    						if(IsLegalBishop(protectionDetail[i].GetRow(),protectionDetail[i].GetCol(), j, k)){
+    							System.out.println("STILL POSSIBLE1");
+    							return false;
+        					}
+    					} else if(protectionDetail[i].toString() == "Queen") {
+    						if(IsLegalQueen(protectionDetail[i].GetRow(),protectionDetail[i].GetCol(), j, k)){
+    							System.out.println("STILL POSSIBLE2");
+    							return false;
+        					}
+    					} else if(protectionDetail[i].toString() == "Castle") {
+    						if(IsLegalCastle(protectionDetail[i].GetRow(),protectionDetail[i].GetCol(), j, k)){
+    							System.out.println("STILL POSSIBLE3");
+    							return false;
+        					}
+    					}
+    				}
+        		}
+    		}
+    	}
     	
     	
     	//DEBUG CONSOLE PRINT
     	System.out.println("========POSTCHECK=======");
     	System.out.print("PLAYER: ");
     	if(board[kingRow][kingCol].getPlayer()) {
-    		System.out.println("ME <----");
+    		System.out.println("ME <----"); 
     	} else {
     		System.out.println("ENEMY <----");
     	}
