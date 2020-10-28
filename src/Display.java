@@ -25,7 +25,7 @@ public class Display {
 	public Display(int width, int height, GameBoard game) {
 		//creates frame and instantiates class members
 		canvas = new JFrame();
-		canvas.setTitle("Chess (Version 0.82)");
+		canvas.setTitle("Chess (Version 0.85)");
 		this.width = width;
 		this.height = height;
 		this.game = game;
