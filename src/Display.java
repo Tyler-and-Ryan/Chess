@@ -37,7 +37,7 @@ public class Display {
 
 		canvas.setSize(width,height);
 		
-		//Initalizes squares double array
+		//Initializes squares double array
 		squares = new JButton[8][8];
 		
 		
@@ -466,18 +466,21 @@ public class Display {
 																computer.UpdateBoard(game);
 																Point[] AIMove = new Point[2];
 																AIMove = computer.GenerateMove();
-																game.MovePiece(AIMove[0].x, AIMove[0].y, AIMove[1].x, AIMove[1].y, false);
+																if(AIMove[0] == null || AIMove[1] == null) {
+																	SetAlert("Generated AI move is invalid");
+																} else {
+																	game.MovePiece(AIMove[0].x, AIMove[0].y, AIMove[1].x, AIMove[1].y, false);
+																}
+																
 															}
 															
 															
 															ConstructCanvas();
 															//Checks if the next player is in check
 															if(game.refreshCheck(currentPlayer)) {
-																
+													
 																//Checks if either player is in checkmate
-																//INSERT END GAME CONDITION HERE
 																if(game.isCheckMate(P1King.GetRow(), P1King.GetCol()) || game.isCheckMate(P2King.GetRow(), P2King.GetCol())) {
-																	System.out.println("CHECKMATE DETECTED");
 																	gameOver = true;
 																} 
 	

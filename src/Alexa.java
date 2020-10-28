@@ -45,7 +45,8 @@ public class Alexa {
 			
 			if(game.GetPiece(row,col) != null) {
 				//Gets legal moves for current option, it will be null if no legal moves are possible
-				ArrayList<Point> temp = game.LegalMoves(row, col);
+				ArrayList<Point> temp = new ArrayList<Point>();
+				temp = game.LegalMoves(row, col);
 				
 				//Finds the most valuable move for each option if it exists.
 				if(temp != null) {
@@ -70,13 +71,11 @@ public class Alexa {
 						
 						//If it is the best move
 						if(moveScore > maxScore) {
-							System.out.println(moveScore);
 							Point[] bestChoice = new Point[2];
 							bestChoice[0] = new Point(row, col);
 							bestChoice[1] = new Point(temp.get(k).x, temp.get(k).y);
 							move = bestChoice;
 							maxScore = moveScore;
-							System.out.println("MAX SCORE = " + maxScore);
 						}
 						
 					}
@@ -86,15 +85,14 @@ public class Alexa {
 		}
 		
 		//if best move score = 0 then select random piece and move it
-		System.out.println("MAX SCORE = " + maxScore);
 		if(maxScore == 0) {
 			boolean goodMove = false;
 			while(goodMove == false) {
 				int val = (int)(Math.random() * AIPieces.length);
 				
-				if(game.LegalMoves(AIPieces[val].GetRow(), AIPieces[val].GetCol()) != null) {
-					System.out.println("AUDIBLE");
-					ArrayList<Point> temp = game.LegalMoves(AIPieces[val].GetRow(), AIPieces[val].GetCol());
+				if((game.LegalMoves(AIPieces[val].GetRow(), AIPieces[val].GetCol()) != null) && (game.GetPiece(AIPieces[val].GetRow(), AIPieces[val].GetCol()) != null)) {
+					ArrayList<Point> temp = new ArrayList<Point>();
+					temp = game.LegalMoves(AIPieces[val].GetRow(), AIPieces[val].GetCol());
 					Point[] bestChoice = new Point[2]; 
 					bestChoice[0] = new Point(AIPieces[val].GetRow(), AIPieces[val].GetCol());
 					bestChoice[1] = temp.get(0);
@@ -107,8 +105,6 @@ public class Alexa {
 		
 		//Gets the origin of the best move and the final destination for the move
 		moveCounter++;
-		System.out.println(game.GetPiece(move[1].x, move[1].y));
-		System.out.println("===================");
 		return move;
 	}
 }

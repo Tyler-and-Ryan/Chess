@@ -597,33 +597,6 @@ public class GameBoard {
     			possibleMoves[2][2] = null;
     		}
     	}
-
-    	//DEBUG CONSOLE PRINT
-    	System.out.println("========PRECHECK=======");
-    	System.out.print("PLAYER: ");
-    	if(board[kingRow][kingCol].getPlayer()) {
-    		System.out.println("ME <----");
-    	} else {
-    		System.out.println("ENEMY <----");
-    	}
-    	for (int i = 0; i < 3; i++) {
-    		for (int j = 0; j < 3; j++) {
-    			if (possibleMoves[i][j] != null) {
-    				int row = possibleMoves[i][j].x;
-    				int col = possibleMoves[i][j].y;
-    				if(board[row][col] !=  null) {
-    					System.out.print(board[row][col].toString() + " ");
-    				} else {
-    					System.out.print("SPACE ");
-    				}
-    				
-    			} else {
-    				//A space the king cannot go to
-    				System.out.print("CANTMOVE ");
-    			}
-    		}
-    		System.out.println();
-    	}
     	
     	//For saving the piece that actually checkmated the king
     	Point checkMateCause = new Point();
@@ -820,51 +793,20 @@ public class GameBoard {
     				if(squaresToBlock[j][k] != null) {
     					if(protectionDetail[i].toString() == "Bishop") {
     						if(IsLegalBishop(protectionDetail[i].GetRow(),protectionDetail[i].GetCol(), j, k)){
-    							System.out.println("STILL POSSIBLE1");
     							return false;
         					}
     					} else if(protectionDetail[i].toString() == "Queen") {
     						if(IsLegalQueen(protectionDetail[i].GetRow(),protectionDetail[i].GetCol(), j, k)){
-    							System.out.println("STILL POSSIBLE2");
     							return false;
         					}
     					} else if(protectionDetail[i].toString() == "Castle") {
     						if(IsLegalCastle(protectionDetail[i].GetRow(),protectionDetail[i].GetCol(), j, k)){
-    							System.out.println("STILL POSSIBLE3");
     							return false;
         					}
     					}
     				}
         		}
     		}
-    	}
-    	
-    	
-    	//DEBUG CONSOLE PRINT
-    	System.out.println("========POSTCHECK=======");
-    	System.out.print("PLAYER: ");
-    	if(board[kingRow][kingCol].getPlayer()) {
-    		System.out.println("ME <----"); 
-    	} else {
-    		System.out.println("ENEMY <----");
-    	}
-    	for (int i = 0; i < 3; i++) {
-    		for (int j = 0; j < 3; j++) {
-    			if (possibleMoves[i][j] != null) {
-    				int row = possibleMoves[i][j].x;
-    				int col = possibleMoves[i][j].y;
-    				if(board[row][col] !=  null) {
-    					System.out.print(board[row][col].toString() + " ");
-    				} else {
-    					System.out.print("SPACE ");
-    				}
-    				
-    			} else {
-    				//A space the king cannot go to
-    				System.out.print("CANTMOVE ");
-    			}
-    		}
-    		System.out.println();
     	}
     	
     	//tests if any squares are not null, if they aren't null at this point then they are a valid place for the king to move and its not checkmate. If none of the squares within 1 tile
