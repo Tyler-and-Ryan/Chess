@@ -182,6 +182,7 @@ public class Display {
 		int playerOneCount = 0;
 		Object[] playerOnePieces = game.getPlayerOnePieces();
 		Object[] playerTwoPieces = game.getPlayerTwoPieces();
+		
 		for(int i = 0; i < playerOnePieces.length; i++) {
 			if(playerOnePieces[i].GetStatus() == false) {
 				playerOneCount++;
