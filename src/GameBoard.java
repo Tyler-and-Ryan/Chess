@@ -285,7 +285,7 @@ public class GameBoard {
 	//takes in parameters of the location of the piece being moved & the location the player wants to move the piece to 
 	//This method is dependent on P1 (true) being bottom of the board and P2 (false) being the top of the board
 	//This is also dependent on [0,0] being the top left of the board 🤡
-	private boolean IsLegalPawn(int row, int col, int moveToRow, int moveToCol) {
+	public boolean IsLegalPawn(int row, int col, int moveToRow, int moveToCol) {
 		
 		//disables friendly fire
 		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
@@ -352,7 +352,7 @@ public class GameBoard {
 	}
 	
 	//This checks if the location to move the castle piece is legal
-	private boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
+	public boolean IsLegalCastle (int row, int col, int moveToRow, int moveToCol) {
 		//disables friendly fire
 		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
 			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
@@ -436,7 +436,7 @@ public class GameBoard {
 	}
 	
 	//Checks if the king can move to the intended spot
-	private boolean IsLegalKing(int row, int col, int moveToRow, int moveToCol) {
+	public boolean IsLegalKing(int row, int col, int moveToRow, int moveToCol) {
 		//disables friendly fire
 		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
 			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
@@ -597,6 +597,7 @@ public class GameBoard {
     			possibleMoves[2][2] = null;
     		}
     	}
+    	
     	
     	//For saving the piece that actually checkmated the king
     	Point checkMateCause = new Point();
@@ -823,7 +824,7 @@ public class GameBoard {
     }
 	
 	//Checks if the Bishop can move to the intended spot
-	private boolean IsLegalBishop(int row, int col, int moveToRow, int moveToCol) {
+	public boolean IsLegalBishop(int row, int col, int moveToRow, int moveToCol) {
 		//disables friendly fire
 		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
 			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
@@ -893,7 +894,7 @@ public class GameBoard {
 	}
 	
 	//Checks if the queen can move to the intended spot
-	private boolean IsLegalQueen(int row, int col, int moveToRow, int moveToCol) {
+	public boolean IsLegalQueen(int row, int col, int moveToRow, int moveToCol) {
 		if(IsLegalCastle(row,col,moveToRow,moveToCol) == true || IsLegalBishop(row,col,moveToRow,moveToCol)) {
 			return true;
 		} else {
@@ -902,7 +903,7 @@ public class GameBoard {
 	}
 	
 	//Checks if the king can move to the intended spot
-	private boolean IsLegalHorse(int row, int col, int moveToRow, int moveToCol) {
+	public boolean IsLegalHorse(int row, int col, int moveToRow, int moveToCol) {
 		//disables friendly fire
 		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
 			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
@@ -1044,6 +1045,7 @@ public class GameBoard {
 			} else if (opponentPieces[i].toString().equals("Bishop") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Bishop can check");
+					System.out.println("ROW: " + opponentPieces[i].GetRow() + "COL: " + opponentPieces[i].GetCol() + opponentPieces[i].toString());
 					//tests whether its check or checkmate
 					if (isCheckMate(kingRowLoc, kingColLoc)) {
 						completeGame(player);
@@ -1078,7 +1080,11 @@ public class GameBoard {
 						if (isCheckMate(kingRowLoc, kingColLoc)) {
 							completeGame(player);	
 						} 
-						return true;
+						
+						//Checks to make sure is can diagonally capture
+						if(IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)){
+							return true;
+						}
 						
 					}
 					

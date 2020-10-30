@@ -467,8 +467,10 @@ public class Display {
 																computer.UpdateBoard(game);
 																Point[] AIMove = new Point[2];
 																AIMove = computer.GenerateMove();
-																if(AIMove[0] == null || AIMove[1] == null) {
-																	SetAlert("Generated AI move is invalid");
+																if(AIMove == null || AIMove[0] == null || AIMove[1] == null) {
+																	System.out.print("GAME TERMINATED");
+																	gameOver = true;
+																	SetAlert("AI Can't make a move. Game over!");
 																} else {
 																	game.MovePiece(AIMove[0].x, AIMove[0].y, AIMove[1].x, AIMove[1].y, false);
 																}
