@@ -466,6 +466,9 @@ public class GameBoard {
 		GameBoard moveCheck = new GameBoard();
 		moveCheck.CopyBoard(this);
 		
+		//DEBUG REMOVE LATER
+		Object[] p2temp = moveCheck.getPlayerTwoPieces();
+		
 		Object[][] temp = moveCheck.AccessBoard();
 		
 		temp[row][col].ChangeLocation(moveToRow, moveToCol);
@@ -521,6 +524,7 @@ public class GameBoard {
 		if(moveCheck.refreshCheck(board[row][col].getPlayer())) {
 			return false;
 		}
+		
 		return true;
 		
 	}
@@ -734,7 +738,13 @@ public class GameBoard {
     	
     	//If all are null then the player is truly in checkmate, if not then there is a way they can block the king from being in checkmate
     	String[][] squaresToBlock = new String[8][8];
-    	String checkMateCausePiece = board[checkMateCause.x][checkMateCause.y].toString();
+    	String checkMateCausePiece = "null";
+    	if(board[checkMateCause.x][checkMateCause.y] != null) {
+    		checkMateCausePiece = board[checkMateCause.x][checkMateCause.y].toString();
+    	} else {
+    		return false;
+    	}
+    	
     	for(int i = 0; i < 8; i++) {
     		for(int j = 0; j < 8; j++) {
     			if (checkMateCausePiece == "Bishop") {
@@ -825,6 +835,8 @@ public class GameBoard {
 	
 	//Checks if the Bishop can move to the intended spot
 	public boolean IsLegalBishop(int row, int col, int moveToRow, int moveToCol) {
+		
+		
 		//disables friendly fire
 		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
 			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
@@ -832,10 +844,6 @@ public class GameBoard {
 			} 
 		}
 				
-		//checks if there is no piece at the location
-		if(board[row][col] == null) {					
-			return false;
-		}
 		
 		int deltaCol = Math.abs(moveToCol - col);
 		int deltaRow = Math.abs(moveToRow - row);
@@ -849,8 +857,9 @@ public class GameBoard {
 			return false;
 		}
 		if (moveToRow > row && moveToCol > col) {                                                                       //checking if bishop is jumping over any pieces
-			startRow = 1;                                                                                               //when going up diagonal right
+			startRow = 1;                                                                                               //when going up diagonal left
 			startCol = 1;
+			
 			while (startRow < deltaRow) {
 				if (board[row + startRow][col + startCol] != null) {
 					return false;
@@ -861,6 +870,7 @@ public class GameBoard {
 		} else if (moveToRow > row && moveToCol < col) {                                                                //checking if bishop is jumping over any pieces
 			startRow = 1;                                                                                               //when going up diagonal left
 			startCol = -1;
+
 			while (startRow < deltaRow) {
 				if (board[row + startRow][col + startCol] != null) {
 					return false;
@@ -871,6 +881,7 @@ public class GameBoard {
 		} else if (moveToRow < row && moveToCol > col) {                                                                 //checking if bishop is jumping over any pieces
 			startRow = -1;                                                                                               //when going down diagonal right
 			startCol = 1;
+
 			while (startCol < deltaCol) {
 				if (board[row + startRow][col + startCol] != null) {
 					return false;
@@ -881,6 +892,7 @@ public class GameBoard {
 		} else {                                                                                                         //checking if bishop is jumping over any pieces
 			startRow = -1;                                                                                               //when going down diagonal left
 			startCol = -1;
+
 			while (Math.abs(startCol) < deltaCol) {
 				if (board[row + startRow][col + startCol] != null) {
 					return false;
@@ -888,8 +900,12 @@ public class GameBoard {
 				startRow--;
 				startCol--;
 			}
-			
 		}
+		
+		if(moveToRow == row || moveToCol == col) {
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -943,7 +959,53 @@ public class GameBoard {
 	
 	//Returns the gameboard
 	public Object[][] AccessBoard(){
-		return board;
+		Object[][] temp = new Object[boardSize][boardSize];
+		for(int i = 0; i < boardSize; i++) {
+			for(int j = 0; j < boardSize; j++) {
+				if(board[i][j] != null) {
+					if(board[i][j].toString() == "Pawn") {
+						if(board[i][j].getPlayer()) {
+							temp[i][j] = new Pawn(true,i,j);
+						} else {
+							temp[i][j] = new Pawn(false,i,j);
+						}
+					} else if(board[i][j].toString() == "Horse") {
+						if(board[i][j].getPlayer()) {
+							temp[i][j] = new Horse(true,i,j);
+						} else {
+							temp[i][j] = new Horse(false,i,j);
+						}
+					} else if(board[i][j].toString() == "Castle") {
+						if(board[i][j].getPlayer()) {
+							temp[i][j] = new Castle(true,i,j);
+						} else {
+							temp[i][j] = new Castle(false,i,j);
+						}
+					} else if(board[i][j].toString() == "Queen") {
+						if(board[i][j].getPlayer()) {
+							temp[i][j] = new Queen(true,i,j);
+						} else {
+							temp[i][j] = new Queen(false,i,j);
+						}
+					} else if(board[i][j].toString() == "Bishop") {
+						if(board[i][j].getPlayer()) {
+							temp[i][j] = new Bishop(true,i,j);
+						} else {
+							temp[i][j] = new Bishop(false,i,j);
+						}
+					} else if(board[i][j].toString() == "King") {
+						if(board[i][j].getPlayer()) {
+							temp[i][j] = new King(true,i,j);
+						} else {
+							temp[i][j] = new King(false,i,j);
+						}
+					}
+				} else {
+					board[i][j] = null;
+				}
+			}
+		}
+		return temp;
 	}
 	
 	//returns playerPieces array
@@ -975,12 +1037,13 @@ public class GameBoard {
 		
 		Object[] tempOne = copy.AccessPlayerPieces(true);
 		Object[] tempTwo = copy.AccessPlayerPieces(false);
-		playerTwoPieces = copy.AccessPlayerPieces(false);
 		for(int i = 0; i < tempOne.length; i++) {
 			playerOnePieces[i] = tempOne[i];
+			playerOnePieces[i].ChangeLocation(tempOne[i].GetRow(), tempOne[i].GetCol());
 		}
 		for(int i = 0; i < tempTwo.length; i++) {
 			playerTwoPieces[i] = tempTwo[i];
+			playerTwoPieces[i].ChangeLocation(tempTwo[i].GetRow(), tempTwo[i].GetCol());
 		}
 
 	}
@@ -1013,10 +1076,11 @@ public class GameBoard {
 	
 	//checks if the player passed through is in check, returns true if they are and false if they aren't
 	public boolean refreshCheck(boolean player) {
-		int kingRowLoc = -1;
-		int kingColLoc = -1;
+		int kingRowLoc = -10000;
+		int kingColLoc = -10000;
 		Object[] playerPieces;
 		Object[] opponentPieces;
+		
 		if (player) {
 			playerPieces = playerOnePieces;
 			opponentPieces = playerTwoPieces;
@@ -1024,41 +1088,34 @@ public class GameBoard {
 			playerPieces = playerTwoPieces;
 			opponentPieces = playerOnePieces;
 		}
+		
 		for (int i = 0; i < playerPieces.length; i++) {
 			if (playerPieces[i].toString().equals("King")) {
 				kingRowLoc = playerPieces[i].GetRow();
 				kingColLoc = playerPieces[i].GetCol();
+				break;
 			}
 		}
-		
+		//tests whether its check or checkmate
+		if (isCheckMate(kingRowLoc, kingColLoc)) {
+			completeGame(player);
+		}
 		
 		for (int i = 0; i < opponentPieces.length; i++) {
 			if (opponentPieces[i].toString().equals("Pawn") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalPawn(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Pawn can check");
-					//tests whether its check or checkmate
-					if (isCheckMate(kingRowLoc, kingColLoc)) {
-						completeGame(player);
-					}
 					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Bishop") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Bishop can check");
-					System.out.println("ROW: " + opponentPieces[i].GetRow() + "COL: " + opponentPieces[i].GetCol() + opponentPieces[i].toString());
-					//tests whether its check or checkmate
-					if (isCheckMate(kingRowLoc, kingColLoc)) {
-						completeGame(player);
-					}
+					System.out.println("ROW: " + opponentPieces[i].GetRow() + " COL: " + opponentPieces[i].GetCol() + " " + opponentPieces[i].toString());
 					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Horse") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalHorse(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Horse can check");
-					//tests whether its check or checkmate
-					if (isCheckMate(kingRowLoc, kingColLoc)) {
-						completeGame(player);
-					}
 					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Queen") && (opponentPieces[i].GetStatus() == true)) {
@@ -1068,19 +1125,10 @@ public class GameBoard {
 					if(opponentPieces[i].GetRow() == kingRowLoc || opponentPieces[i].GetCol() == kingColLoc) {
 						if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 							System.out.println("Queen Horizontally or Vertically can check");
-							//tests whether its check or checkmate
-							if (isCheckMate(kingRowLoc, kingColLoc)) {
-								completeGame(player);
-							}
 							return true;
 						} 
 					} else {
 						System.out.println("Queen can check");
-						//tests whether its check or checkmate
-						if (isCheckMate(kingRowLoc, kingColLoc)) {
-							completeGame(player);	
-						} 
-						
 						//Checks to make sure is can diagonally capture
 						if(IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)){
 							return true;
@@ -1092,10 +1140,6 @@ public class GameBoard {
 			} else if (opponentPieces[i].toString().equals("Castle") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					System.out.println("Castle can check");
-					//tests whether its check or checkmate
-					if (isCheckMate(kingRowLoc, kingColLoc)) {
-						completeGame(player);
-					}
 					return true;
 				}
 			} 

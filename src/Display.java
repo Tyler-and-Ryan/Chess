@@ -485,12 +485,12 @@ public class Display {
 																//Checks if either player is in checkmate
 																if(game.isCheckMate(P1King.GetRow(), P1King.GetCol()) || game.isCheckMate(P2King.GetRow(), P2King.GetCol())) {
 																	gameOver = true;
-																} 
-	
-																if(currentPlayer) {
-																	SetAlert("Player One is in check");
-																} else {
-																	SetAlert("Player Two is in check");
+																}  else {
+																	if(currentPlayer) {
+																		SetAlert("Player One is in check");
+																	} else {
+																		SetAlert("Player Two is in check");
+																	}
 																}
 																
 																continuePermission = false;

@@ -21,8 +21,8 @@ public class Alexa {
 		
 	}
 	
-	
 	public void UpdateBoard(GameBoard newBoard) {
+		game.ClearBoard();
 		game.CopyBoard(newBoard);
 	}
 	
@@ -34,19 +34,17 @@ public class Alexa {
 	
 		//gets all the possible legal moves available
 		Object[] AIPieces = game.getPlayerTwoPieces();
-		
 		//sorts the best legal move to position 0 in the array list
 		int maxScore = -1;
 		for(int i = 0; i < AIPieces.length; i++) {
 			int row = AIPieces[i].GetRow();
 			int col = AIPieces[i].GetCol();
 			
-			
 			if(game.GetPiece(row,col) != null) {
 				//Gets legal moves for current option, it will be null if no legal moves are possible
 				ArrayList<Point> temp = new ArrayList<Point>();
 				temp = game.LegalMoves(row, col);
-				
+
 				//Finds the most valuable move for each option if it exists.
 				if(temp != null) {
 					for(int k = 0; k < temp.size(); k++) {
@@ -90,8 +88,6 @@ public class Alexa {
 		
 		//If king is in check and not in check mate
 		if((game.refreshCheck(false) == true)) {
-			System.out.println("ALEXA IS IN CHECK");
-			
 			GameBoard temp = new GameBoard();
 			temp.CopyBoard(game);
 			boolean ableToMoveKing = false;
@@ -102,7 +98,6 @@ public class Alexa {
 					if(temp.IsLegalKing(king.GetRow(), king.GetCol(), j, k)) {
 						temp.MovePiece(king.GetRow(), king.GetCol(), j, k, false);
 						if(temp.refreshCheck(false) == false) {
-							System.out.println("KING FOUND MOVE");
 							move[0] = new Point(king.GetRow(), king.GetCol());
 							move[1] = new Point(j,k);
 							maxScore = -1;
@@ -216,8 +211,6 @@ public class Alexa {
 			System.out.println("move[1] == null");
 		}
 		
-		System.out.println("move[0]" + move[0].toString());
-		System.out.println("move[1]" + move[1].toString());
 		//Gets the origin of the best move and the final destination for the move
 		moveCounter++;
 		return move;
