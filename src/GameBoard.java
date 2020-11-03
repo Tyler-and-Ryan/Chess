@@ -186,6 +186,7 @@ public class GameBoard {
 		if(board[row][col] == null) {
 			return false;
 		}
+		
 		//removed the piece from the correct game piece array
 		if(board[row][col].getPlayer()) {
 			for(int i = 0; i < playerOnePieces.length; i++) {
@@ -444,11 +445,12 @@ public class GameBoard {
 			} 
 		}
 				
-		//checks if there is no piece at the location
+		//checks if there is no king at the location original position
 		if(board[row][col] == null) {					
 			return false;
 		}
 		
+		//Checks that the move is not further then one square
 		int distance;
 		if(row < moveToRow) {
 			distance = Math.abs(moveToRow - row);
@@ -462,22 +464,22 @@ public class GameBoard {
 			return false;
 		}
 		
+		//If the king move is more then one square or doesn't move at all then it is a bad move
+		if((distance > 1) || (distance == 0)) {
+			return false;
+		}
+		
 		//Simulates potential move with a projected game board
 		GameBoard moveCheck = new GameBoard();
 		moveCheck.CopyBoard(this);
 		
-		//DEBUG REMOVE LATER
-		Object[] p2temp = moveCheck.getPlayerTwoPieces();
+		moveCheck.MoveKing(row, col, moveToRow, moveToCol, board[row][col].getPlayer());
 		
-		Object[][] temp = moveCheck.AccessBoard();
-		
-		temp[row][col].ChangeLocation(moveToRow, moveToCol);
-		temp[row][col].moved();
-		
-		temp[moveToRow][moveToCol] = board[row][col];
-		temp[row][col] = null;
-		
-		moveCheck.CopyPiecePositions(temp);
+		//tests if player is in check after the move
+		if(moveCheck.refreshCheck(board[row][col].getPlayer())) {
+			System.out.println("CHECK RIP");
+			return false;
+		}
 		
 		//checks if the move is within one space of the other king
 		Object currentKing = board[row][col];
@@ -493,14 +495,13 @@ public class GameBoard {
 			pieceList = moveCheck.AccessPlayerPieces(opponentPlayer);
 		}
 		
-		
 		for(int i = 0; i < pieceList.length; i++) {
 			if(pieceList[i].toString() == "King") {
 				otherKing = pieceList[i];
 			}
 		}
 		
-		
+		//finds distance between the two kings
 		int kingDistance = -1;
 		if(currentKing.GetRow() < otherKing.GetRow()) {
 			kingDistance = Math.abs(otherKing.GetRow() - currentKing.GetRow());
@@ -512,22 +513,47 @@ public class GameBoard {
 			kingDistance = Math.abs(currentKing.GetCol() - otherKing.GetCol());
 		}
 
+		//If the two kings is one or less then the move can't be done
 		if(kingDistance <= 1) {
-			return false;
-		}
-		
-		if((distance > 1) || (distance == 0)) {
-			return false;
-		}
-		
-		//tests if player is in check
-		if(moveCheck.refreshCheck(board[row][col].getPlayer())) {
 			return false;
 		}
 		
 		return true;
 		
 	}
+	
+	//Method to help simulate a move for the king in islegalking
+	public boolean MoveKing(int row, int col, int moveToRow, int moveToCol, boolean player) {
+		
+		//checks if the piece being removed is out of bounds
+		if(row < 0 || col < 0 || row >= boardSize || col >= boardSize) {
+			return false;
+		}	
+		if(moveToRow < 0 || moveToCol < 0 || moveToRow >= boardSize || moveToCol >= boardSize) {
+			return false;
+		}	
+		
+		if(board[row][col] == null) {
+			return false;
+		}
+		
+		if (board[row][col].toString().equals("King") && board[moveToRow][moveToCol] != null) {
+			//Case for taking over a piece
+			RemovePiece(moveToRow, moveToCol);
+		} /* else {
+			System.out.println("Couldnt identify type of piece");
+			return false;
+		} */
+		
+		//moves the piece
+		board[row][col].ChangeLocation(moveToRow, moveToCol);
+		board[row][col].moved();
+		
+		board[moveToRow][moveToCol] = board[row][col];
+		board[row][col] = null;
+		return true;
+	}
+	
 	
 	//returns true if king is in checkmate, false if it isn't
     public boolean isCheckMate(int kingRow, int kingCol) {
@@ -835,8 +861,7 @@ public class GameBoard {
 	
 	//Checks if the Bishop can move to the intended spot
 	public boolean IsLegalBishop(int row, int col, int moveToRow, int moveToCol) {
-		
-		
+
 		//disables friendly fire
 		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
 			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
@@ -957,6 +982,7 @@ public class GameBoard {
 		return false;
 	}
 	
+	
 	//Returns the gameboard
 	public Object[][] AccessBoard(){
 		Object[][] temp = new Object[boardSize][boardSize];
@@ -1029,11 +1055,8 @@ public class GameBoard {
 	//Copy gameboard method
 	public void CopyBoard(GameBoard copy) {
 		
-		for(int i = 0; i < boardSize; i++) {
-			for(int j = 0; j < boardSize; j++) {
-				board[i][j] = copy.GetPiece(i, j);
-			}
-		}
+		//Should apply a deep copy of the copy board to this board
+		board = copy.AccessBoard();
 		
 		Object[] tempOne = copy.AccessPlayerPieces(true);
 		Object[] tempTwo = copy.AccessPlayerPieces(false);
@@ -1109,8 +1132,7 @@ public class GameBoard {
 				}
 			} else if (opponentPieces[i].toString().equals("Bishop") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalBishop(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
-					System.out.println("Bishop can check");
-					System.out.println("ROW: " + opponentPieces[i].GetRow() + " COL: " + opponentPieces[i].GetCol() + " " + opponentPieces[i].toString());
+					System.out.println("Bishop can check at " + opponentPieces[i].GetRow() + " " + opponentPieces[i].GetCol());
 					return true;
 				}
 			} else if (opponentPieces[i].toString().equals("Horse") && (opponentPieces[i].GetStatus() == true)) {
@@ -1142,7 +1164,9 @@ public class GameBoard {
 					System.out.println("Castle can check");
 					return true;
 				}
-			} 
+			} else {
+				System.out.println(opponentPieces[i].toString() + " IS NOT BEING CONSIDERED AT R: " + opponentPieces[i].GetRow() + " C: " + opponentPieces[i].GetCol());
+			}
 		}
 		return false;
 	}

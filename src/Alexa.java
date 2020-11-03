@@ -88,6 +88,7 @@ public class Alexa {
 		
 		//If king is in check and not in check mate
 		if((game.refreshCheck(false) == true)) {
+			System.out.println("CHECK DETECTED");
 			GameBoard temp = new GameBoard();
 			temp.CopyBoard(game);
 			boolean ableToMoveKing = false;
@@ -95,11 +96,16 @@ public class Alexa {
 			
 			for(int j = 0; j < 8; j++) {
 				for(int k = 0; k < 8; k++) {
+					if((j == 6) && (k == 4)) {
+						System.out.println("SHOULD BE LEGAL");
+					}
 					if(temp.IsLegalKing(king.GetRow(), king.GetCol(), j, k)) {
+						System.out.println("EXAMPLE1: R " + j + " C " + k);
 						temp.MovePiece(king.GetRow(), king.GetCol(), j, k, false);
 						if(temp.refreshCheck(false) == false) {
 							move[0] = new Point(king.GetRow(), king.GetCol());
 							move[1] = new Point(j,k);
+							System.out.println("King to move to row " + j + " col " + k);
 							maxScore = -1;
 							ableToMoveKing = true;
 							break;
