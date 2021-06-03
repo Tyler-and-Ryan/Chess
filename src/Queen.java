@@ -6,7 +6,7 @@ public class Queen extends Object{
 	boolean active;
 	int row;
 	int col;
-	
+	//test comment
 	//Queen constructor that tracks:
 	//Which player the Queen is controlled by (true = P1, false = P2)
 	//How many times the Queen has moved (moveCounter) 
