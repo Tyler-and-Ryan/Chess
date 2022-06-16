@@ -6,7 +6,14 @@ public class King extends Object{
 	boolean active;
 	int row;
 	int col;
-	
+
+	//King constructor for copying king objects
+	public King(int row, int col) {
+		this.row = row;
+		this.col = col;
+		pieceName = "King";
+	}
+
 	//King constructor that tracks:
 	//Which player the King is controlled by (true = P1, false = P2)
 	//How many times the King has moved (moveCounter) 
