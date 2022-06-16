@@ -60,9 +60,6 @@ public class Alexa {
 			//looking for possible moves for the King to get out of check
 			for(int j = 0; j < 8; j++) {
 				for(int k = 0; k < 8; k++) {
-					if((j == 6) && (k == 4)) {
-						System.out.println("SHOULD BE LEGAL");
-					}
 					if(temp.IsLegalKing(king.GetRow(), king.GetCol(), j, k)) {  //IsLegalKing is also suspect method
 						System.out.println("EXAMPLE1: R " + j + " C " + k);
 						temp.MovePiece(king.GetRow(), king.GetCol(), j, k, false);
@@ -71,8 +68,9 @@ public class Alexa {
 							move[1] = new Point(j,k);
 							System.out.println("King to move to row " + j + " col " + k);
 							maxScore = -1;
+							System.out.println("MOVE KING OUT OF CHECK");
 							ableToMoveKing = true;
-							break;
+							return move;
 						} else {
 							temp.CopyBoard(game);
 						}
@@ -127,8 +125,9 @@ public class Alexa {
 							if(ableToMoveKing == true) {
 								move[0] = new Point(AIPieces[AIPiece].GetRow(), AIPieces[AIPiece].GetCol());
 								move[1] = new Point(j,k);
+								System.out.println("MOVES OTHER PIECE TO GET KING OUT OF CHECK");
 								maxScore = -1;
-								break;
+								return move;
 							} else {
 								//if this potential move does not get the king out of check,
 								// it is not a viable move, so try again
@@ -179,11 +178,12 @@ public class Alexa {
 
 						//If it is the best move
 						if (moveScore > maxScore) {
+							System.out.println("CHOOSING BEST MOVE");
 							move[0] = new Point(row, col);
 							move[1] = new Point(temp.get(k).x, temp.get(k).y);
 							maxScore = moveScore;
+							return move;
 						}
-
 					}
 				}
 			}
