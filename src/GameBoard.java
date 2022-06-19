@@ -358,81 +358,69 @@ public class GameBoard {
 		if (board[moveToRow][moveToCol] != null && board[row][col] != null) {
 			if (board[row][col].getPlayer() == board[moveToRow][moveToCol].getPlayer()) {
 				return false;
-			} 
+			}
 		}
 				
 		//checks if there is no piece at the location
 		if(board[row][col] == null) {					
 			return false;
 		}
-		
-		if(row == moveToRow || col == moveToCol) {
-			if(moveToRow != row) {
-				if(moveToRow > row) {
-					for(int i = row+1; i <= moveToRow; i++) {
-						if(board[i][col] != null) {
-							if(i != moveToRow) {
-								return false;
-							} else {
-								return true;
-							}
-						} else {
-							if(i == moveToRow) {
-								return true;
-							}
-						}
-					}
-				} else {
-					for(int i = row-1; i >= moveToRow; i--) {
-						if(board[i][col] != null) {
-							if(i != moveToRow) {
-								return false;
-							} else {
-								return true;
-							}
-						} else {
-							if(i == moveToRow) {
-								return true;
-							}
-						}
+
+		//castle cannot move ontop of itself
+		if(row == moveToRow && col == moveToCol) {
+			return false;
+		}
+
+		//castle must either stay in the same row or the same column
+		if(row != moveToRow && col != moveToCol) {
+			return false;
+		}
+
+		if(moveToCol == col) {
+			//if the castle is staying in the same column but going up
+			if(moveToRow > row) {
+				System.out.println("Same column, going up");
+				//check every space in between the current pos and the moveToPos
+				for(int i = row+1; i < moveToRow; i++) {
+					//if there is a piece that the castle must jump over, return false
+					if (board[i][col] != null) {
+						return false;
 					}
 				}
-			} 
-			if(moveToCol != col){
-				if(moveToCol > col) {
-					for(int i = col+1; i <= moveToCol; i++) {
-						if(board[row][i] != null) {
-							if(i != moveToCol) {
-								return false;
-							} else {
-								return true;
-							}
-						} else {
-							if(i == moveToCol) {
-								return true;
-							}
-						}
-					}
-				} else {
-					for(int i = col-1; i >= moveToCol; i--) {
-						if(board[row][i] != null) {
-							if(i != moveToCol) {
-								return false;
-							} else {
-								return true;
-							}
-						} else {
-							if(i == moveToCol) {
-								return true;
-							}
-						}
+				//if there was no piece in between the current pos and moveToPos, return true
+				return true;
+			} else {
+				//if the castle is staying in the same column but going down
+				System.out.println("Same column, going down");
+				for(int i = row-1; i > moveToRow; i--) {
+					//if there is a piece that the castle must jump over, return false
+					if (board[i][col] != null) {
+						return false;
 					}
 				}
-				return false;
+				return true;
 			}
-			return false;
 		} else {
-			return false;
+			//if the castle is staying in the same row but going to the right
+			if(moveToCol > col) {
+				System.out.println("Same row, going to the right");
+				for(int i = col+1; i < moveToCol; i++) {
+					//if there is a piece that the castle must jump over, return false
+					if (board[row][i] != null) {
+						return false;
+					}
+				}
+				return true;
+			} else {
+				System.out.println("Same row, going to the left");
+				for(int i = col-1; i > moveToCol; i--) {
+					//if there is a piece that the castle must jump over, return false
+					if (board[row][i] != null) {
+						return false;
+					}
+				}
+				return true;
+			}
 		}
 	}
 	
@@ -869,23 +857,28 @@ public class GameBoard {
 			} 
 		}
 				
-		
+		//finds change in col and row to get from original location to new location
 		int deltaCol = Math.abs(moveToCol - col);
 		int deltaRow = Math.abs(moveToRow - row);
 		int startRow;
 		int startCol;
-		
+
+		//if this is true, the move is not diagonal
 		if (deltaRow != deltaCol) {                                                                                     //not moving diagonal
 			return false;
 		}
+		//if this is true, the bishop did not move
 		if (deltaRow == 0 || deltaCol == 0) {                                                                           //not actually moving to a different spot
 			return false;
 		}
-		if (moveToRow > row && moveToCol > col) {                                                                       //checking if bishop is jumping over any pieces
-			startRow = 1;                                                                                               //when going up diagonal left
+		if ((moveToRow > row) && (moveToCol > col)) {                                                                       //checking if bishop is jumping over any pieces
+			//startRow and startCol are counters to test the bishop at each diagonal place that it can move
+			startRow = 1;                                                                                               //when going up diagonal right
 			startCol = 1;
-			
+
+			//while you are in between the original position and the new position
 			while (startRow < deltaRow) {
+				//if there is a piece on a spot along the path, return false
 				if (board[row + startRow][col + startCol] != null) {
 					return false;
 				}
@@ -926,7 +919,8 @@ public class GameBoard {
 				startCol--;
 			}
 		}
-		
+
+		//if you try to move directly up/down or left/right then return false
 		if(moveToRow == row || moveToCol == col) {
 			return false;
 		}
@@ -936,7 +930,7 @@ public class GameBoard {
 	
 	//Checks if the queen can move to the intended spot
 	public boolean IsLegalQueen(int row, int col, int moveToRow, int moveToCol) {
-		if(IsLegalCastle(row,col,moveToRow,moveToCol) == true || IsLegalBishop(row,col,moveToRow,moveToCol)) {
+		if(IsLegalCastle(row,col,moveToRow,moveToCol) || IsLegalBishop(row,col,moveToRow,moveToCol)) {
 			return true;
 		} else {
 			return false;
@@ -1111,7 +1105,8 @@ public class GameBoard {
 			playerPieces = playerTwoPieces;
 			opponentPieces = playerOnePieces;
 		}
-		
+
+		//finds the king and sets kingRowLoc and kingColLoc equal to the king's location
 		for (int i = 0; i < playerPieces.length; i++) {
 			if (playerPieces[i].toString().equals("King")) {
 				kingRowLoc = playerPieces[i].GetRow();
@@ -1119,6 +1114,7 @@ public class GameBoard {
 				break;
 			}
 		}
+
 		//tests whether its check or checkmate
 		if (isCheckMate(kingRowLoc, kingColLoc)) {
 			completeGame(player);
@@ -1140,6 +1136,11 @@ public class GameBoard {
 					System.out.println("Horse can check");
 					return true;
 				}
+			} else if (opponentPieces[i].toString().equals("Castle") && (opponentPieces[i].GetStatus() == true)) {
+				if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
+					System.out.println("Castle can check");
+					return true;
+				}
 			} else if (opponentPieces[i].toString().equals("Queen") && (opponentPieces[i].GetStatus() == true)) {
 				if (IsLegalQueen(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
 					
@@ -1159,13 +1160,8 @@ public class GameBoard {
 					}
 					
 				}
-			} else if (opponentPieces[i].toString().equals("Castle") && (opponentPieces[i].GetStatus() == true)) {
-				if (IsLegalCastle(opponentPieces[i].GetRow(),opponentPieces[i].GetCol(), kingRowLoc, kingColLoc)) {
-					System.out.println("Castle can check");
-					return true;
-				}
 			} else {
-				System.out.println(opponentPieces[i].toString() + " IS NOT BEING CONSIDERED AT R: " + opponentPieces[i].GetRow() + " C: " + opponentPieces[i].GetCol());
+				//System.out.println(opponentPieces[i].toString() + " IS NOT BEING CONSIDERED AT R: " + opponentPieces[i].GetRow() + " C: " + opponentPieces[i].GetCol());
 			}
 		}
 		return false;
