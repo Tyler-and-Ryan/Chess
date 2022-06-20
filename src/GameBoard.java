@@ -379,7 +379,6 @@ public class GameBoard {
 		if(moveToCol == col) {
 			//if the castle is staying in the same column but going up
 			if(moveToRow > row) {
-				System.out.println("Same column, going up");
 				//check every space in between the current pos and the moveToPos
 				for(int i = row+1; i < moveToRow; i++) {
 					//if there is a piece that the castle must jump over, return false
@@ -387,41 +386,35 @@ public class GameBoard {
 						return false;
 					}
 				}
-				//if there was no piece in between the current pos and moveToPos, return true
-				return true;
 			} else {
 				//if the castle is staying in the same column but going down
-				System.out.println("Same column, going down");
 				for(int i = row-1; i > moveToRow; i--) {
 					//if there is a piece that the castle must jump over, return false
 					if (board[i][col] != null) {
 						return false;
 					}
 				}
-				return true;
 			}
 		} else {
 			//if the castle is staying in the same row but going to the right
 			if(moveToCol > col) {
-				System.out.println("Same row, going to the right");
 				for(int i = col+1; i < moveToCol; i++) {
 					//if there is a piece that the castle must jump over, return false
 					if (board[row][i] != null) {
 						return false;
 					}
 				}
-				return true;
 			} else {
-				System.out.println("Same row, going to the left");
 				for(int i = col-1; i > moveToCol; i--) {
 					//if there is a piece that the castle must jump over, return false
 					if (board[row][i] != null) {
 						return false;
 					}
 				}
-				return true;
 			}
 		}
+		//if no piece is found in the path the castle wants to move, return true
+		return true;
 	}
 	
 	//Checks if the king can move to the intended spot

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0bdc6ab5-5d86-485a-b51d-7df1faffc6f8" name="Default Changelist" comment="">
+    <list default="true" id="0bdc6ab5-5d86-485a-b51d-7df1faffc6f8" name="Default Changelist" comment="looked through isLegalBishop, refactored isLegalCastle">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameBoard.java" afterDir="false" />
     </list>
@@ -72,6 +72,14 @@
       <option name="presentableId" value="Default" />
       <updated>1655255342565</updated>
     </task>
+    <task id="LOCAL-00001" summary="looked through isLegalBishop, refactored isLegalCastle">
+      <created>1655619574304</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1655619574304</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -88,5 +96,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="looked through isLegalBishop, refactored isLegalCastle" />
+    <option name="LAST_COMMIT_MESSAGE" value="looked through isLegalBishop, refactored isLegalCastle" />
   </component>
 </project>
